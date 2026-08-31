@@ -18,6 +18,43 @@
     <!-- main css -->
     <link href="css/style.css" rel="stylesheet">
 
+    <!-- citation-list styles (added to replace image-card display; fold into style.css if you prefer) -->
+    <style>
+        .paper.citation-item {
+            float: none;
+            width: 100%;
+            padding: 14px 20px;
+            border-bottom: 1px solid #e5e2da;
+        }
+        .citation-block {
+            display: block;
+        }
+        .citation-title {
+            font-size: 16px;
+            font-weight: normal;
+        }
+        .citation-title a {
+            text-decoration: none;
+        }
+        .citation-title a:hover {
+            text-decoration: underline;
+        }
+        .citation-title a.citation-doi {
+            font-size: 12px;
+            font-style: normal;
+            vertical-align: super;
+            margin-left: 2px;
+        }
+        .portfolio_container.citation-list {
+            display: block;
+        }
+        .portfolio_container.citation-list::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+
 
     <!-- modernizr -->
     <script src="js/modernizr.js"></script>
@@ -127,822 +164,386 @@
 
 
                 <!-- portfolio_container -->
-                <div class="no-padding portfolio_container clearfix">
+                <div class="no-padding portfolio_container citation-list clearfix">
                 
                 
               <!-- Start entries here, newest first -->  
 
-                  <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax case-agr">
-                        <a href="https://ling.auf.net/lingbuzz/007429" class="portfolio_item">
-                            <img src="img/clemdeal.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Dependent case by Agree: ergative in Shawi (w/ E. Clem) (LI, 2026)</span>
-                                        <em>Syntax | Typology | Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-
-                  <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax case-agr">
-                        <a href="" class="portfolio_item">
-                            <img src="img/arl-agree.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Constraints on Agreement (Annual Review of Linguistics, 2026)</span>
-                                        <em>Syntax | Typology | Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-
-    <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax nzp">
-                        <a href="https://star-linguistics.org/article/id/24080/" class="portfolio_item">
-                            <img src="img/star-2026.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Clausal complementation as relativization, revisited (STaR, 2026)</span>
-                                        <em>Syntax | Typology | Nez Perce </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                                  
-
-                    
-                  <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax case-agr">
-                        <a href="https://link.springer.com/article/10.1007/s11049-024-09648-y" class="portfolio_item">
-                            <img src="img/dealroyer.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Mayan animacy hierarchy effects and the dynamics of Agree (w/ J. Royer) (NLLT, 2025)</span>
-                                        <em>Syntax | Typology | Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-                    
-    <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ semantics perspective nzp modality">
-                        <a href="papers/Deal-uncentered-attitudes.pdf" class="portfolio_item">
-                            <img src="img/uncentered.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Uncentered attitude reports (Journal of Semantics, 2025)</span>
-                                        <em>Semantics | Nez Perce | Typology | Attitudes </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-
-
-                  <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax case-agr">
-                        <a href="https://ling.auf.net/lingbuzz/007429" class="portfolio_item">
-                            <img src="img/taushiro.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Person and aspect in Taushiro split ergativity (w/ Z. O'Hagan) (NELS 55, 2025)</span>
-                                        <em>Syntax | Typology | Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-
-
-
-
-
-
-
-    <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax case-agr">
-                        <a href="papers/Deal-int-sat-pcc.pdf" class="portfolio_item">
-                            <img src="img/pcc2.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Interaction, satisfaction, and the PCC (LI, 2024)</span>
-                                        <em>Syntax | Typology | Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-              
-              
-                  <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax case-agr">
-                        <a href="https://ling.auf.net/lingbuzz/006504" class="portfolio_item">
-                            <img src="img/currentmodels.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Current models of Agree (BPFL, 2025)</span>
-                                        <em>Syntax | Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-              
-                           <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax case-agr">
-                        <a href="https://ling.auf.net/lingbuzz/006344" class="portfolio_item">
-                            <img src="img/nc.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Negative concord as downward Agree (NELS 52, 2022)</span>
-                                        <em>Syntax | Agreement | Typology</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->      
-              
-              
-              
-              
-              
-              
-               <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax semantics perspective">
-                        <a href="https://ling.auf.net/lingbuzz/005433" class="portfolio_item">
-                            <img src="img/personfeatures.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Person features and shiftiness</span>
-                                        <em>Semantics | Syntax | Typology | Perspective </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-              
-              
-              
-              
-              
-               <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ syntax case-agr">
-                        <a href="papers/Deal-Ubykh.pdf" class="portfolio_item">
-                            <img src="img/3on3.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>3-on-3 restrictions and PCC typology</span>
-                                        <em>Syntax | Typology | Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->    
-              
-              
-                    
-
-
-
-    <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ semantics syntax perspective nzp modality">
-                        <a href="papers/Deal-theory-of-indexical-shift.pdf" class="portfolio_item">
-                            <img src="img/book-cover.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>A theory of indexical shift (MIT Press, 2020)</span>
-                                        <em>Semantics | Syntax | Typology | Attitudes | Nez Perce </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-
-
-
-
-
-    <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ semantics perspective">
-                        <a href="papers/Dawson-Deal-prolepsis.pdf" class="portfolio_item">
-                            <img src="img/sub23-prolepsis.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Third readings by semantic scope lowering: prolepsis in Tiwa (SuB 23, 2019)</span>
-                                        <em>Semantics | Typology | Attitudes </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-
-
-   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ semantics nzp">
-                        <a href="papers/Deal-Hohaus-comparatives.pdf" class="portfolio_item">
-                            <img src="img/vpcj.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Vague predicates, crisp judgments (SuB 23, 2019)</span>
-                                        <em>Semantics | Typology | Nez Perce </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-
-
-    <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper typ semantics perspective nzp">
-                        <a href="https://journals.linguisticsociety.org/proceedings/index.php/SALT/article/view/28.622" class="portfolio_item">
-                            <img src="img/salt28.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Compositional paths to de re (SALT 28)</span>
-                                        <em>Semantics | Typology | Perspective | Nez Perce </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-
-
-
-                               <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax typ semantics perspective">
-                        <a href="https://ling.auf.net/lingbuzz/003836" class="portfolio_item">
-                            <img src="img/indexiphors.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Indexiphors: Notes on embedded indexicals, shifty agreement, and logophoricity (2018)</span>
-                                        <em>Semantics | Syntax | Typology | Perspective</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-
-
-
-
-
-
-
-
-             
-                               <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax ergativity case-agr nzp typ">
-                        <a href="http://ling.auf.net/lingbuzz/003024" class="portfolio_item">
-                            <img src="img/10-appl.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Raising to ergative: remarks on applicatives of unaccusatives (LI, 2019)</span>
-                                        <em>Syntax | Ergativity | Nez Perce | Case</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-                                       <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics syntax nzp typ perspective modality">
-                        <a href="papers/Deal-indexicals-2017.pdf" class="portfolio_item">
-                            <img src="img/shifty-asymmetries.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Shifty asymmetries: universals and variation in shifty indexicality (Manuscript, 2017)</span>
-                                        <em>Semantics | Typology | Perspective </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->          
-             
-                          <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax nzp typ locality case-agr">
-                        <a href="https://ling.auf.net/lingbuzz/003517" class="portfolio_item">
-                            <img src="img/nels47.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Covert hyperraising to object (NELS 47, 2017)</span>
-                                        <em>Syntax | Nez Perce | Case </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->    
-             
-       
-             
-             
-                      <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics syntax">
-                        <a href="https://ling.auf.net/lingbuzz/003801" class="portfolio_item">
-                            <img src="img/kylefest.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Towards an etiology of outer indices (JohnsonFest, 2017)</span>
-                                        <em>Semantics | Syntax | Binding </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->      
-             
-             
-             
-             
-             
-             
-                             <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics typ mass">
-                        <a href="papers/Deal-Nee-SuB21.pdf" class="portfolio_item">
-                            <img src="img/26-SuB21.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Bare nouns, number, and definiteness in Teotitlan del Valle Zapotec (SuB 21, 2017)</span>
-                                        <em>Semantics | Typology | Number </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-                    
- 
-                    
-                    
-                                       <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics mass nzp typ">
-                        <a href="https://journals.linguisticsociety.org/proceedings/index.php/PLSA/article/view/4097" class="portfolio_item">
-                            <img src="img/scontras-et-al.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span><i>Who has more?</i> The influence of linguistic form on quantity judgments (LSA, 2017)</span>
-                                        <em>Semantics  | Countability | Nez Perce </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics nzp mass typ">
-                        <a href="http://ling.auf.net/lingbuzz/003130" class="portfolio_item">
-                            <img src="img/19-SuB20.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Do all languages make countability distinctions? Evidence from Nez Perce (SuB 20, 2016)</span>
-                                        <em>Semantics | Nez Perce | Mass nouns</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-
- 
-                     <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax ergativity case-agr">
-                        <a href="http://ling.auf.net/lingbuzz/003129" class="portfolio_item">
-                            <img src="img/20-wccfl34.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Syntactic ergativity as case discrimination (WCCFL 34, 2017)</span>
-                                        <em>Syntax | Ergativity | Case & Agreement</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                    
-               <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics mass nzp typ">
-                        <a href="papers/Deal-mass-count2.pdf" class="portfolio_item" >
-                            <img src="img/9-nls.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Countability distinctions and semantic variation (NLS, 2017)</span>
-                                        <em>Semantics | Nez Perce | Mass nouns</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                
-                <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax extposs typ">
-                        <a href="papers/Deal-syncom.pdf" class="portfolio_item">
-                            <img src="img/18-syncom.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>External possession and possessor raising (SynCom, 2017)</span>
-                                        <em>Syntax | Possession | Typology</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                
-                               <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax nzp locality">
-                        <a href="papers/Deal-RCs.pdf" class="portfolio_item">
-                            <img src="img/8-li.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Cyclicity and connectivity in Nez Perce relative clauses (LI, 2016)</span>
-                                        <em>Syntax | Nez Perce | Locality</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                     
-                
-               <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax ergative nzp morphology typ case-agr">
-                        <a href="http://ling.auf.net/lingbuzz/002215" class="portfolio_item">
-                            <img src="img/5-jl.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Person-based split ergativity in Nez Perce is syntactic (JL, 2016)</span>
-                                        <em>Syntax | Morphology | Nez Perce | Ergativity | Case & Agreement</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                    
-
-  				<!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax ergative typ case-agr">
-                        <a href="papers/Deal-ARL2.pdf" class="portfolio_item">
-                            <img src="img/7-arl.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Syntactic ergativity: analysis and identification (ARL, 2016)</span>
-                                        <em>Syntax | Ergativity | Typology | Case & Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
                     <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper morphology locality nzp">
-                        <a href="papers/Deal-Wolf-allomorphy.pdf" class="portfolio_item">
-                            <img src="img/17-mspi.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Outwards-sensitive phonologically-conditioned allomorphy in Nez Perce (Morphosyntax-phonology connection, 2016)</span>
-                                        <em>Morphology | Locality | Nez Perce</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-                   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper morphology nzp case-agr mass">
-                        <a href="http://ling.auf.net/lingbuzz/002657" class="portfolio_item">
-                            <img src="img/6-jomo.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Plural exponence in the Nez Perce DP: a DM analysis (Morphology, 2016)</span>
-                                        <em>Morphology | Nez Perce | Case & Agreement</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-                   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper nzp morphology case-agr">
-                        <a href="papers/Deal-NzP-verb-agreement.pdf" class="portfolio_item">
-                            <img src="img/15-icsnl.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>A note on Nez Perce verb agreement, with sample paradigms (ICSNL 50, 2015)</span>
-                                        <em>Morphology | Nez Perce | Agreement</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                 				<!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics nzp modality">
-                        <a href="papers/Deal-reasoning.pdf" class="portfolio_item">
-                            <img src="img/13-methodology.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Reasoning about equivalence in semantic fieldwork (Methodologies in semantic fieldwork, 2015)</span>
-                                        <em>Semantics | Methodology</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+                    <div class="paper citation-item typ syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://ling.auf.net/lingbuzz/007429">Clem, Emily, and Amy Rose Deal. 2026. <b>Dependent case by Agree: ergative in Shawi.</b> <i>Linguistic Inquiry</i> 57(2): 267–313.</a> <a class="citation-doi" href="https://doi.org/10.1162/ling_a_00529">DOI</a></span>
+                        </div>
                     </div>
                     <!-- end single work -->
-                    
-                    
-                <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper ergative syntax typ">
-                        <a href="papers/Deal-ergativity-handbook.pdf" class="portfolio_item">
-                            <img src="img/14-erg.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Ergativity (Syntax - theory and analysis, 2015)</span>
-                                        <em>Syntax | Ergativity | Typology</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                    
 
-  				<!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax nzp case-agr">
-                        <a href="http://ling.auf.net/lingbuzz/002610" class="portfolio_item">
-                            <img src="img/16-nels45.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Interaction and satisfaction in &phi;-agreement (NELS 45, 2015)</span>
-                                        <em>Syntax | Nez Perce | Agreement</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-               
-               
-                                   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics perspective nzp">
-                        <a href="http://semanticsarchive.net/Archive/WFhMTdmN/" class="portfolio_item">
-                            <img src="img/12-sula7.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Nez Perce embedded indexicals (SULA 7, 2014)</span>
-                                        <em>Semantics | Nez Perce | Perspective</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                     
-                	 <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax nzp extposs typ case-agr">
-                        <a href="papers/Deal-possessor-raising.pdf" class="portfolio_item">
-                            <img src="img/4-pr.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Possessor raising (LI, 2013)</span>
-                                        <em>Syntax | Nez Perce | Possession | Case & Agreement </em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                    
-                                   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics nzp modality typ">
-                        <a href="papers/Deal-modals.pdf" class="portfolio_item">
-                            <img src="img/3-mwos.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Modals without scales (Language, 2011)</span>
-                                        <em>Semantics | Nez Perce | Modality | Typology</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
- 
- 
-                   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics perspective case-agr">
-                        <a href="http://semanticsarchive.net/Archive/WNjYmQ4M/perspectival-basis-of-fluid-s.pdf" class="portfolio_item">
-                            <img src="img/11-sula5.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>The perspectival basis of fluid-S case-marking in Northern Pomo (SULA 5, 2010)</span>
-                                        <em>Semantics | Case | Perspective</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                    
-                     <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper nzp syntax nzp ergative case-agr">
-                        <a href="papers/Deal-NzPcase.pdf" class="portfolio_item">
-                            <img src="img/nllt-erg.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Ergative case and the transitive subject: a view from Nez Perce (NLLT, 2010)</span>
-                                        <em>Syntax | Ergativity | Nez Perce | Case & Agreement</em>
-                              
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                
-                
                     <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper  syntax locality case-agr">
-                        <a href="papers/Deal-there2.pdf"" class="portfolio_item">
-                            <img src="img/syntax-there.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>The origin and content of expletives: evidence from "selection" (Syntax, 2009)</span>
-                                        <em>Syntax | Locality | Case & Agreement</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+                    <div class="paper citation-item typ syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://doi.org/10.1146/annurev-linguistics-011724-121342">Deal, Amy Rose. 2026. <b>Constraints on agreement.</b> <i>Annual Review of Linguistics</i> 12: 227–247.</a></span>
+                        </div>
                     </div>
                     <!-- end single work -->
 
-                 <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics nzp perspective">
-                        <a href="http://semanticsarchive.net/Archive/TMyYzliY/Deal_SALT18_space.pdf" class="portfolio_item">
-                            <img src="img/25-salt.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Events in space (SALT 18, 2008)</span>
-                                        <em>Semantics | Nez Perce | Perspective</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-                    
-                    
-                    
-                     <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics syntax nzp case-agr">
-                        <a href="papers/Deal-cls42.pdf" class="portfolio_item">
-                            <img src="img/23-cls42.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Case-marking and object interpretation in Nez Perce (CLS 42, 2008)</span>
-                                        <em>Semantics | Syntax | Nez Perce | Case</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work -->
-  
-                   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics nzp modality case-agr">
-                        <a href="http://www.hf.uio.no/ilos/forskning/aktuelt/arrangementer/konferanser/2007/SuB12/proceedings/deal_92-106.pdf" class="portfolio_item">
-                            <img src="img/24-SuB12.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Property-type objects and modal embedding (SuB 12, 2007)</span>
-                                        <em>Semantics | Nez Perce | Modality | Case | Definiteness</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-                    
-                   <!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper semantics nzp case-agr">
-                        <a href="papers/Deal-sula4.pdf" class="portfolio_item">
-                            <img src="img/22-sula4.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Antipassive and indefinite objects in Nez Perce (SULA 4, 2007)</span>
-                                        <em>Semantics | Nez Perce | Case | Definiteness</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- end single work --> 
-
-				<!-- single work -->
-                    <div class="col-md-4 col-sm-6 paper syntax case-agr">
-                        <a href="http://www.ledonline.it/snippets/allegati/snippets13002.pdf" class="portfolio_item">
-                            <img src="img/21-snippets.jpg" alt="image" class="img-responsive" />
-                            <div class="portfolio_item_hover">
-                                <div class="portfolio-border clearfix">
-                                    <div class="item_info">
-                                        <span>Does English have a genitive case? (Snippets, 2006)</span>
-                                        <em>Syntax | Case</em>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+                    <!-- single work -->
+                    <div class="paper citation-item typ syntax nzp">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://star-linguistics.org/article/id/24080/">Deal, Amy Rose. 2026. <b>Clausal complementation as relativization, revisited.</b> <i>Syntactic Theory and Research</i> 2.1.1.</a> <a class="citation-doi" href="https://doi.org/10.16995/star.24080">DOI</a></span>
+                        </div>
                     </div>
                     <!-- end single work -->
 
+                    <!-- single work -->
+                    <div class="paper citation-item typ syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://link.springer.com/article/10.1007/s11049-024-09648-y">Deal, Amy Rose, and Justin Royer. 2025. <b>Mayan animacy hierarchy effects and the dynamics of Agree.</b> <i>Natural Language and Linguistic Theory</i> 43: 1607–1663.</a> <a class="citation-doi" href="https://doi.org/10.1007/s11049-024-09648-y">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
 
+                    <!-- single work -->
+                    <div class="paper citation-item typ semantics perspective nzp modality">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-uncentered-attitudes.pdf">Deal, Amy Rose. 2025. <b>Uncentered attitude reports.</b> <i>Journal of Semantics</i> 42(4): 399–445.</a> <a class="citation-doi" href="https://doi.org/10.1093/jos/ffaf009">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
 
+                    <!-- single work -->
+                    <div class="paper citation-item typ syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://ling.auf.net/lingbuzz/009074">Deal, Amy Rose, and Zachary O’Hagan. 2025. <b>Person and aspect in Taushiro split ergativity.</b> In Duygu Demiray, Roger Cheng-yen Liu, and Nir Segal (eds.), <i>Proceedings of NELS 55</i>, vol. 1, 159–172. Amherst, MA: GLSA.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
 
-   
+                    <!-- single work -->
+                    <div class="paper citation-item typ syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-int-sat-pcc.pdf">Deal, Amy Rose. 2024. <b>Interaction, satisfaction, and the PCC.</b> <i>Linguistic Inquiry</i> 55(1): 39–94.</a> <a class="citation-doi" href="https://doi.org/10.1162/ling_a_00455">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://ling.auf.net/lingbuzz/006504">Deal, Amy Rose. 2025. <b>Current models of Agree.</b> <i>Berkeley Papers in Formal Linguistics</i> 4(1): 1–35.</a> <a class="citation-doi" href="https://doi.org/10.5070/BF2.48662">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item typ syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://ling.auf.net/lingbuzz/006344">Deal, Amy Rose. 2022. <b>Negative concord as downward Agree.</b> In Breanna Pratley, Ozge Bakay, Eva Neu, and Peyton Deal (eds.), <i>Proceedings of NELS 52</i>, vol. 1, 235–244. Amherst: GLSA.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item typ syntax semantics perspective">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://ling.auf.net/lingbuzz/005433">Deal, Amy Rose. To appear. <b>Person features and shiftiness.</b> In Daniel Harbour, Hazel Pearson, Luisa Martí, and Coppe van Urk (eds.), <i>The Alphabet of Universal Grammar</i>. British Academy/Oxford University Press.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item typ syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-Ubykh.pdf">Deal, Amy Rose. 2020. <b>3-on-3 restrictions and PCC typology: a reply to Pancheva and Zubizaretta (2018).</b> Manuscript, UC Berkeley.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item typ semantics syntax perspective nzp modality">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-theory-of-indexical-shift.pdf">Deal, Amy Rose. 2020. <b><i>A theory of indexical shift: meaning, grammar, and crosslinguistic variation.</i></b> (Linguistic Inquiry Monographs no. 82.) Cambridge, MA: MIT Press.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item typ semantics perspective">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Dawson-Deal-prolepsis.pdf">Dawson, Virginia, and Amy Rose Deal. 2019. <b>Third readings by semantic scope lowering: prolepsis in Tiwa.</b> In M. Teresa Espinal, E. Castroviejo, M. Leonetti, L. McNally, and C. Real-Puigdollers (eds.), <i>Proceedings from Sinn und Bedeutung 23</i>, 329–346. Bellaterra (Cerdanyola del Vallès): Universitat Autònoma de Barcelona.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item typ semantics nzp">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-Hohaus-comparatives.pdf">Deal, Amy Rose, and Vera Hohaus. 2019. <b>Vague predicates, crisp judgments.</b> In M. Teresa Espinal, E. Castroviejo, M. Leonetti, L. McNally, and C. Real-Puigdollers (eds.), <i>Proceedings from Sinn und Bedeutung 23</i>, 347–364. Bellaterra (Cerdanyola del Vallès): Universitat Autònoma de Barcelona.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item typ semantics perspective nzp">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://journals.linguisticsociety.org/proceedings/index.php/SALT/article/view/28.622">Deal, Amy Rose. 2018. <b>Compositional paths to de re.</b> In Sireemas Maspong, Brynhildur Stefánsdóttir, Katherine Blake, and Forrest Davis (eds.), <i>Proceedings of SALT 28</i>, 622–648.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax typ semantics perspective">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://ling.auf.net/lingbuzz/003836">Deal, Amy Rose. 2018. <b>Indexiphors: notes on embedded indexicals, shifty agreement, and logophoricity.</b> In Rodica Ivan (ed.), <i>UMOP 40: The Leader of the Pack: A Festschrift in Honor of Peggy Speas</i>, 59–86. Amherst, MA: GLSA.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax ergativity case-agr nzp typ">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://ling.auf.net/lingbuzz/003024">Deal, Amy Rose. 2019. <b>Raising to ergative: remarks on applicatives of unaccusatives.</b> <i>Linguistic Inquiry</i> 50(2): 388–415.</a> <a class="citation-doi" href="https://doi.org/10.1162/ling_a_00310">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics syntax nzp typ perspective modality">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-indexicals-2017.pdf">Deal, Amy Rose. 2017. <b>Shifty asymmetries: universals and variation in shifty indexicality.</b> Manuscript, UC Berkeley.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax nzp typ locality case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://ling.auf.net/lingbuzz/003517">Deal, Amy Rose. 2017. <b>Covert hyperraising to object.</b> In Andrew Lamont and Katerina Tetzloff (eds.), <i>Proceedings of NELS 47</i>, 257–270. Amherst: GLSA.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics syntax">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://ling.auf.net/lingbuzz/003801">Deal, Amy Rose. 2017. <b>Towards an etiology of outer indices.</b> In Nicholas LaCara, Keir Moulton, and Anne-Michelle Tessier (eds.), <i>A Schrift to Fest Kyle Johnson</i>, 107–117. Linguistics Open Access Publications, vol. 1.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics typ mass">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-Nee-SuB21.pdf">Deal, Amy Rose, and Julia Nee. 2018. <b>Bare nouns, number, and definiteness in Teotitlán del Valle Zapotec.</b> In Chris Cummins, Nikolas Gisborne, Caroline Heycock, Brian Rabern, Hannah Rohde, and Robert Truswell (eds.), <i>Proceedings from Sinn und Bedeutung 21</i>, 317–334. Semantics Archive.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item morphology nzp">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://www.ledonline.it/snippets/allegati/snippets34004.pdf">Deal, Amy Rose. 2018. <b>Locality in allomorphy and presyntactic bundling: a case of tense and aspect.</b> <i>Snippets</i> 34, 8–9.</a> <a class="citation-doi" href="http://dx.doi.org/10.7358/snip-2018-034-deal">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics mass nzp typ">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://journals.linguisticsociety.org/proceedings/index.php/PLSA/article/view/4097">Scontras, Gregory, Kathryn Davidson, Amy Rose Deal, and Sarah Murray. 2017. <b><i>Who has more?</i> The influence of linguistic form on quantity judgments.</b> <i>Proceedings of the Linguistic Society of America</i> 2(41): 1–15.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics nzp mass typ">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://ling.auf.net/lingbuzz/003130">Deal, Amy Rose. 2016. <b>Do all languages make countability distinctions? Evidence from Nez Perce.</b> In Nadine Bade, Polina Berezovskaya, and Anthea Schöller (eds.), <i>Proceedings from Sinn und Bedeutung 20</i>, 180–197. Semantics Archive.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax ergativity case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://ling.auf.net/lingbuzz/003129">Deal, Amy Rose. 2017. <b>Syntactic ergativity as case discrimination.</b> In Aaron Kaplan, Abby Kaplan, Miranda K. McCarvel, and Edward J. Rubin (eds.), <i>Proceedings from WCCFL 34</i>, 141–150. Somerville, MA: Cascadilla Proceedings Project.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics mass nzp typ">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-mass-count2.pdf">Deal, Amy Rose. 2017. <b>Countability distinctions and semantic variation.</b> <i>Natural Language Semantics</i> 25(2): 125–171.</a> <a class="citation-doi" href="https://doi.org/10.1007/s11050-017-9132-0">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax extposs typ">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-syncom.pdf">Deal, Amy Rose. 2017. <b>External possession and possessor raising.</b> In Martin Everaert and Henk van Riemsdijk (eds.), <i>The Wiley Blackwell Companion to Syntax</i>, 2nd edn., 1509–1540. Hoboken, NJ: Wiley-Blackwell.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax nzp locality">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-RCs.pdf">Deal, Amy Rose. 2016. <b>Cyclicity and connectivity in Nez Perce relative clauses.</b> <i>Linguistic Inquiry</i> 47(3): 427–470.</a> <a class="citation-doi" href="http://dx.doi.org/10.1162/LING_a_00218">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax ergative nzp morphology typ case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://ling.auf.net/lingbuzz/002215">Deal, Amy Rose. 2016. <b>Person-based split ergativity in Nez Perce is syntactic.</b> <i>Journal of Linguistics</i> 52(3): 533–564.</a> <a class="citation-doi" href="http://dx.doi.org/10.1017/S0022226715000031">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax ergative typ case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-ARL2.pdf">Deal, Amy Rose. 2016. <b>Syntactic ergativity: analysis and identification.</b> <i>Annual Review of Linguistics</i> 2: 165–185.</a> <a class="citation-doi" href="http://dx.doi.org/10.1146/annurev-linguistics-011415-040642">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item morphology locality nzp">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-Wolf-allomorphy.pdf">Deal, Amy Rose, and Matthew Wolf. 2016. <b>Outwards-sensitive phonologically-conditioned allomorphy in Nez Perce.</b> In Vera Gribanova and Stephanie Shih (eds.), <i>The Morphosyntax-Phonology Connection</i>, 29–60. Oxford: Oxford University Press.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item morphology nzp case-agr mass">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://ling.auf.net/lingbuzz/002657">Deal, Amy Rose. 2016. <b>Plural exponence in the Nez Perce DP: a DM analysis.</b> <i>Morphology</i> 26(3): 313–333.</a> <a class="citation-doi" href="http://dx.doi.org/10.1007/s11525-015-9277-9">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item nzp morphology case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-NzP-verb-agreement.pdf">Deal, Amy Rose. 2015. <b>A note on Nez Perce verb agreement, with sample paradigms.</b> In Natalie Weber, Erin Guntly, Zoe Lam, and Sihwei Chen (eds.), <i>Proceedings of the International Conference on Salish and Neighbouring Languages 50</i>, 389–413. Vancouver: UBCWPL.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics nzp modality">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-reasoning.pdf">Deal, Amy Rose. 2015. <b>Reasoning about equivalence in semantic fieldwork.</b> In M. Ryan Bochnak and Lisa Matthewson (eds.), <i>Methodologies in semantic fieldwork</i>, 157–174. Oxford University Press.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item ergative syntax typ">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-ergativity-handbook.pdf">Deal, Amy Rose. 2015. <b>Ergativity.</b> In Artemis Alexiadou and Tibor Kiss (eds.), <i>Syntax – Theory and Analysis: An International Handbook</i>, vol. 1, ch. 20, 654–707. Berlin: Mouton de Gruyter.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax nzp case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://ling.auf.net/lingbuzz/002610">Deal, Amy Rose. 2015. <b>Interaction and satisfaction in φ-agreement.</b> In Thuy Bui and Deniz Ozyildiz (eds.), <i>Proceedings of NELS 45</i>, vol. 1, 179–192. Amherst: GLSA.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics perspective nzp">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://semanticsarchive.net/Archive/WFhMTdmN/">Deal, Amy Rose. 2014. <b>Nez Perce embedded indexicals.</b> In Hannah Greene (ed.), <i>Proceedings of SULA 7: Semantics of Under-Represented Languages in the Americas</i>, 23–40. Amherst: GLSA.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax nzp extposs typ case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-possessor-raising.pdf">Deal, Amy Rose. 2013. <b>Possessor raising.</b> <i>Linguistic Inquiry</i> 44(3): 391–432.</a> <a class="citation-doi" href="http://dx.doi.org/10.1162/LING_a_00133">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics nzp modality typ">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-modals.pdf">Deal, Amy Rose. 2011. <b>Modals without scales.</b> <i>Language</i> 87(3): 559–585. (Reprinted in <i>Language</i> 95(S1), Special Issue on Indigenous Languages, 2019.)</a> <a class="citation-doi" href="http://dx.doi.org/10.1353/lan.2011.0060">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics perspective case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://semanticsarchive.net/Archive/WNjYmQ4M/perspectival-basis-of-fluid-s.pdf">Deal, Amy Rose, and Catherine O’Connor. 2010. <b>The perspectival basis of fluid-S case-marking in Northern Pomo.</b> In Suzi Lima (ed.), <i>Proceedings of SULA 5: Semantics of Under-Represented Languages in the Americas</i>, 173–188. Amherst: GLSA.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item nzp syntax nzp ergative case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-NzPcase.pdf">Deal, Amy Rose. 2010. <b>Ergative case and the transitive subject: a view from Nez Perce.</b> <i>Natural Language and Linguistic Theory</i> 28(1): 73–120.</a> <a class="citation-doi" href="http://dx.doi.org/10.1007/s11049-009-9081-5">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax locality case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-there2.pdf">Deal, Amy Rose. 2009. <b>The origin and content of expletives: evidence from “selection”.</b> <i>Syntax</i> 12(4): 285–323.</a> <a class="citation-doi" href="http://dx.doi.org/10.1111/j.1467-9612.2009.00127.x">DOI</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics nzp perspective">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://semanticsarchive.net/Archive/TMyYzliY/Deal_SALT18_space.pdf">Deal, Amy Rose. 2009. <b>Events in space.</b> In Tova Friedman and Satoshi Ito (eds.), <i>Proceedings of Semantics and Linguistic Theory XVIII</i>, 230–247. Cornell: CLC Publications.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics syntax nzp case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-cls42.pdf">Deal, Amy Rose. 2008. <b>Case marking and object interpretation in Nez Perce.</b> In Jacqueline Bunting et al. (eds.), <i>CLS 42-2: The Panels</i>, 17–28. Chicago: Chicago Linguistic Society.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics nzp modality case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://www.hf.uio.no/ilos/forskning/aktuelt/arrangementer/konferanser/2007/SuB12/proceedings/deal_92-106.pdf">Deal, Amy Rose. 2008. <b>Property-type objects and modal embedding.</b> In Atle Grønn (ed.), <i>Proceedings of Sinn und Bedeutung 12</i>. Oslo: ILOS.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item semantics nzp case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="https://linguistics.berkeley.edu/~ardeal/papers/Deal-sula4.pdf">Deal, Amy Rose. 2007. <b>Antipassive and indefinite objects in Nez Perce.</b> In Amy Rose Deal (ed.), <i>SULA 4: Proceedings of the Fourth Conference on the Semantics of Under-Represented Languages in the Americas</i>, 35–47. Amherst: GLSA.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
+
+                    <!-- single work -->
+                    <div class="paper citation-item syntax case-agr">
+                        <div class="citation-block">
+                            <span class="citation-title"><a href="http://www.ledonline.it/snippets/allegati/snippets13002.pdf">Deal, Amy Rose. 2006. <b>Does English have a genitive case?</b> <i>Snippets</i> 13: 7–8.</a></span>
+                        </div>
+                    </div>
+                    <!-- end single work -->
 
                 </div>
                 <!-- end portfolio_container -->
