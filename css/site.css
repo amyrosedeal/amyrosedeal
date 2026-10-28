@@ -432,6 +432,17 @@ details.talk-year .talk:last-child { border-bottom: 0; }
     .cv-pdf { margin-left: 0; font-weight: 600; opacity: 1; }
     .cv-icon { display: inline; vertical-align: -2px; margin-left: 6px; }
 
+    /* inner pages: CV is an ordinary menu link, so only the current page stands out */
+    .inner .site-header .cv-button,
+    .inner .site-header .cv-button:hover,
+    .inner .site-header .cv-button:focus-visible {
+        color: #444;
+        font-weight: 400;
+        text-decoration-color: #cfc8b8;
+    }
+    .inner .cv-pdf { font-weight: 400; }
+    .inner .cv-icon { display: none; }
+
     /* inner pages: name, then the menu under a thin rule */
     .inner .site-header { display: block; padding-bottom: 6px; }
     .inner .site-header nav { margin-top: 10px; padding-top: 4px; border-top: 1px solid var(--rule); }
