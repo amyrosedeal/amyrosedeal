@@ -1,0 +1,13 @@
+# Extra items for the "What's new" list on the home page.
+#
+# Papers, talks and blog posts are picked up automatically from research.html,
+# talks.html and the blog's RSS feed. Use this file for anything else:
+# a new journal, an award, a new role, a workshop you're organizing...
+#
+# One item per line, five parts separated by | :
+#   date | label | title | one-line detail | link
+# The date can be 2026, 2026-03 or 2026-03-15. Items older than about a year
+# drop off the home page on their own, so there's no need to delete old lines.
+# Lines starting with # are ignored.
+
+2026 | Journal | Semantics of Natural Languages | A diamond open access journal I helped found and edit | https://snl-journal.org
