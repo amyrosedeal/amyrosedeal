@@ -1374,3 +1374,132 @@ textarea:focus {
     top: -40px;
     }
 }
+
+/* ==================================================
+   Home page updates, 2026
+   1. Tile labels always visible (all screen sizes)
+   2. Phone layout: compact intro + link list instead of tiles
+   Scoped to #sections / .home-links so other pages are unaffected.
+==================================================*/
+
+/* 1. Always-visible caption strip on the home page tiles */
+#sections .portfolio_item .portfolio_item_hover,
+#sections .portfolio_item:hover .portfolio_item_hover {
+    display: block;
+    top: auto;
+    bottom: 0;
+    height: auto;
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+    background-color: rgba(0, 0, 0, .55);
+}
+
+#sections .portfolio_item:hover .portfolio_item_hover,
+#sections .portfolio_item:focus .portfolio_item_hover {
+    background-color: rgba(0, 0, 0, .75);
+}
+
+#sections .portfolio_item .portfolio_item_hover .item_info {
+    position: static;
+    -webkit-transform: none;
+    transform: none;
+    padding: 12px 20px;
+    text-align: left;
+}
+
+#sections .portfolio_item .portfolio_item_hover .item_info span,
+#sections .portfolio_item .portfolio_item_hover .item_info em {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+}
+
+/* gentle zoom on hover instead of the slide-in overlay */
+#sections .portfolio_item img {
+    -webkit-transition: transform .4s ease;
+    transition: transform .4s ease;
+}
+#sections .portfolio_item:hover img {
+    -webkit-transform: scale(1.03);
+    transform: scale(1.03);
+}
+
+/* 2. Phone link list (hidden on larger screens) */
+.home-links {
+    display: none;
+}
+
+.home-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid #eee;
+}
+
+.home-links a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 80px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    text-decoration: none;
+}
+
+.home-links a:hover,
+.home-links a:focus {
+    background: #fafafa;
+    color: #000;
+}
+
+.home-links img {
+    flex: none;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.home-links span {
+    flex: 1 1 auto;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.home-links small {
+    font-weight: 400;
+    color: #777;
+}
+
+.home-links i {
+    flex: none;
+    font-size: 20px;
+    color: #b07f00;
+}
+
+.home-links i.external {
+    color: #888;
+}
+
+@media only screen and (max-width: 767px) {
+    .home-links {
+        display: block;
+    }
+    #sections {
+        display: none;
+    }
+    /* shorter intro so the links show on the first screen */
+    .box-intro {
+        height: auto;
+        padding: 90px 16px 32px;
+    }
+    .box-intro h1 {
+        font-size: 44px;
+    }
+    .mouse {
+        display: none;
+    }
+}
