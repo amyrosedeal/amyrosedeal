@@ -295,9 +295,21 @@ h2 {
     border-radius: 4px;
     background: var(--rule);
 }
-.person .name { display: block; margin-top: 10px; font-size: 16px; font-weight: 600; color: #222; }
+.person .name { display: block; margin-top: 10px; font-family: var(--serif); font-size: 20px; font-weight: 400; line-height: 1.25; color: #222; }
 .person .role { display: block; font-size: 14px; color: var(--muted); }
 .person a:hover .name { text-decoration: underline; text-underline-offset: 3px; }
+
+.intro-pair { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px 64px; margin-bottom: 56px; }
+.intro-pair > .prose { flex: 3 1 460px; min-width: 0; max-width: none; }
+.intro-pair > .callout {
+    flex: 2 1 300px;
+    padding: 24px 28px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: #fff;
+}
+.intro-pair > .callout h2 { margin-top: 0; font-size: 22px; }
+.intro-pair > .callout p:last-child { margin-bottom: 0; }
 
 /* ---- Phones ---------------------------------------------------------- */
 @media (max-width: 640px) {
@@ -333,7 +345,8 @@ h2 {
     .inner .site-header nav { margin-top: 10px; padding-top: 4px; border-top: 1px solid var(--rule); }
     .page-head { padding: 36px 0 24px; }
     .people { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
-    .person .name { font-size: 15px; }
+    .person .name { font-size: 18px; }
+    .intro-pair > .callout { padding: 20px; }
     .person .role { font-size: 13px; }
 }
 
