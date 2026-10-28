@@ -1,7 +1,7 @@
 # Updating the website
 
-The website follows your CV. Papers, talks, the CV PDF and the home page's
-"What's new" list all come from one file: `cv/cv-full.tex`.
+The website follows your CV. Papers, talks, courses, the CV PDF and the home
+page's "What's new" list all come from one file: `cv/cv-full.tex`.
 
 ## The routine
 
@@ -9,7 +9,7 @@ The website follows your CV. Papers, talks, the CV PDF and the home page's
 2. On github.com, open this repository's `cv` folder, choose
    **Add file → Upload files**, drag in `cv-full.tex`, and click **Commit changes**.
 3. Within about three minutes GitHub rebuilds the CV PDF, the Research page,
-   the Talks page and "What's new". You don't upload the PDF yourself.
+   the Talks page, the Teaching page and "What's new". You don't upload the PDF yourself.
 
 To watch progress, open the **Actions** tab. A green check means the site is
 updated; a red X means something went wrong (the CV didn't compile, say).
@@ -301,6 +301,31 @@ avoid listing it twice.
 
 For anything else (a new journal, an award, a new role), add a line to
 `whats-new.txt` the same way. Items drop off by themselves after about a year.
+
+## Adding a course
+
+The Teaching page comes from the CV's Teaching section. Each course is listed
+once, with every term you taught it:
+
+```latex
+\ind Formal Semantics (Ling.~121, undergraduate; Fall 2015, Fall 2017, Spring 2027)
+```
+
+- **Teaching a course again:** add the term to the end of its line.
+- **A new course:** add a new `\ind` line under the right institution.
+- **Co-taught:** put the co-teacher after that term:
+  `Winter 2013 with Jorge Hankamer, Fall 2013 with Jim McCloskey`.
+- Terms are Fall, Winter, Spring or Summer plus the year, separated by commas.
+- **Summer schools and short courses** are written differently:
+  `\ind Title. Venue, Month Year.` (add `(remote)` after the year if it was online).
+
+The website groups everything by academic year (Fall 2026 and Spring 2027 both
+go under 2026–2027), newest first. Courses at UC Berkeley show the course number
+and level; courses elsewhere also name the institution (taken from the
+"At ..." heading above them). `% web: hide` under a course leaves it off the
+website. If a line can't be read, the Actions log says which one.
+
+---
 
 ## Papers that aren't in the CV
 

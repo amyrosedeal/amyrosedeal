@@ -420,6 +420,108 @@ def parse_talks(src):
     return talks
 
 
+# ---------------------------------------------------------------------------
+# Teaching
+# ---------------------------------------------------------------------------
+
+SEASONS = {"fall": 0, "autumn": 0, "winter": 1, "spring": 2, "summer": 3}
+TERM_RE = re.compile(r"^(Fall|Autumn|Winter|Spring|Summer)\s+(\d{4})(?:\s+with\s+(.+))?$", re.I)
+
+
+def _final_parens(line):
+    """'Title (a; b)' -> ('Title', 'a; b'); balanced, so titles may contain parentheses."""
+    line = line.rstrip(" .")
+    if not line.endswith(")"):
+        return line, None
+    depth = 0
+    for i in range(len(line) - 1, -1, -1):
+        if line[i] == ")":
+            depth += 1
+        elif line[i] == "(":
+            depth -= 1
+            if depth == 0:
+                return line[:i].strip(), line[i + 1:-1]
+    return line, None
+
+
+def academic_year(season, year):
+    """Fall 2025 -> 2025 (2025-26); Spring 2026 -> 2025; Summer 2026 -> 2025."""
+    return year if season == 0 else year - 1
+
+
+def parse_teaching(src):
+    """Courses from the CV's Teaching section.
+
+    Course:       \\ind Title (Ling.~121, undergraduate; Fall 2015, Spring 2016 with Jane Roe)
+    Short course: \\ind Title. Venue, Month Year (remote).
+    Returns one dict per course or short course, each with a list of offerings.
+    """
+    block = _block(src, r"\\marginhead\{[^\n]*Teaching\s*\}", r"\\marginhead\{|\\newpage")
+    courses = []
+    place = ""
+    pending = False
+    for raw in block.splitlines():
+        stripped = raw.strip()
+        if stripped.startswith("%"):
+            if re.match(r"%\s*web:", stripped) and courses:
+                courses[-1]["web"].update(parse_web(stripped))
+            continue
+        line = strip_comments(raw).strip()
+        if not line:
+            continue
+        hm = re.search(r"\\noindent\\emph\{\s*([^\\}]+?)\s*(?:\\vspace|\})", line)
+        if hm:
+            place = re.sub(r"^At\s+", "", hm.group(1).strip())
+            continue
+        if line == "\\ind":
+            pending = True
+            continue
+        if line.startswith("\\ind"):
+            line = line[len("\\ind"):].strip()
+        elif not pending:
+            continue
+        pending = False
+        title_tex, inside = _final_parens(line)
+        if inside is not None and ";" in inside:
+            meta, terms_tex = inside.rsplit(";", 1)
+            parts = [x.strip() for x in meta.split(",", 1)]
+            number = parts[0] if len(parts) > 1 or not re.match(r"(?i)under|grad", parts[0]) else ""
+            level = parts[-1] if len(parts) > 1 or not number else ""
+            offerings = []
+            for term in re.split(r",|\band\b", terms_tex):
+                term = term.strip()
+                if not term:
+                    continue
+                m = TERM_RE.match(plain(tex_to_html(term)))
+                if not m:
+                    print(f"Teaching: could not read the term '{term}' in: {line}")
+                    continue
+                season = SEASONS[m.group(1).lower()]
+                year = int(m.group(2))
+                offerings.append({"term": f"{m.group(1).capitalize()} {year}",
+                                  "ay": academic_year(season, year),
+                                  "order": (year, season if season else 4),
+                                  "with": m.group(3) or ""})
+            courses.append({"kind": "course", "place": place, "web": {},
+                            "title": tex_to_html(title_tex), "number": tex_to_html(number),
+                            "level": tex_to_html(level), "offerings": offerings})
+        else:
+            title_tex, rest = _split_title(line)
+            text = plain(tex_to_html(rest)).rstrip(".")
+            dm = re.search(r"\b(" + "|".join(MONTHS) + r")\b[^,]*?(\d{4})", text, re.I)
+            if not dm:
+                print(f"Teaching: no month and year found in: {line}")
+                continue
+            month, year = MONTHS.index(dm.group(1).lower()) + 1, int(dm.group(2))
+            courses.append({"kind": "short", "place": "", "web": {},
+                            "title": tex_to_html(title_tex).rstrip("."),
+                            "number": "", "level": "", "detail": html.escape(text),
+                            "offerings": [{"term": "", "with": "",
+                                           "ay": year if month >= 8 else year - 1,
+                                           "order": (year, 1 if month < 6 else 3)}]})
+    return [c for c in courses if not c["web"].get("hide")]
+
+
 def load(path):
     with open(path, encoding="utf-8") as f:
         src = f.read()

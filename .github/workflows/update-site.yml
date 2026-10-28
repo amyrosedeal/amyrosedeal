@@ -1,7 +1,7 @@
 # Keeps the website in step with the CV.
 #
 # When cv/cv-full.tex changes: builds the CV PDF (ARDeal.pdf) and regenerates
-# the Research page, the Talks page and "What's new" on the home page.
+# the Research, Talks and Teaching pages and "What's new" on the home page.
 # Also runs once a day (to pick up new blog posts) and on demand from the
 # Actions tab ("Run workflow").
 name: Update site from CV
@@ -54,12 +54,12 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Regenerate Research, Talks and What's new
+      - name: Regenerate Research, Talks, Teaching and What's new
         run: python3 scripts/build_site.py
 
       - name: Save any changes
         run: |
-          git add ARDeal.pdf index.html research.html talks.html accepted-dates.txt
+          git add ARDeal.pdf index.html research.html talks.html teaching.html accepted-dates.txt
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

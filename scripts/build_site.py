@@ -5,6 +5,7 @@ Reads cv/cv-full.tex (plus cv/website-only.tex) and writes:
   - the paper list on research.html   (between the papers: markers)
   - the talk list on talks.html       (between the talks: markers)
   - the "What's new" list on index.html (papers + talks + blog + whats-new.txt)
+  - the course list on teaching.html  (between the teaching: markers)
 
 Runs automatically on GitHub (.github/workflows/update-site.yml).
 By hand:  python3 scripts/build_site.py
@@ -40,6 +41,8 @@ TALKS_OPEN_YEARS = 3      # Talks page: this many recent years shown open, older
 INDEX = ROOT / "index.html"
 RESEARCH = ROOT / "research.html"
 TALKS = ROOT / "talks.html"
+TEACHING = ROOT / "teaching.html"
+HOME_PLACE = "UC Berkeley"    # Teaching page: courses here don't name the institution
 NEWS = ROOT / "whats-new.txt"
 ACCEPTED = ROOT / "accepted-dates.txt"           # when each "To appear" paper was first seen (kept by this script)
 
@@ -495,6 +498,52 @@ def feed_html(items):
 
 # ---- Main -----------------------------------------------------------------
 
+# ---- Teaching page --------------------------------------------------------
+
+def teaching_html(courses):
+    years = {}
+    for i, c in enumerate(courses):
+        by_ay = {}
+        for o in c["offerings"]:
+            by_ay.setdefault(o["ay"], []).append(o)
+        for ay, offs in by_ay.items():
+            offs.sort(key=lambda o: o["order"])
+            years.setdefault(ay, []).append((max(o["order"] for o in offs), -i, c, offs))
+    if not years:
+        return ""
+    order = sorted(years, reverse=True)
+    pad = " " * 8
+    out = [pad + '<nav class="year-nav" aria-label="Academic years">',
+           pad + "    <span>Jump to</span>"]
+    for ay in order:
+        out.append(f'{pad}    <a href="#y{ay % 100:02d}-{(ay + 1) % 100:02d}">{ay}–{(ay + 1) % 100:02d}</a>')
+    out += [pad + "</nav>", "", pad + '<div class="prose">']
+    for ay in order:
+        out += [f'{pad}    <section class="course-year" id="y{ay % 100:02d}-{(ay + 1) % 100:02d}">',
+                f"{pad}        <h2>{ay}–{ay + 1}</h2>",
+                f'{pad}        <ul class="courses">']
+        for _, _, c, offs in sorted(years[ay], key=lambda x: (x[0], x[1]), reverse=True):
+            if c["kind"] == "short":
+                meta = "Short course · " + c["detail"]
+            else:
+                bits = []
+                if c["place"] and c["place"] != HOME_PLACE:
+                    bits.append(esc(c["place"]))
+                bits.append(", ".join(x for x in (c["number"], c["level"]) if x))
+                terms = []
+                for o in offs:
+                    terms.append(o["term"] + (f" (with {esc(o['with'])})" if o["with"] else ""))
+                bits.append(" and ".join(terms))
+                meta = " · ".join(b for b in bits if b)
+            out += [f"{pad}            <li>",
+                    f'{pad}                <span class="course-title">{c["title"]}</span>',
+                    f'{pad}                <span class="course-meta">{meta}</span>',
+                    f"{pad}            </li>"]
+        out += [f"{pad}        </ul>", f"{pad}    </section>"]
+    out.append(pad + "</div>")
+    return "\n".join(out)
+
+
 def main():
     pubs, talks = cvparse.load(CV)
     if EXTRA_PAPERS.exists():
@@ -504,6 +553,9 @@ def main():
 
     changed = replace_between(RESEARCH, "papers", research_html(pubs), "")
     changed |= replace_between(TALKS, "talks", talks_html(talks), "")
+    courses = cvparse.parse_teaching(CV.read_text(encoding="utf-8"))
+    print(f"CV: {len(courses)} courses")
+    changed |= replace_between(TEACHING, "teaching", teaching_html(courses), " " * 8)
 
     items = feed_papers(pubs) + feed_talks(talks) + feed_news()
     try:
