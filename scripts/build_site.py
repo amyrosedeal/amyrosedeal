@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild the website's lists from the CV.
 
-Reads cv/cv-full.tex and writes:
+Reads cv/cv-full.tex (plus cv/website-only.tex) and writes:
   - the paper list on research.html   (between the papers: markers)
   - the talk list on talks.html       (between the talks: markers)
   - the "What's new" list on index.html (papers + talks + blog + whats-new.txt)
@@ -34,6 +34,8 @@ NEWS_MAX_AGE_DAYS = 400
 
 ROOT = Path(__file__).resolve().parent.parent
 CV = ROOT / "cv" / "cv-full.tex"
+EXTRA_PAPERS = ROOT / "cv" / "website-only.tex"   # papers shown on the site but not in the CV
+TALKS_FROM = 2016                                 # earliest year of talks listed on the site
 INDEX = ROOT / "index.html"
 RESEARCH = ROOT / "research.html"
 TALKS = ROOT / "talks.html"
@@ -257,6 +259,9 @@ def feed_html(items):
 
 def main():
     pubs, talks = cvparse.load(CV)
+    if EXTRA_PAPERS.exists():
+        pubs += cvparse.parse_publications(EXTRA_PAPERS.read_text(encoding="utf-8"))
+    talks = [t for t in talks if t["latest"][0] >= TALKS_FROM]
     print(f"CV: {len(pubs)} publications, {len(talks)} talks")
 
     changed = replace_between(RESEARCH, "papers", research_html(pubs), "")

@@ -39,6 +39,15 @@ Which CV sections are used:
 - **Talks page:** By invitation, By reviewed abstract. Talks dated in the future
   appear under "Upcoming".
 
+## Papers that aren't in the CV
+
+`cv/website-only.tex` lists papers that appear on the Research page but not in
+the CV (currently two older manuscripts). It uses the same format as the CV and
+is never compiled. Edit it on github.com like any other file.
+
+The Talks page lists talks from 2016 onward (set by `TALKS_FROM` at the top of
+`scripts/build_site.py`).
+
 ## Other news
 
 For news that isn't a paper, talk or blog post (a new journal, an award),
