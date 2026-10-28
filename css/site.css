@@ -360,6 +360,49 @@ h2 {
 .chip:hover { border-color: var(--accent); color: #000; }
 .pub-topics { margin-left: 6px; font-size: 13px; color: #8a8a8a; }
 
+/* Talks */
+.talk-year { display: block; padding-top: 32px; scroll-margin-top: 24px; }
+.talk-year > h2 { font-size: 30px; margin-bottom: 4px; }
+.talk-year.upcoming {
+    margin: 0 0 16px;
+    padding: 24px 32px 12px;
+    background: #f3eee2;
+    border: 1px solid #e6dfcd;
+    border-radius: 8px;
+}
+.upcoming .talk:last-child { border-bottom: 0; }
+.talk { padding: 18px 0; border-bottom: 1px solid var(--rule); max-width: 50em; }
+.talk p { margin: 0; }
+.talk-title { margin: 0 0 4px; font-family: var(--serif); font-weight: 500; font-size: 21px; line-height: 1.3; color: #1f1f1f; }
+.talk-with { font-size: 15px; color: #333; }
+.talk-venues { list-style: none; margin: 6px 0 0; padding: 0; }
+.talk-untitled { padding: 8px 0; border-bottom: 0; }
+.talk-untitled .talk-venues { margin-top: 0; }
+.talk-untitled .talk-place { color: #333; }
+.talk-venues li { display: flex; gap: 0 16px; padding: 2px 0; font-size: 15px; line-height: 1.5; color: var(--muted); }
+.talk-date { flex: 0 0 112px; color: var(--accent); font-size: 13px; font-weight: 500; line-height: 22px; white-space: nowrap; }
+.talk-place { flex: 1 1 auto; min-width: 0; }
+.talk-remote { white-space: nowrap; }
+.earlier-head { margin: 48px 0 8px; font-size: 26px; }
+details.talk-year { padding-top: 0; max-width: 50em; border-bottom: 1px solid var(--rule); }
+details.talk-year summary {
+    display: flex; align-items: baseline; gap: 16px;
+    min-height: 52px; padding: 12px 0;
+    cursor: pointer; list-style: none;
+}
+details.talk-year summary::-webkit-details-marker { display: none; }
+details.talk-year summary::after {
+    content: ""; margin-left: auto; align-self: center;
+    width: 9px; height: 9px;
+    border-right: 2px solid #8a8a8a; border-bottom: 2px solid #8a8a8a;
+    transform: rotate(45deg) translateY(-3px); transition: transform .15s;
+}
+details.talk-year[open] summary::after { transform: rotate(-135deg) translateY(-1px); }
+details.talk-year .year { font-family: var(--serif); font-size: 24px; font-weight: 500; color: #222; }
+details.talk-year .count { font-size: 14px; color: var(--muted); }
+details.talk-year summary:hover .year { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+details.talk-year .talk:last-child { border-bottom: 0; }
+
 /* ---- Phones ---------------------------------------------------------- */
 @media (max-width: 640px) {
     .site-header { padding: 14px 16px; }
@@ -402,6 +445,10 @@ h2 {
     .filter-bar select { flex: 1 1 auto; }
     .intro-pair > .callout { padding: 20px; }
     .person .role { font-size: 13px; }
+    .talk-title { font-size: 19px; }
+    .talk-year.upcoming { padding: 18px 18px 6px; margin-left: -4px; margin-right: -4px; }
+    .talk-venues li { flex-direction: column; padding: 4px 0; }
+    .talk-date { flex: none; line-height: 1.5; }
 }
 
 /* Home page on phones: name, tagline and title first, then the menu */

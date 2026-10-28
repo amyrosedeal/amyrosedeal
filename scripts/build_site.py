@@ -36,6 +36,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CV = ROOT / "cv" / "cv-full.tex"
 EXTRA_PAPERS = ROOT / "cv" / "website-only.tex"   # papers shown on the site but not in the CV
 TALKS_FROM = 2016                                 # earliest year of talks listed on the site
+TALKS_OPEN_YEARS = 3      # Talks page: this many recent years shown open, older ones folded (None = all open)
 INDEX = ROOT / "index.html"
 RESEARCH = ROOT / "research.html"
 TALKS = ROOT / "talks.html"
@@ -203,56 +204,123 @@ def research_html(pubs):
 
 # ---- Talks page -----------------------------------------------------------
 
-def talk_line(t):
-    title = "Title to be announced" if t["tba"] else t["title"]
-    head = title if title.endswith(("?", "!")) else title + "."
-    extra = []
+_DATE_END = re.compile(r",?\s*\b(" + "|".join(cvparse.MONTHS) + r")\b\.?(?:\s+(\d{4}))?\s*(\((?:remote|virtual|online)\))?$", re.I)
+
+
+def split_venue(v, year):
+    """'Colloquium, MIT, March' -> ('Colloquium, MIT', 'March 2025', '')."""
+    m = _DATE_END.search(v)
+    if not m:
+        return v, "", ""
+    month = m.group(1).capitalize()
+    when = f"{month} {m.group(2) or year}"
+    return v[:m.start()].rstrip(" ,"), when, (m.group(3) or "").strip("() ")
+
+
+def merge_same_title(talks):
+    """One entry per title per year: the CV may list a talk under both
+    'By invitation' and 'By reviewed abstract'."""
+    out, seen = [], {}
+    for t in talks:
+        key = (cvparse.plain(t["title"]).lower(), t["latest"][0])
+        if key in seen and not t["tba"]:
+            first = seen[key]
+            first["venues"] = first["venues"] + t["venues"]
+            first["with"] = first["with"] or t["with"]
+            first["notes"] = first["notes"] + [n for n in t["notes"] if n not in first["notes"]]
+            first["handout"] = first["handout"] or t["handout"]
+            first["latest"] = max(first["latest"], t["latest"])
+            continue
+        seen[key] = t
+        out.append(t)
+    for t in out:
+        t["venues"].sort(key=lambda v: max(cvparse._dates_in(cvparse.plain(v), t["year"]) or [(0, 0)]),
+                         reverse=True)
+    return out
+
+
+def talk_html(t, pad):
+    if t["tba"]:          # no title yet: show just the date and venue
+        lines = [f'{pad}<article class="talk talk-untitled">']
+    else:
+        lines = [f'{pad}<article class="talk">',
+                 f'{pad}  <h3 class="talk-title">{t["title"]}</h3>']
+    meta = []
     if t["with"]:
-        extra.append(f'with {", ".join(t["with"])}')
+        meta.append("With " + join_names(t["with"]))
+    meta += [n[:1].upper() + n[1:] for n in t["notes"]]
+    if meta:
+        lines.append(f'{pad}  <p class="talk-with">{" · ".join(meta)}</p>')
+    if t["venues"]:
+        lines.append(f'{pad}  <ul class="talk-venues">')
+        for v in t["venues"]:
+            place, when, remote = split_venue(v, t["year"])
+            if remote:
+                place += ' <span class="talk-remote">(remote)</span>'
+            lines.append(f'{pad}    <li><span class="talk-date">{when}</span><span class="talk-place">{place}</span></li>')
+        lines.append(f'{pad}  </ul>')
     if t["handout"]:
-        extra.append(f'<a href="{esc(t["handout"])}">handout</a>')
-    if extra:
-        head += f' <span class="talk-note">({"; ".join(extra)})</span>'
-    month_end = re.compile(r"\b(" + "|".join(cvparse.MONTHS) + r")\.?(\s*\([^)]*\))?$", re.I)
-    venues = "".join(
-        f"<span>{month_end.sub(lambda m: m.group(1) + ' ' + str(t['year']) + (m.group(2) or ''), v)}</span>"
-        for v in t["venues"])
-    return head + (f'<span class="talk-venues">{venues}</span>' if venues else "")
-
-
-TALK_STYLE = """                    <style>
-                        li.talk h4 { line-height: 1.45; margin-bottom: 14px; }
-                        .talk-note { color: #666; font-size: .9em; }
-                        .talk-venues { display: block; margin-top: 2px; color: #666; font-size: .88em; }
-                        .talk-venues span { display: block; }
-                    </style>"""
+        lines.append(f'{pad}  <p class="pub-links"><a class="chip" href="{esc(t["handout"])}">Handout</a></p>')
+    lines.append(f'{pad}</article>')
+    return "\n".join(lines)
 
 
 def talks_html(talks):
     now = (TODAY.year, TODAY.month)
-    shown = [t for t in talks if not t["hide"]]
-    upcoming = sorted((t for t in shown if t["latest"] > now), key=lambda t: t["latest"])
-    past = sorted((t for t in shown if t["latest"] <= now), key=lambda t: t["latest"], reverse=True)
+    shown = merge_same_title([t for t in talks if not t["hide"]])
 
-    groups = []
-    if upcoming:
-        groups.append(("Upcoming", upcoming))
+    # A talk given in several years appears under each year, with that year's venues.
+    pieces = []
+    for t in shown:
+        groups = {}
+        for v in t["venues"]:
+            d = max(cvparse._dates_in(cvparse.plain(v), t["year"]) or [(t["year"], 0)])
+            if d[0] < TALKS_FROM:
+                continue
+            key = "upcoming" if d > now else d[0]
+            groups.setdefault(key, []).append((d, v))
+        if not t["venues"]:
+            groups[t["latest"][0]] = [(t["latest"], None)]
+        for key, vs in groups.items():
+            piece = dict(t, venues=[v for _, v in vs if v is not None], latest=max(d for d, _ in vs))
+            pieces.append(piece)
+    upcoming = sorted((t for t in pieces if t["latest"] > now), key=lambda t: t["latest"])
+    past = sorted((t for t in pieces if t["latest"] <= now), key=lambda t: t["latest"], reverse=True)
+
     years = []
     for t in past:
         y = t["latest"][0]
         if not years or years[-1][0] != y:
             years.append((y, []))
         years[-1][1].append(t)
-    groups.extend((str(y), ts) for y, ts in years)
 
-    out = [TALK_STYLE]
-    for label, ts in groups:
-        out.append(f'                    <h3 class="text-uppercase">{label}</h3>')
-        out.append('                    <ul class="course">')
-        for t in ts:
-            out.append(f'                        <li class="talk"><h4>{talk_line(t)}</h4></li>')
-        out.append('                    </ul>')
-        out.append('                    <div class="h-30"></div>')
+    out = []
+    pad = "        "
+    if TALKS_OPEN_YEARS is None and years:
+        jumps = ([('upcoming', 'Upcoming')] if upcoming else []) + [(f"y-{y}", str(y)) for y, _ in years]
+        out.append(f'{pad}<nav class="year-nav" aria-label="Years"><span>Jump to</span>'
+                   + "".join(f'<a href="#{i}">{label}</a>' for i, label in jumps) + '</nav>')
+    if upcoming:
+        out.append(f'{pad}<section class="talk-year upcoming" id="upcoming">')
+        out.append(f'{pad}    <h2>Upcoming</h2>')
+        out += [talk_html(t, pad + "    ") for t in upcoming]
+        out.append(f'{pad}</section>')
+    open_years = len(years) if TALKS_OPEN_YEARS is None else TALKS_OPEN_YEARS
+    for i, (y, ts) in enumerate(years):
+        body = [talk_html(t, pad + "    ") for t in ts]
+        if i < open_years:
+            out.append(f'{pad}<section class="talk-year" id="y-{y}">')
+            out.append(f'{pad}    <h2>{y}</h2>')
+            out += body
+            out.append(f'{pad}</section>')
+        else:
+            if i == open_years:
+                out.append(f'{pad}<h2 class="earlier-head">Earlier talks</h2>')
+            n = f'{len(ts)} talk' + ("" if len(ts) == 1 else "s")
+            out.append(f'{pad}<details class="talk-year" id="y-{y}">')
+            out.append(f'{pad}    <summary><span class="year">{y}</span><span class="count">{n}</span></summary>')
+            out += body
+            out.append(f'{pad}</details>')
     return "\n".join(out)
 
 

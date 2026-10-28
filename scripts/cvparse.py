@@ -328,11 +328,17 @@ def _dates_in(text, default_year):
     return found
 
 
+def _looks_like_authors(text):
+    """[A.R. Deal and J. Roe] is a list of co-authors; [poster] or [2 lectures] is a note."""
+    return bool(re.search(r"\bDeal\b", text) or re.search(r"\b[A-Z]\.\s*[A-Z]?\.?\s*[A-Z][a-z]", text))
+
+
 def parse_talks(src):
     block = _block(src, r"\\marginhead\{[^\n]*Talks\}", r"\\marginhead\{")
     talks = []
     kind = "Invited"
     current = None
+    pending = ""       # a bare \ind or \indd $\rhd$ waiting for its text on the next line
     for raw in block.splitlines():
         stripped = raw.strip()
         if stripped.startswith("%"):
@@ -342,6 +348,11 @@ def parse_talks(src):
         line = strip_comments(raw).strip()
         if not line:
             continue
+        if re.fullmatch(r"\\indd?(\s*\$\\rhd\$)?", line):
+            pending = line
+            continue
+        if pending:
+            line, pending = pending + " " + line, ""
         hm = re.search(r"\\noindent\\emph\{\s*([^\\}]+?)\s*(?:\\vspace|\})", line)
         if hm:
             kind = "Invited" if "invitation" in hm.group(1).lower() else "Reviewed abstract"
@@ -366,8 +377,12 @@ def parse_talks(src):
                        "venues": [tex_to_html(rest)] if rest.strip() else []}
             talks.append(current)
             continue
-        if current is not None and current["venues"] == [] and not line.startswith("\\"):
-            current["venues"].append(tex_to_html(line))
+        if current is not None and not line.startswith("\\"):
+            # text continuing on the next line: a first venue, or the rest of the last one
+            if current["venues"]:
+                current["venues"][-1] += " " + tex_to_html(line)
+            else:
+                current["venues"].append(tex_to_html(line))
 
     for t in talks:
         dates = []
@@ -378,18 +393,24 @@ def parse_talks(src):
             dates = [(t["year"], 0)]
         t["latest"] = max(dates)
         t["coauthors"] = ""
+        t["notes"] = []
         clean = []
         for v in t["venues"]:
             for bm in list(re.finditer(r"\[([^\]]*)\]", v))[::-1]:
                 inside = bm.group(1).strip().rstrip(".")
                 if re.fullmatch(r"remote|virtual|online", inside, re.I):
                     repl = f" ({inside})"
-                else:
+                elif _looks_like_authors(inside):
                     t["coauthors"] = inside
+                    repl = ""
+                else:
+                    t["notes"].insert(0, inside)       # [poster], [2 lectures], ...
                     repl = ""
                 v = v[:bm.start()].rstrip(" .") + repl + v[bm.end():]
             clean.append(re.sub(r"\s+([.,])", r"\1", v).strip().rstrip("."))
         t["venues"] = [v for v in clean if v]
+        # newest venue first
+        t["venues"].sort(key=lambda v: max(_dates_in(plain(v), t["year"]) or [(0, 0)]), reverse=True)
         names = [n.strip() for n in re.split(r",|&amp;|\band\b", t["coauthors"]) if n.strip()]
         t["with"] = [n for n in names if not re.search(r"\bDeal\b", n)]
         t["tba"] = t["title"].strip().upper() == "TBA"
