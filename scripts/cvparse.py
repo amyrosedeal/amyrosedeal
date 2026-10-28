@@ -310,6 +310,7 @@ def parse_publications(src):
             "tags": web.get("tags", []),
             "hide": bool(web.get("hide")),
             "selected": web.get("selected"),     # True, or a number giving its place
+            "accepted": web.get("accepted"),     # optional date a "To appear" paper was accepted
         })
     return out
 

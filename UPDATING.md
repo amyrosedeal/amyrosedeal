@@ -32,6 +32,7 @@ anything the website needs that isn't in the citation itself:
 | `doi=https://doi.org/...` | a DOI you don't want printed in the CV |
 | `selected=1` | puts the paper in the "Selected work" box at the top |
 | `hide` | leaves the paper off the website (it stays in the PDF) |
+| `accepted=2026-10` | when a "To appear" paper was accepted (only if you want to set it yourself; see below) |
 
 Separate several with semicolons, all on one line:
 `% web: link=https://...; tags=syntax, semantics; selected=2`
@@ -47,7 +48,7 @@ topics (it shows only under "All topics") and no extra link.
 | Journal articles | its year, labelled "Journal article" |
 | Other publications | its year, labelled "Chapter / proceedings" |
 | Manuscripts | "In the pipeline", showing only title, authors and link |
-| any section, with the year written `To appear` | "In the pipeline" |
+| any section, with the year written `To appear` | "In the pipeline", and announced in "What's new" (see below) |
 
 ### The one rule for the citation
 
@@ -178,10 +179,30 @@ and you get both buttons).
 - The button for `link=` is labelled **lingbuzz**, **PDF** or **Article**,
   depending on the address.
 
-### When a manuscript is published
+### When a paper is accepted ("To appear")
 
-Move its `\item` from Manuscripts to Journal articles (or Other publications),
-fill in the year, venue and DOI as usual, and keep its `% web:` line under it.
+Change its year to `To appear` (and move it to Journal articles or Other
+publications, filling in the venue), then upload the CV as usual:
+
+```latex
+\item Deal, Amy Rose, and Jane Roe. To appear. Title of the article. \emph{Linguistic Inquiry}.
+% web: link=https://lingbuzz.net/lingbuzz/012345; tags=syntax, case-agr
+```
+
+On the website it moves to "In the pipeline" on the Research page, and it is
+announced at the top of "What's new" as **Accepted · Oct 2026**, "To appear in
+*Linguistic Inquiry*".
+
+The acceptance date is the day you upload the CV with `To appear` in it: the
+website notes that date in `accepted-dates.txt` the first time it sees the
+paper marked "To appear". You never need to touch that file. If you want a
+different date (say you're catching up on an acceptance from March), add it to
+the comment line: `% web: accepted=2026-03`.
+
+### When a manuscript or "To appear" paper is published
+
+Move its `\item` to Journal articles (or Other publications) if it isn't
+there already, fill in the year, venue and DOI as usual, and keep its `% web:` line under it.
 The website moves it out of "In the pipeline" into its year. If its `link=`
 points to the lingbuzz version and you'd rather the title go to the published
 version, delete `link=...` from the comment line.
@@ -220,7 +241,9 @@ A talk given in several places:
 
 "What's new" is a single list, newest first. It always contains:
 
-- the **3 newest papers** from your CV,
+- the **3 newest papers** from your CV. Papers marked "To appear" count from
+  the date they were accepted (see "When a paper is accepted" above); published
+  papers count from the middle of their year, since the CV gives only the year,
 - the **2 most recent talks** you have already given (from your CV),
 - your **latest blog post**,
 - any items you add to `whats-new.txt` (from the last year or so).

@@ -59,7 +59,7 @@ jobs:
 
       - name: Save any changes
         run: |
-          git add ARDeal.pdf index.html research.html talks.html
+          git add ARDeal.pdf index.html research.html talks.html accepted-dates.txt
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

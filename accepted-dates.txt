@@ -1,0 +1,5 @@
+# When each "To appear" paper was first seen on the website (written automatically).
+# It decides when an accepted paper shows up in What's new. A '-' means the date is unknown
+# and the paper isn't listed there. A `% web: accepted=2026-10` line in the CV overrides this.
+
+- | Person features and shiftiness

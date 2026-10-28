@@ -41,6 +41,7 @@ INDEX = ROOT / "index.html"
 RESEARCH = ROOT / "research.html"
 TALKS = ROOT / "talks.html"
 NEWS = ROOT / "whats-new.txt"
+ACCEPTED = ROOT / "accepted-dates.txt"           # when each "To appear" paper was first seen (kept by this script)
 
 TODAY = dt.date.today()
 MONTH_ABBR = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
@@ -347,19 +348,69 @@ def join_names(names):
     return ", ".join(names[:-1]) + ", and " + names[-1]
 
 
+def accepted_dates(pubs):
+    """Date each "To appear" paper was accepted, for What's new.
+
+    A `% web: accepted=2026-10` line in the CV gives the date directly.
+    Otherwise the date is the day the website first saw the paper marked
+    "To appear"; those dates are kept in accepted-dates.txt.
+    """
+    known = {}
+    lines = ACCEPTED.read_text(encoding="utf-8").splitlines() if ACCEPTED.exists() else []
+    for line in lines:
+        if line.strip() and not line.startswith("#") and "|" in line:
+            when, title = (x.strip() for x in line.split("|", 1))
+            known[title.lower()] = when
+    added = []
+    out = {}
+    for p in pubs:
+        if p["year_value"] != 9999 or p["hide"]:
+            continue
+        title = cvparse.plain(p["title"])
+        when = p.get("accepted") or known.get(title.lower())
+        if when is None:
+            when = TODAY.isoformat()
+            known[title.lower()] = when
+            added.append(f"{when} | {title}")
+        nums = [int(n) for n in re.findall(r"\d+", when)]
+        if nums:   # "-" means: accepted before the website kept track; not shown
+            out[id(p)] = dt.date(nums[0], nums[1] if len(nums) > 1 else 7, nums[2] if len(nums) > 2 else 15)
+    if added:
+        if not lines:
+            lines = ["# When each \"To appear\" paper was first seen on the website (written automatically).",
+                     "# It decides when an accepted paper shows up in What's new. A '-' means the date is unknown",
+                     "# and the paper isn't listed there. A `% web: accepted=2026-10` line in the CV overrides this.",
+                     ""]
+        ACCEPTED.write_text("\n".join(lines + added) + "\n", encoding="utf-8")
+        for a in added:
+            print(f"  newly accepted: {a}")
+    return out
+
+
 def feed_papers(pubs):
-    dated = [p for p in pubs if not p["hide"] and p["year_value"] != 9999]
-    dated.sort(key=lambda p: -p["year_value"])
+    accepted = accepted_dates(pubs)
+    candidates = []      # (date, paper); a stable sort keeps CV order within a year
+    for p in pubs:
+        if p["hide"]:
+            continue
+        if p["year_value"] == 9999:
+            if id(p) in accepted:
+                candidates.append((accepted[id(p)], p))
+        else:
+            candidates.append((mid_year(p["year_value"]), p))
+    candidates.sort(key=lambda x: x[0], reverse=True)
     out = []
-    for p in dated[:FEED_PAPERS]:
+    for date, p in candidates[:FEED_PAPERS]:
         im = re.search(r"<i>(.*?)</i>", p["rest"])
         venue = cvparse.plain(im.group(1)) if im else cvparse.plain(p["rest"]).split(".")[0]
         names = coauthors(p["authors"])
+        if p["year_value"] == 9999:
+            venue = ("To appear in " + venue) if venue else "To appear"
+            label = f"Accepted · {date:%b %Y}"
+        else:
+            label = ("Paper" if p["kind"] != "Manuscript" else "Manuscript") + f" · {p['year_value']}"
         detail = (f"With {join_names(names)} · " if names else "") + venue
-        label = "Paper" if p["kind"] != "Manuscript" else "Manuscript"
-        out.append(item(mid_year(p["year_value"]), f"{label} · {p['year_value']}",
-                        cvparse.plain(p["title"]), detail,
-                        p["link"] or "research.html"))
+        out.append(item(date, label, cvparse.plain(p["title"]), detail, p["link"] or "research.html"))
     return out
 
 
