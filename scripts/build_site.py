@@ -126,7 +126,7 @@ def pub_entry(p, heading="h3", compact=False):
     if p["doi"] and p["doi"] not in links:
         links.append(p["doi"])
     chips = "".join(f'<a class="chip" href="{esc(u)}">{link_label(u)}</a>' for u in links)
-    topics = " · ".join(TOPIC_LABEL[t] for t in p["tags"] if t in TOPIC_LABEL)
+    topics = ""   # topic tags drive the filter but aren't shown on the cards
     if compact:
         venue, topics = "", ""
     lines = [f'<article class="pub" data-tags="{esc(" ".join(p["tags"]))}">',
