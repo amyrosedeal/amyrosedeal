@@ -33,18 +33,12 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 12px 32px;
     padding: 18px 40px;
     border-bottom: 1px solid var(--rule);
 }
 
-.site-name {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: 22px;
-    color: #222;
-}
 
 .site-header ul {
     display: flex;
@@ -204,7 +198,6 @@ h2 {
 @media (max-width: 640px) {
     body { display: flex; flex-direction: column; }
     .site-header, .page { display: contents; }
-    .site-name { display: none; }
 
     .intro { order: 1; padding: 44px 16px 24px; }
     .intro h1 { margin-bottom: 14px; }
