@@ -313,8 +313,17 @@ h2 {
 
 
 /* Research */
-.selected-work { margin: 0 0 48px; }
-.selected-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0 40px; }
+.selected-work {
+    margin: 0 0 48px;
+    padding: 28px 32px 24px;
+    background: #f3eee2;
+    border: 1px solid #e6dfcd;
+    border-radius: 8px;
+}
+.selected-work h2 { margin-bottom: 8px; }
+.selected-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0 40px; }
+.selected-grid .pub { border-bottom: 0; padding: 14px 0 10px; }
+.selected-grid .chip { background: #fbfaf7; }
 .filter-bar {
     position: sticky; top: 0; z-index: 2;
     display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
@@ -387,6 +396,8 @@ h2 {
     .people { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
     .person .name { font-size: 18px; }
     .pub-title { font-size: 20px; }
+    .selected-work { padding: 20px 18px 12px; margin-left: -4px; margin-right: -4px; }
+    .selected-grid .pub + .pub { border-top: 1px solid #e3dac4; }
     .pub-topics { flex-basis: 100%; margin-left: 0; }
     .filter-bar select { flex: 1 1 auto; }
     .intro-pair > .callout { padding: 20px; }
