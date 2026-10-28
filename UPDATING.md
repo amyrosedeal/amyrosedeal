@@ -124,7 +124,9 @@ A talk given in several places:
 
 - Co-authors go in square brackets: `[A.R. Deal and J. Roe]`. `[remote]` is shown as "(remote)".
 - Talks dated in the future appear under "Upcoming"; the rest are grouped by year.
-- `TBA` as the title shows as "Title to be announced".
+  A talk given in several years appears under each of those years.
+- `TBA` as the title shows just the date and venue, with no title, until you
+  replace it with the real title.
 - `% web: handout=https://...` under a talk adds a handout link.
 - The Talks page lists talks from 2016 onward.
 
