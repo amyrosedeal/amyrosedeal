@@ -94,6 +94,8 @@ def tex_to_html(s, links=None):
                 continue
             if name == "url":
                 url, i = _group(s, i)
+                if links is not None:
+                    links.append(re.sub(r"\s+", "", url))
                 out.append(html.escape(url))
                 continue
             if name in ACCENTS and len(name) == 1 or name in ("c", "v", "u", "H"):
@@ -208,6 +210,21 @@ def _split_title(rest):
     return rest, ""
 
 
+DOI_RE = re.compile(r"(?:https?://(?:dx\.)?doi\.org/|\bdoi:\s*)(10\.\d{4,9}/[^\s{}]+)", re.I)
+
+
+def find_doi(links, tex):
+    """A DOI written as \\href, \\url, plain https://doi.org/..., or doi:10.... -> https://doi.org/..."""
+    for u in links:
+        m = DOI_RE.search(u)
+        if m:
+            return "https://doi.org/" + m.group(1).rstrip(".,;")
+    m = DOI_RE.search(tex.replace("\\_", "_"))
+    if m:
+        return "https://doi.org/" + m.group(1).rstrip(".,;")
+    return None
+
+
 def _year_value(y):
     m = re.findall(r"\d{4}", y)
     return int(m[-1]) if m else 9999   # "To appear" sorts as newest
@@ -259,6 +276,9 @@ def parse_publications(src):
         tex = re.sub(r"\\new\b", "", p["tex"]).strip()
         m = YEAR_RE.match(tex)
         if not m:
+            import sys
+            print(f"CV: skipped an entry it could not read (expected 'Authors. Year. Title. ...'): "
+                  f"{plain(tex_to_html(tex))[:90]}", file=sys.stderr)
             continue
         authors_tex, year, rest = m.groups()
         title_tex, remainder = _split_title(rest)
@@ -269,11 +289,11 @@ def parse_publications(src):
         if title.startswith("<i>") and title.endswith("</i>") and p["section"] != "Monograph":
             pass
         rest_html = tex_to_html(remainder, rest_links)
-        doi = next((u for u in rest_links if "doi.org" in u), None)
+        doi = find_doi(rest_links, remainder)
         if doi:
-            # drop the printed DOI URL from the citation text; the site shows a DOI button
-            rest_html = re.sub(r"\s*(?:https?://)?(?:dx\.)?doi\.org/\S+?\.?(?=\s|$)", "", rest_html).strip()
-            doi = doi.rstrip(".")
+            # drop the printed DOI from the citation text; the site shows a DOI button
+            rest_html = re.sub(r"\s*(?:https?://)?(?:dx\.)?doi\.org/\S+?\.?(?=\s|$)", "", rest_html)
+            rest_html = re.sub(r"\s*\bdoi:\s*10\.\S+?\.?(?=\s|$)", "", rest_html, flags=re.I).strip()
         rest_html = re.sub(r"\s+([.,])", r"\1", rest_html).strip()
         web = p["web"]
         doi = web.get("doi") or doi
