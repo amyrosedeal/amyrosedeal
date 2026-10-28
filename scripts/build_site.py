@@ -111,7 +111,8 @@ def link_label(url):
     return "Article"
 
 
-def pub_entry(p, heading="h3"):
+def pub_entry(p, heading="h3", compact=False):
+    """compact: manuscripts in the pipeline show only title, authors and link."""
     title = p["title"]
     title_html = f'<a href="{esc(p["link"])}">{title}</a>' if p["link"] else title
     kind = KIND_LABEL.get(p["kind"], p["kind"])
@@ -126,9 +127,12 @@ def pub_entry(p, heading="h3"):
         links.append(p["doi"])
     chips = "".join(f'<a class="chip" href="{esc(u)}">{link_label(u)}</a>' for u in links)
     topics = " · ".join(TOPIC_LABEL[t] for t in p["tags"] if t in TOPIC_LABEL)
-    lines = [f'<article class="pub" data-tags="{esc(" ".join(p["tags"]))}">',
-             f'  <p class="pub-kind">{kind}</p>',
-             f'  <{heading} class="pub-title">{title_html}</{heading}>']
+    if compact:
+        venue, topics = "", ""
+    lines = [f'<article class="pub" data-tags="{esc(" ".join(p["tags"]))}">']
+    if not compact:
+        lines.append(f'  <p class="pub-kind">{kind}</p>')
+    lines.append(f'  <{heading} class="pub-title">{title_html}</{heading}>')
     if authors:
         lines.append(f'  <p class="pub-authors">{authors}</p>')
     if venue:
@@ -174,21 +178,26 @@ def research_html(pubs):
     out.append('            <span class="filter-count" id="filter-count" aria-live="polite"></span>')
     out.append("        </div>")
 
-    pipeline = [p for p in shown if p["kind"] == "Manuscript" and not cvparse.plain(p["rest"]).lower().startswith("manuscript")]
-    rest = [p for p in shown if p not in pipeline]
+    # "In the pipeline": the CV's Manuscripts section plus anything forthcoming
+    # (old manuscripts kept in website-only.tex stay under their year)
+    manuscripts = [p for p in shown if p["kind"] == "Manuscript"
+                   and not cvparse.plain(p["rest"]).lower().startswith("manuscript")]
+    forthcoming = [p for p in shown if p["year_value"] == 9999 and p not in manuscripts]
+    rest = [p for p in shown if p not in manuscripts and p not in forthcoming]
+
     groups = []
-    if pipeline:
-        groups.append(("In the pipeline", "pipeline", pipeline))
+    if manuscripts or forthcoming:
+        groups.append(("In the pipeline", "pipeline",
+                       [(p, True) for p in manuscripts] + [(p, False) for p in forthcoming]))
     by_year = {}
     for p in sorted(rest, key=lambda p: -p["year_value"]):
-        key = "Forthcoming" if p["year_value"] == 9999 else str(p["year_value"])
-        by_year.setdefault(key, []).append(p)
-    groups += [(k, k.lower(), v) for k, v in by_year.items()]
+        by_year.setdefault(str(p["year_value"]), []).append((p, False))
+    groups += [(k, k, v) for k, v in by_year.items()]
 
     for label, gid, items in groups:
-        out.append(f'        <section class="pub-year" id="y-{gid.replace(" ", "-")}">')
+        out.append(f'        <section class="pub-year" id="y-{gid}">')
         out.append(f"            <h2>{label}</h2>")
-        out += [pub_entry(p) for p in items]
+        out += [pub_entry(p, compact=c) for p, c in items]
         out.append("        </section>")
     return "\n".join(out)
 
