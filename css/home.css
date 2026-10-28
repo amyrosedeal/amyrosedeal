@@ -199,14 +199,40 @@ h2 {
 }
 .site-footer p { margin: 0; }
 
-/* Phones */
+/* Phones: name, tagline and title first, then the menu as a list */
 @media (max-width: 640px) {
-    .site-header { padding: 14px 16px; }
-    .site-header ul { gap: 0 18px; font-size: 14px; }
-    .page { padding: 0 16px 48px; }
-    .intro { padding: 40px 0 28px; }
-    .columns { padding-top: 36px; }
+    body { display: flex; flex-direction: column; }
+    .site-header, .page { display: contents; }
+    .site-name { display: none; }
+
+    .intro { order: 1; padding: 44px 16px 24px; }
+    .intro h1 { margin-bottom: 14px; }
+    .statement { margin-bottom: 12px; }
+
+    .site-header nav { order: 2; padding: 0 16px 28px; }
+    .site-header ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 20px;
+        font-size: 16px;
+        border-top: 1px solid var(--rule);
+    }
+    .site-header li a {
+        display: flex;
+        min-height: 50px;
+        border-bottom: 1px solid var(--rule);
+    }
+    .site-header li:last-child { grid-column: 1 / -1; margin-top: 16px; }
+    .site-header li:last-child a {
+        justify-content: center;
+        min-height: 48px;
+        border-bottom: 0;
+        border-radius: 24px;
+    }
+
+    .banner { order: 3; width: auto; margin: 0 16px; }
+    .columns { order: 4; padding: 36px 16px 48px; }
     .feed a { padding: 14px 0; }
     .feed .kind { flex-basis: 100%; }
-    .site-footer { padding: 20px 16px; }
+    .site-footer { order: 5; padding: 20px 16px; }
 }
