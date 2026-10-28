@@ -112,7 +112,7 @@ def link_label(url):
 
 
 def pub_entry(p, heading="h3", compact=False):
-    """compact: manuscripts in the pipeline show only title, authors and link."""
+    """compact: manuscripts in the pipeline show only label, title, authors and link."""
     title = p["title"]
     title_html = f'<a href="{esc(p["link"])}">{title}</a>' if p["link"] else title
     kind = KIND_LABEL.get(p["kind"], p["kind"])
@@ -129,9 +129,8 @@ def pub_entry(p, heading="h3", compact=False):
     topics = " · ".join(TOPIC_LABEL[t] for t in p["tags"] if t in TOPIC_LABEL)
     if compact:
         venue, topics = "", ""
-    lines = [f'<article class="pub" data-tags="{esc(" ".join(p["tags"]))}">']
-    if not compact:
-        lines.append(f'  <p class="pub-kind">{kind}</p>')
+    lines = [f'<article class="pub" data-tags="{esc(" ".join(p["tags"]))}">',
+             f'  <p class="pub-kind">{kind}</p>']
     lines.append(f'  <{heading} class="pub-title">{title_html}</{heading}>')
     if authors:
         lines.append(f'  <p class="pub-authors">{authors}</p>')
