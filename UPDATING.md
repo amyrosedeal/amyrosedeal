@@ -18,7 +18,28 @@ updated; a red X means something went wrong (the CV didn't compile, say).
 
 ## Adding a paper
 
-Add it to the right section of your CV, the way you always have:
+### How it works, in short
+
+Each paper is an `\item` in the right section of your CV, written as you
+always have. Directly under it you can add **one comment line** starting with
+`% web:`. That line is read by the website and never printed in the PDF. It holds
+anything the website needs that isn't in the citation itself:
+
+| In the `% web:` line | What it does |
+|---|---|
+| `tags=syntax, case-agr` | topics for the Research page's "Filter by topic" menu |
+| `link=https://...` | where the title links (lingbuzz, a PDF, a publisher page) |
+| `doi=https://doi.org/...` | a DOI you don't want printed in the CV |
+| `selected=1` | puts the paper in the "Selected work" box at the top |
+| `hide` | leaves the paper off the website (it stays in the PDF) |
+
+Separate several with semicolons, all on one line:
+`% web: link=https://...; tags=syntax, semantics; selected=2`
+
+A paper with no `% web:` line still appears on the website. It just has no
+topics (it shows only under "All topics") and no extra link.
+
+### Where each CV section appears
 
 | CV section | Where it appears on the website |
 |---|---|
@@ -28,12 +49,9 @@ Add it to the right section of your CV, the way you always have:
 | Manuscripts | "In the pipeline", showing only title, authors and link |
 | any section, with the year written `To appear` | "In the pipeline" |
 
-The one thing the website relies on is that each entry starts
-**Authors. Year. Title.** with a period after each part:
+### The one rule for the citation
 
-```latex
-\item Deal, Amy Rose and Jane Roe. 2027. Title of the paper. \emph{Journal} 12(3): 45--67. ...
-```
+Each entry must start **Authors. Year. Title.** with a period after each part.
 
 - The year can be `2027`, `To appear`, `In press` or `Forthcoming`.
 - The title ends at its first period or question mark. If a title has a period
@@ -44,6 +62,100 @@ The one thing the website relies on is that each entry starts
 
 Within a year, papers appear in the order they appear in the CV, so put the
 newest first in each section, as you already do.
+
+### Topic tags
+
+| Tag | Shown in the filter as |
+|---|---|
+| `syntax` | Syntax |
+| `semantics` | Semantics |
+| `morphology` | Morphology |
+| `typ` | Typology |
+| `nzp` | Nez Perce |
+| `case-agr` | Case & agreement |
+| `extposs` | Possession |
+| `locality` | Locality |
+| `mass` | Number & countability |
+| `perspective` | Attitudes & perspective |
+| `modality` | Modality |
+
+Tags are used only by the filter; they aren't shown on the paper itself.
+
+---
+
+### Example 1: a journal article with a DOI and several topics
+
+Under **Journal articles**:
+
+```latex
+\item Deal, Amy Rose, and Jane Roe. 2027. Title of the article. \emph{Linguistic Inquiry} 58(2): 101--140. \href{https://doi.org/10.1162/ling_a_00600}{https://doi.org/10.1162/ling\_a\_00600}.
+% web: tags=syntax, typ, case-agr
+```
+
+On the website: under 2027, labelled "Journal article"; the title and a
+**DOI** button both go to the DOI. You don't need `doi=` in the comment line,
+because the DOI is already in the citation (any of the forms in "DOIs" below works).
+
+If you'd also like a lingbuzz button, with the title linking to lingbuzz:
+
+```latex
+% web: link=https://lingbuzz.net/lingbuzz/012345; tags=syntax, typ, case-agr
+```
+
+### Example 2: a manuscript with a link and topics
+
+Under **Manuscripts**:
+
+```latex
+\item Deal, Amy Rose, and Jane Roe. 2026. Title of the manuscript. Submitted for review.
+% web: link=https://lingbuzz.net/lingbuzz/012345; tags=semantics, typ
+```
+
+On the website: under "In the pipeline", showing the title (linking to
+lingbuzz), the authors and a **lingbuzz** button. Without `link=`, it would
+appear with no link at all.
+
+### Example 3: a published chapter or proceedings paper, with topics
+
+Under **Other publications**:
+
+```latex
+\item Deal, Amy Rose. 2027. Title of the chapter. In Jane Roe and John Doe (eds.), \emph{Proceedings of NELS 57}, pp. 1--14. Amherst: GLSA. https://doi.org/10.5281/zenodo.1234567
+% web: link=https://lingbuzz.net/lingbuzz/012345; tags=semantics, perspective
+```
+
+On the website: under 2027, labelled "Chapter / proceedings", with
+**lingbuzz** and **DOI** buttons. If there's no DOI, leave it out; if there's no
+lingbuzz version, leave out `link=` (with neither, the title isn't linked).
+
+### Example 4: putting a paper in "Selected work" (`selected=`)
+
+```latex
+\item Deal, Amy Rose. 2027. Title of the article. \emph{Linguistic Inquiry} 58(2): 101--140. https://doi.org/10.1162/ling\_a\_00600
+% web: tags=syntax, typ, case-agr; selected=1
+```
+
+The number is its place in the box: `selected=1` comes first. The box
+currently holds three papers (`selected=1`, `2` and `3`: the book, *Interaction,
+satisfaction, and the PCC* and *Current models of Agree*). So to make a new
+paper number 1, also renumber the others in the CV (the book to `selected=2`,
+and so on), or delete `selected=...` from the one you want to drop. If two
+papers share a number, the one higher in the CV comes first. A paper in
+"Selected work" also still appears in its year further down.
+
+### Example 5: keeping a paper off the website (`hide`)
+
+```latex
+\item Deal, Amy Rose. 2009. Title of an old squib. \emph{Snippets} 19: 5--6.
+% web: hide
+```
+
+The paper stays in the CV PDF but doesn't appear anywhere on the website.
+`hide` can sit alongside other settings (`% web: tags=syntax; hide`), which is
+handy for hiding a paper temporarily: delete `; hide` later and it reappears
+with its topics.
+
+---
 
 ### DOIs
 
@@ -56,43 +168,15 @@ https://doi.org/10.1162/ling\_a\_00529
 doi:10.1162/ling\_a\_00529
 ```
 
-The website gives the paper a **DOI** button and links its title to the DOI.
-It works the same for journal articles, chapters, proceedings and books.
+The website gives the paper a **DOI** button and links its title to the DOI
+(unless the comment line has a `link=`, in which case the title goes there
+and you get both buttons).
 
-### A link that isn't a DOI (lingbuzz, a PDF, a publisher page)
-
-Add a comment line directly under the entry:
-
-```latex
-\item Deal, Amy Rose. 2027. Title. \emph{Journal} 12: 1--20.
-% web: link=https://lingbuzz.net/lingbuzz/012345
-```
-
-Comment lines never appear in the PDF. The title then links there, with a
-button labelled **lingbuzz**, **PDF** or **Article** depending on the address.
-
-- **Link and DOI together:** if the entry also has a DOI, you get both buttons;
-  the title goes to your `link=`. To make the title go to the DOI instead,
-  just leave out `link=`.
 - **A DOI you don't want printed in the CV:** `% web: doi=https://doi.org/10.xxxx/yyyy`
 - **Linking the title inside the CV itself** (`\href{url}{Title}`) also works.
 - Other links in an entry (to a proceedings volume, say) are ignored.
-
-### Everything else the comment line can do
-
-Combine as many as you like, separated by semicolons:
-
-```latex
-% web: link=https://lingbuzz.net/lingbuzz/012345; tags=syntax, case-agr; selected=2
-```
-
-- `tags=` topics for the Research page filter:
-  `syntax`, `semantics`, `morphology`, `typ` (Typology), `nzp` (Nez Perce),
-  `case-agr` (Case & agreement), `extposs` (Possession), `locality`,
-  `mass` (Number & countability), `perspective` (Attitudes & perspective),
-  `modality`. A paper with no tags shows only under "All topics".
-- `selected=1`, `selected=2`, … puts a paper in "Selected work", in that order.
-- `hide` keeps an entry off the website (it stays in the PDF).
+- The button for `link=` is labelled **lingbuzz**, **PDF** or **Article**,
+  depending on the address.
 
 ### When a manuscript is published
 
