@@ -1,7 +1,7 @@
 # Extra items for the "What's new" list on the home page.
 #
-# Papers, talks and blog posts are picked up automatically from research.html,
-# talks.html and the blog's RSS feed. Use this file for anything else:
+# Papers and talks are picked up automatically from your CV (cv/cv-full.tex),
+# and blog posts from the blog's RSS feed. Use this file for anything else:
 # a new journal, an award, a new role, a workshop you're organizing...
 #
 # One item per line, five parts separated by | :

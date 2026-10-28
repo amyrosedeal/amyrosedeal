@@ -1,0 +1,1966 @@
+%%% A template to produce a nice-looking Curriculum Vitae.
+%%% Kieran Healy <kjhealy@gmail.com>
+%%% Most recent version is at http://kjhealy.github.com/kjh-vita
+%%%
+%%% ------------------------------------------------------------------------
+%%% Requirements (should be included in a modern tex distribution):
+%%% ------------------------------------------------------------------------
+%%% xelatex
+%%% fontspec.sty
+%%% hyperrref.sty
+%%% xunicode.sty
+%%% color.sty
+%%% url.sty
+%%% fancyhdr.sty
+%%%
+%%% ------------------------------------------------------------------------
+%%% Optional
+%%% ------------------------------------------------------------------------
+%%% git
+%%% vc.sty
+%%% revnum.sty
+%%% Fonts
+%%%
+%%% ------------------------------------------------------------------------
+%%% Note
+%%%------------------------------------------------------------------------
+%%% Because this is a hand-tweaked file, be on the look out for \medksip,
+%%% \bigskip and \newpage commands here and there, which are used to balance
+%%% the layout or avoid widows & orphans, etc. You should of course add or
+%%% remove these as needed.
+%%%------------------------------------------------------------------------
+\listfiles
+\documentclass[12pt]{article}
+%%%------------------------------------------------------------------------
+%%% Metadata
+%%%------------------------------------------------------------------------
+
+%% Change as needed. Or just add me as a coauthor. Only some of these are
+%% used below in the hyperref declaration and address banner section.
+\def\myauthor{AR Deal}
+\def\mytitle{Vita, AR Deal}
+\def\mycopyright{\myauthor}
+\def\mykeywords{}
+\def\mybibliostyle{plain}
+\def\mybibliocommand{}
+\def\mysubtitle{}
+\def\myaffiliation{University of California, Berkeley}
+\def\myaddress{Linguistics Department}
+\def\myemail{ardeal@berkeley.edu}
+\def\myweb{http://linguistics.berkeley.edu/~ardeal}
+%\def\myphone{(919) 660-5737}
+%\def\myfax{(919) 660-5623}
+\def\myversion{}
+\def\myrevision{}
+
+
+%\def\myaffiliation{University of California, Santa Cruz}
+\def\myauthor{Amy Rose Deal}
+\date{} % not used (revision control instead)
+%\def\mykeywords{Kieran, Healy, Kieran Healy, Vita, CV, Resume, Sociology}
+
+%%%------------------------------------------------------------------------
+%%% Required style files
+%%%------------------------------------------------------------------------
+\usepackage{url,fancyhdr,pxfonts,amssymb,enumitem}%,mathptmx}
+%%\usepackage{revnum} % for reverse-numbered publications (revnumerate environment) if needed.
+
+%% needed for xelatex to work
+%\usepackage{fontspec}
+%\usepackage{xunicode}
+
+%\usepackage{lmodern} 
+%\usepackage[T1]{fontenc}
+%\usepackage{lmodern,garamond}%textcomp}
+
+%% color for the links
+\usepackage[usenames,dvipsnames]{color}
+
+%% hyperlinks
+\usepackage[
+colorlinks=true,
+urlcolor=BlueViolet,
+plainpages=false,
+   pdfpagelabels,
+   bookmarksnumbered,
+   pdftitle={\mytitle},
+   pagebackref,
+   pdfauthor={\myauthor},
+   pdfkeywords={\mykeywords}
+   ]{hyperref}
+\usepackage[top=1in, left=1.7in, right=1in, bottom=1in]{geometry}
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead{}
+\fancyfoot{}
+%\rhead{}%\emph{Deal CV}}
+
+%takes out date from \today in header
+\renewcommand{\today}{\ifnum\number\day<10 \fi %
+\ifcase \month \or January\or February\or March\or April\or May%
+\or June\or July\or August\or September\or October\or November\or December\fi \space%
+\number \year} 
+
+
+\lhead{\it \today}\chead{\textit{CV}}\rhead{\textit{AR Deal}}
+\cfoot{\thepage}
+%%%------------------------------------------------------------------------
+%%% Document
+%%%------------------------------------------------------------------------
+
+
+
+
+\begin{document}
+
+%% Choose fonts for use with xelatex
+%% Minion and Myriad are widely available, from Adobe.
+%% Pragmata is available to buy at http://www.fsd.it/fonts/pragma.htm
+%% and is worth every penny. Any good monospace font will work fine, though.
+%% Consolas or inconsolata are good alternatives.
+%\setromanfont[Mapping={tex-text},Numbers={OldStyle},Ligatures={Common}]{Minion Pro}
+%\setsansfont[Mapping=tex-text,Colour=AA0000]{Myriad Pro}
+%\setmonofont[Mapping=tex-text,Scale=0.9]{Pragmata}
+
+
+%%%------------------------------------------------------------------------
+%%% Local commands
+%%%------------------------------------------------------------------------
+
+%% Marginal header
+%% Note: as the document goes on you may need to introduce a (gradually increasing)
+%% \vspace element to keep the marginal header pleasingly aligned with the first
+%% item in the body text. Like this: \marginhead{{\vskip 0.4em}Grants}, or
+%% \marginhead{{\vskip 0.8em}Service}. Experiment as needed.
+\newcommand{\marginhead}[1]{\marginpar{{{\footnotesize\vspace{.5em}\flushright #1}}}}
+
+
+%% custom ampersand (font consistent with the one chosen above)
+\newcommand{\amper}{{\fontspec[Scale=.95,Colour=AA0000]{Minion Pro Medium}\selectfont\&\,}}
+
+%% No bullets on labels
+\renewcommand{\labelitemi}{~}
+
+%% Custom hanging indent for vita items
+\def\ind{\hangindent=1 true cm\hangafter=1 \noindent}
+
+\def\indb{$\bullet$ \parindent=1.5cm \hangindent=1.7cm\hangafter=1 }
+
+% old def: 
+\def\indd{\parindent=1 true cm \hangindent=1.7cm\hangafter=1}
+
+%\def \new {  \marginpar{{\vskip .8em} \small ~~~~\textsc{\hspace{.8cm} new}} } 
+\def \new { } % \marginpar{{\vskip .8em} \small ~~~~\textsc{\hspace{.8cm} new}} } 
+
+
+%\def % \indnew 
+%  \item {\ind}
+\def \newitem {\hangindent=1 true cm\hangafter=1 \noindent \hspace{-3.1em} \textsc{new} \item}
+
+%\def\ind{\hangindent=18pt\hangafter=1 \noindent}
+\def\labelitemi{~}
+\renewcommand{\labelitemii}{~}
+
+\setlength{\parindent}{1.1cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newenvironment{benumerate}[1]{
+    \let\oldItem\item
+    \def\item{\addtocounter{enumi}{-2}\oldItem}
+    \begin{enumerate}[labelsep=.5cm,leftmargin=0cm,itemindent=0cm]
+    \setcounter{enumi}{#1}
+    \addtocounter{enumi}{1}
+}{
+    \end{enumerate}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%------------------------------------------------------------------------
+%%% Page layout
+%%%------------------------------------------------------------------------
+
+\thispagestyle{empty}
+
+%%%------------------------------------------------------------------------
+%%% Address and contact block
+%%%------------------------------------------------------------------------
+
+%% Name
+%\begin{center} 
+
+~
+
+\vspace{-1.5cm}
+
+
+\LARGE ~ \hspace{-1.7in}
+Amy Rose Deal
+
+\hspace{1em}
+
+
+\normalsize
+
+\ind
+\begin{tabular*}
+{1.0\textwidth}{@{\extracolsep{\fill}}lr}
+ Department of Linguistics 	
+ 		&                                   {http://linguistics.berkeley.edu/$\sim$ardeal/}  \\
+University of California, Berkeley 	&	ardeal@berkeley.edu	          \\
+Berkeley, CA 94720				&	  1223  Dwinelle Hall 	     \\
+\end{tabular*}
+
+
+\reversemarginpar
+
+\setlength{\marginparwidth}{.85in}
+
+%\medskip
+
+\vspace{18pt}
+%\medskip
+
+%% Appointments
+\medskip
+\marginhead{\vspace{-1.1em}Appointments}
+
+\noindent\emph{University of California, Berkeley \vspace{0.01in}}
+
+\ind 2023.  Professor of Linguistics.
+
+%\ind \hspace{1cm} Affiliate Faculty in Philosophy.
+
+\ind 2017--2023. Associate Professor of Linguistics.
+
+
+
+\ind 2015--2017. Assistant Professor of Linguistics. 
+
+\medskip
+
+\noindent\emph{University of California, Santa Cruz \vspace{0.01in}}
+
+\ind 2012 (Jan.)--2015. Assistant Professor of Linguistics. 
+
+
+\medskip
+\noindent\emph{Harvard University \vspace{0.01in}}
+
+\ind 2010--2011 (Dec.). Assistant Professor of Linguistics.
+
+\ind 2009--2010. Instructor. 
+
+\bigskip
+
+%% Education
+
+\marginhead{\vspace{.2em}Education}
+
+\noindent\emph{University of Massachusetts, Amherst \vspace{0.01in}}
+
+\ind 2010. PhD, Linguistics. 
+
+
+
+
+\medskip
+\noindent\emph{Brandeis University\vspace{0.02in}}
+
+\ind 2005. BA \emph{summa cum laude}, Linguistics, Philosophy.  
+
+Highest Honors in Linguistics.
+
+
+\medskip
+\noindent\emph{University of Geneva, Switzerland\vspace{0.02in}}
+
+\ind 2003--2004. Smith College Junior Year Abroad program.  
+
+
+
+
+\bigskip
+ 
+%% Publications
+\marginhead{{\vskip 0.3em}Publications}
+\medskip
+\noindent\emph{Monograph }%\vspace{0.05in}}
+ 
+
+\renewcommand*\labelenumi{[\theenumi]}
+
+
+
+
+%\begin{benumerate}{9}
+
+\begin{itemize}[labelsep=.5cm,leftmargin=0cm,itemindent=0cm]
+\renewcommand{\labelitemi}{}%$\star$}
+
+%\parindent=-1 true cm \hangindent=1.7cm\hangafter=1
+ %  % \indnew 
+    
+    \item \new {Deal, Amy Rose. 2020. \emph{A theory of indexical shift: meaning, grammar, and crosslinguistic variation.} MIT Press. (Linguistic Inquiry Monographs no. 82)}
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-theory-of-indexical-shift.pdf; tags=typ, semantics, syntax, perspective, nzp, modality
+    
+    \end{itemize}
+    
+   \noindent\emph{Journal articles\vspace{0.05in}}
+ 
+    \begin{itemize}[labelsep=.5cm,leftmargin=0cm,itemindent=0cm]
+
+
+
+
+
+
+\item  Clem, Emily and Amy Rose Deal. 2026. {Dependent case by Agree: ergative in Shawi.}  \emph{Linguistic Inquiry} 57(2): 267--313. \href{
+https://doi.org/10.1162/ling_a_00529}{https://doi.org/10.1162/ling\_a\_00529}. 
+% web: link=https://ling.auf.net/lingbuzz/007429; tags=typ, syntax, case-agr
+
+
+\item 
+Deal, Amy Rose. 2026. Clausal complementation as relativization, revisited. \emph{Syntactic Theory and Research} 2.1.1.  \href{https://doi.org/10.16995/star.24080.}{https://doi.org/10.16995/star.24080}.
+% web: link=https://star-linguistics.org/article/id/24080/; tags=typ, syntax, nzp
+
+
+\item 
+Deal, Amy Rose. 2026. Constraints on agreement. \emph{Annual Review of Linguistics} 12: 227--247. \href{https://doi.org/10.1146/annurev-linguistics-011724-121342}{https://doi.org/10.1146/annurev-linguistics-011724-121342}.
+% web: tags=typ, syntax, case-agr
+
+\item  
+Deal, Amy Rose. 2025. {Uncentered attitude reports.} \emph{Journal of Semantics} 42(4): 399--445. \href{https://doi.org/10.1093/jos/ffaf009}{https://doi.org/10.1093/jos/ffaf009}. 
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-uncentered-attitudes.pdf; tags=typ, semantics, perspective, nzp, modality
+
+
+\item
+Deal, Amy Rose and Justin Royer. 2025. Mayan animacy hierarchy effects and the dynamics of Agree. \emph{Natural Language and Linguistic Theory} 43, 1607--1663. \href{https://doi.org/10.1007/s11049-024-09648-y}{https://doi.org/10.1007/s11049-024-09648-y}.
+% web: link=https://link.springer.com/article/10.1007/s11049-024-09648-y; tags=typ, syntax, case-agr
+
+\item  Deal, Amy Rose. 2024. Interaction, satisfaction, and the PCC.  \emph{Linguistic Inquiry}  55(1), 39--94. \href{https://doi.org/10.1162/ling_a_00455}{https://doi.org/10.1162/ling\_a\_00455}.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-int-sat-pcc.pdf; tags=typ, syntax, case-agr
+
+    \item \new  Deal, Amy Rose. 2019. {Raising to ergative: remarks on applicatives of unaccusatives.} \emph{Linguistic Inquiry} 50(2), 388--415. \href{https://doi.org/10.1162/ling_a_00310}{https://doi.org/10.1162/ling\_a\_00310}.
+% web: link=http://ling.auf.net/lingbuzz/003024; tags=syntax, ergativity, case-agr, nzp, typ
+    
+    \item \new  Deal, Amy Rose. 2018. Locality in allomorphy and prelexical bundling: a case of tense and aspect. \emph{Snippets} 34, 8--9. 
+% web: link=https://www.ledonline.it/snippets/allegati/snippets34004.pdf; doi=http://dx.doi.org/10.7358/snip-2018-034-deal; tags=morphology, nzp
+    
+
+  \item  Deal, Amy Rose. 2017. {Countability distinctions and semantic variation.}  \emph{Natural Language Semantics} 25(2), 125--171. \href{https://doi.org/10.1007/s11050-017-9132-0}{https://doi.org/10.1007/s11050-017-9132-0}.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-mass-count2.pdf; tags=semantics, mass, nzp, typ
+
+
+  \item   Deal, Amy Rose. 2016. {Cyclicity and connectivity in Nez Perce relative clauses.} \emph{Linguistic Inquiry} 47(3),  427--470. \href{http://dx.doi.org/10.1162/LING_a_00218}{http://dx.doi.org/10.1162/LING\_a\_00218}.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-RCs.pdf; tags=syntax, nzp, locality
+ 
+
+  \item  Deal, Amy Rose. 2016. {Syntactic ergativity: analysis and identification.}  \emph{Annual Review of Linguistics} 2:165--185. \newline \href{http://dx.doi.org/10.1146/annurev-linguistics-011415-040642}{http://dx.doi.org/10.1146/annurev-linguistics-011415-040642}.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-ergativity-handbook.pdf; tags=ergative, syntax, typ
+ 
+  \item  Deal, Amy Rose. 2016. {Plural exponence in the Nez Perce DP: a DM analysis.} \emph{Morphology} 26(3): 313--333. \href{http://dx.doi.org/10.1007/s11525-015-9277-9}{http://dx.doi.org/10.1007/s11525-015-9277-9}. 
+% web: link=http://ling.auf.net/lingbuzz/002657; tags=morphology, nzp, case-agr, mass
+
+ 
+   
+  \item   Deal, Amy Rose. 2016. {Person-based split ergativity in Nez Perce is syntactic}.   \emph{Journal of Linguistics} 52(3): 533--564. \href{http://dx.doi.org/10.1017/S0022226715000031}{http://dx.doi.org/10.1017/S0022226715000031}.
+% web: link=http://ling.auf.net/lingbuzz/002215; tags=syntax, ergative, nzp, morphology, typ, case-agr
+
+
+ 
+  % \ind
+  \item Deal, Amy Rose. 2013. {Possessor raising}. \emph{Linguistic Inquiry} 44(3), 391--432.   
+\href{http://dx.doi.org/10.1162/LING_a_00133}{http://dx.doi.org/10.1162/LING\_a\_00133}.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-possessor-raising.pdf; tags=syntax, nzp, extposs, typ, case-agr
+
+ % \ind
+  \item Deal, Amy Rose. 2011. {Modals without scales.} \textit{Language} 87(3), 559--585. \\
+%{doi:10.1353/lan.2011.0060}
+(Reprinted in \emph{Language} 95(S1), Special Issue on Indigenous Languages, 2019.)
+\href{http://dx.doi.org/10.1353/lan.2011.0060}{http://dx.doi.org/10.1353/lan.2011.0060}.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-modals.pdf; tags=semantics, nzp, modality, typ
+
+ % \ind
+  \item Deal, Amy Rose. 2010.  {Ergative case and the transitive subject: a view from Nez Perce.} \textit{Natural Language and Linguistic Theory} 28(1), 73--120.  \newline \href{http://dx.doi.org/10.1007/s11049-009-9081-5}{http://dx.doi.org/10.1007/s11049-009-9081-5}. 
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-NzPcase.pdf; tags=nzp, syntax, nzp, ergative, case-agr
+%{doi: 10.1007/s11049-009-9081-5}
+
+ % \ind
+  \item Deal, Amy Rose. 2009.  {The origin and content of expletives: evidence from ``selection''.} \textit{Syntax} 12(4), 285--323.  \href{http://dx.doi.org/10.1111/j.1467-9612.2009.00127.x}{http://dx.doi.org/10.1111/j.1467-9612.2009.00127.x}.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-there2.pdf; tags=syntax, locality, case-agr
+% {doi: 10.1111/j.1467-9612.2009.00127.x}
+
+\item
+Deal, Amy Rose. 2006. Does English have a genitive case? \emph{Snippets} 13, 7--8.
+% web: link=http://www.ledonline.it/snippets/allegati/snippets13002.pdf; tags=syntax, case-agr
+
+
+\end{itemize}%\end{benumerate}
+
+\bigskip
+%\newpage
+
+
+\noindent\emph{Manuscripts \vspace{0.05in}}
+
+\begin{itemize}[labelsep=.5cm,leftmargin=0cm,itemindent=0cm]
+\item Deal, Amy Rose, and Franco Liu. 2026. Donkeys, bishops, and the distinction between weak and strong definites. Submitted for review.
+
+\item Deal, Amy Rose, and Rebecca Jarvis. 2026. PCC without weakness: ditransitives in Atchan and beyond. Submitted for review.
+
+\item  Deal, Amy Rose, Line Mikkelsen, and Ellen Thrane. 2026. Syntactic ergativity without inversion in Kalaallisut. 
+
+\end{itemize}
+
+
+
+%\begin{itemize}[labelsep=.5cm,leftmargin=0cm,itemindent=0cm]
+
+%   \setcounter{enumi}{9}
+
+
+
+
+%\ind Deal, Amy Rose. In prep. \emph{Young Fieldworkers' Project} (blog).
+ 
+% \end{itemize}
+ 
+% %\end{revnumerate}
+ %\bigskip
+%\noindent\emph{Article manuscripts\vspace{0.05in}}
+
+%\begin{itemize}[labelsep=.5cm,leftmargin=0cm,itemindent=0cm]
+%\item 
+%Deal, Amy Rose. 2024. Clausal complementation as relativization, revisited.
+
+
+
+
+%\end{itemize}
+%\bigskip
+
+
+
+\noindent\emph{Other publications\vspace{0.05in}}
+
+
+
+%\begin{benumerate}{20}
+\begin{itemize}[labelsep=.5cm,leftmargin=0cm,itemindent=0cm]
+
+
+
+\item Deal, Amy Rose.  To appear. Person features and shiftiness. In  Daniel Harbour, Hazel Pearson, Luisa Mart\'i \& Coppe van Urk (eds.), \emph{The Alphabet of Universal Grammar}. British Academy/Oxford University Press.
+% web: link=https://ling.auf.net/lingbuzz/005433; tags=typ, syntax, semantics, perspective
+
+ \item Deal, Amy Rose.  2025. \href{https://escholarship.org/uc/item/9g76n758}{Current models of Agree}. \emph{Berkeley Papers in Formal Linguistics} 4(1), 1--35. \href{https://doi.org/10.5070/BF2.48662}{https://doi.org/10.5070/BF2.48662}. 
+% web: link=https://ling.auf.net/lingbuzz/006504; tags=syntax, case-agr
+ 
+\item Deal, Amy Rose, and Zachary O'Hagan. 2025. Person and aspect in Taushiro split ergativity. In Duygu Demiray, Roger Cheng-yen Liu \& Nir Segal (eds.) Proceedings of NELS 55, vol 1, pp 159-172. Amherst, MA: GLSA. 
+% web: link=https://ling.auf.net/lingbuzz/009074; tags=typ, syntax, case-agr
+
+ 
+
+
+
+\item Deal, Amy Rose.  2022. Negative concord as downward Agree. In Breanna Pratley, \"Ozge Bakay, Eva Neu, and Peyton Deal (eds.), \emph{Proceedings of NELS 52, vol 1}, pp 235-244. Amherst: GLSA.
+% web: link=https://ling.auf.net/lingbuzz/006344; tags=typ, syntax, case-agr
+
+
+%new-2021
+\item \new Dawson, Virginia, and Amy Rose Deal. 2019. Third readings by semantic scope lowering: prolepsis in Tiwa. In  M. Teresa Espinal, E. Castroviejo, M. Leonetti, L. McNally, \& C. Real-Puigdollers (eds.),  \href{https://semanticsarchive.net/Archive/Tg3ZGI2M/Proceedings23.html}{\emph{Proceedings from Sinn und Bedeutung 23}}, pp. 329-346. Universitat Aut\`onoma de Barcelona, Bellaterra (Cerdanyola del Vall\`es). 
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Dawson-Deal-prolepsis.pdf; tags=typ, semantics, perspective
+
+
+%new-2021
+\item \new Deal, Amy Rose, and Vera Hohaus. 2019. Vague predicates, crisp judgments. In  M. Teresa Espinal, E. Castroviejo, M. Leonetti, L. McNally, \& C. Real-Puigdollers (eds.),   \href{https://semanticsarchive.net/Archive/Tg3ZGI2M/Proceedings23.html}{\emph{Proceedings from Sinn und Bedeutung 23}}, pp. 347-364. Universitat Aut\`onoma de Barcelona, Bellaterra (Cerdanyola del Vall\`es). 
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-Hohaus-comparatives.pdf; tags=typ, semantics, nzp
+
+%new-2021
+\item \new Deal, Amy Rose. 2018. Compositional paths to \emph{de re}. In Sireemas Maspong, Brynhildur Stef\'ansd\'ottir, Katherine Blake, and Forrest Davis (eds.),  \href{https://journals.linguisticsociety.org/proceedings/index.php/SALT/issue/view/162}{\emph{Proceedings of }} \href{https://journals.linguisticsociety.org/proceedings/index.php/SALT/issue/view/162}{\emph{SALT 28}}, pp. 622-648. 
+% web: link=https://journals.linguisticsociety.org/proceedings/index.php/SALT/article/view/28.622; tags=typ, semantics, perspective, nzp
+
+%new-2018
+\item \new Deal, Amy Rose. 2018. Indexiphors: notes on embedded indexicals, shifty agreement, and logophoricity. In Rodica Ivan (ed.): \emph{UMOP 40: The Leader of the Pack: A Festschrift in Honor of Peggy Speas}, pp. 59-86. Amherst, MA: GLSA. 
+% web: link=https://ling.auf.net/lingbuzz/003836; tags=syntax, typ, semantics, perspective
+
+
+
+
+%new-2018
+\item \new Deal, Amy Rose, and Julia Nee. 2018. Bare nouns, number, and definiteness in Teotitl\'an del Valle Zapotec. In Chris Cummins, Nikolas Gisborne, Caroline Heycock, Brian Rabern, Hannah Rohde, and Robert Truswell (eds.), \href{https://semanticsarchive.net/Archive/DRjNjViN/index.html}{\emph{Proceedings}} \href{https://semanticsarchive.net/Archive/DRjNjViN/index.html}{\emph{from Sinn und Bedeutung 21}}, pp. 317-334. Semantics Archive. 
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-Nee-SuB21.pdf; tags=semantics, typ, mass
+
+
+  
+%new-2018
+\item \new Deal, Amy Rose. 2017. Covert hyperraising to object. In Andrew Lamont and Katerina Tetzloff (eds.), \emph{Proceedings of NELS 47}, pp. 257-270. Amherst: GLSA. 
+% web: link=https://ling.auf.net/lingbuzz/003517; tags=syntax, nzp, typ, locality, case-agr
+  
+  
+  %new-2018
+\item \new Deal, Amy Rose. 2017. Towards an etiology of outer indices. In Nicholas LaCara, Keir Moulton, and Anne-Michelle Tessier (eds.), \href{https://scholarworks.umass.edu/linguist_oapubs/1/}{\emph{A Schrift to Fest Kyle}} \href{https://scholarworks.umass.edu/linguist_oapubs/1/}{\emph{Johnson}}, pp. 107-117. Linguistics Open Access Publications, Vol 1. %Available at \newline \emph{http://scholarworks.umass.edu/linguist\_oapubs/1}.
+% web: link=https://ling.auf.net/lingbuzz/003801; tags=semantics, syntax
+  
+  %new-2018
+\item \new Scontras, Gregory, Kathryn Davidson, Amy Rose Deal, and Sarah Murray. 2017. \emph{Who has more?} The influence of linguistic form on quantity judgments. In \href{https://journals.linguisticsociety.org/proceedings/index.php/PLSA/issue/view/159}{\emph{Proceedings of the Linguistic Society of America} 2}(41): 1-15.
+% web: link=https://journals.linguisticsociety.org/proceedings/index.php/PLSA/article/view/4097; tags=semantics, mass, nzp, typ
+
+
+
+  
+   % \ind
+  \item Deal, Amy Rose. 2017. External possession and possessor raising. In Martin Everaert and Henk van Riemsdijk (eds.), \textit{The Wiley Blackwell Companion to Syntax}, 2nd edition, pp. 1509-1540. Hoboken, NJ: Wiley-Blackwell. 
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-syncom.pdf; tags=syntax, extposs, typ
+  
+ %  
+  \item   Deal, Amy Rose. 2017. Syntactic ergativity as case discrimination. In Aaron Kaplan, Abby Kaplan, Miranda K. McCarvel, and Edward J. Rubin (eds.), \href{http://www.lingref.com/cpp/wccfl/34/index.html}{\emph{Proceedings from WCCFL 34}}, pp. 141-150. Somerville, MA:  Cascadilla Proceedings Project.
+% web: link=http://ling.auf.net/lingbuzz/003129; tags=syntax, ergativity, case-agr
+
+
+
+
+ %  
+  \item   Deal, Amy Rose. 2016. Do all languages make countability distinctions? Evidence from Nez Perce. In Nadine Bade, Polina Berezovskaya, and Anthea Sch\"oller (eds.), \href{https://ojs.ub.uni-konstanz.de/sub/index.php/sub/issue/view/7}{\emph{Proceedings from Sinn und Bedeutung 20}}, pp. 180-197. Semantics Archive. 
+% web: link=http://ling.auf.net/lingbuzz/003130; tags=semantics, nzp, mass, typ
+
+
+
+ % \ind
+  \item Deal, Amy Rose, and Matthew Wolf. 2016. Outwards-sensitive phonologically-conditioned allomorphy in Nez Perce.  In Vera Gribanova and Stephanie Shih (eds.), \textit{The Morphosyntax-Phonology Connection}, pp. 29-60. Oxford: Oxford University Press.  
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-Wolf-allomorphy.pdf; tags=morphology, locality, nzp
+
+ %  
+  \item   Deal, Amy Rose. 2015. Interaction and satisfaction in $\phi$-agreement. In Thuy Bui and Deniz Ozyildiz (eds.), \textit{Proceedings of NELS 45}, Volume 1, pp. 179-192. Amherst: GLSA. 
+% web: link=http://ling.auf.net/lingbuzz/002610; tags=syntax, nzp, case-agr
+
+ %  
+  \item   Deal, Amy Rose. 2015. A note on Nez Perce verb agreement, with sample paradigms. In Natalie Weber, Erin Guntly, Zoe Lam, and Sihwei Chen (eds.), \emph{Proceedings of the International Conference on Salish and Neighbouring Languages} 50, pp. 389-413. Vancouver: UBCWPL. 
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-NzP-verb-agreement.pdf; tags=nzp, morphology, case-agr
+
+
+ % \ind
+  \item Deal, Amy Rose. 2015. Ergativity. In Artemis Alexiadou and Tibor Kiss (eds.), \emph{Syntax -- Theory and Analysis. An International Handbook}, volume 1, chapter 20, pp 654-707. Berlin: Mouton de Gruyter.
+
+ % \ind
+  \item Deal, Amy Rose. 2015. Reasoning about equivalence in semantic fieldwork. In  M. Ryan Bochnak and Lisa Matthewson (eds.), \emph{Methodologies in semantic fieldwork}, pp. 157-174. Oxford University Press.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-reasoning.pdf; tags=semantics, nzp, modality
+
+\item
+Deal, Amy Rose. 2014. Nez Perce embedded indexicals. In Hannah Greene (ed.), \textit{Proceedings of SULA 7: Semantics of Under-Represented Languages in the Americas}, Amherst: GLSA, pp 23-40. 
+% web: link=http://semanticsarchive.net/Archive/WFhMTdmN/; tags=semantics, perspective, nzp
+
+ % \ind
+  \item Deal, Amy Rose, and Catherine O'Connor. 2010. The perspectival basis of fluid-S case-marking in Northern Pomo.  In Suzi Lima (ed.), \textit{Proceedings of SULA 5: Semantics of Under-Represented Languages in the Americas}, Amherst: GLSA, pp. 173-188.  
+% web: link=http://semanticsarchive.net/Archive/WNjYmQ4M/perspectival-basis-of-fluid-s.pdf; tags=semantics, perspective, case-agr
+
+
+
+ % \ind
+   \item Deal, Amy Rose. 2009. Events in space. In Tova Friedman and Satoshi Ito (eds.), \textit{Proceedings of Semantics and Linguistic Theory XVIII}, Cornell: CLC Publications, pp. 230-247.
+% web: link=http://semanticsarchive.net/Archive/TMyYzliY/Deal_SALT18_space.pdf; tags=semantics, nzp, perspective
+
+
+ % \ind
+   \item Deal, Amy Rose. 2008. Property-type objects and modal embedding. In Atle Gr\o nn (ed.), \textit{Proceedings of Sinn und Bedeutung 12}, Oslo: ILOS 2008. 
+% web: link=http://www.hf.uio.no/ilos/forskning/aktuelt/arrangementer/konferanser/2007/SuB12/proceedings/deal_92-106.pdf; tags=semantics, nzp, modality, case-agr
+
+
+ % \ind
+  \item Deal, Amy Rose. 2008. Case marking and object interpretation in Nez Perce. In Jacqueline Bunting et al. (eds.), \textit{CLS 42-2: The Panels}, Chicago: Chicago Linguistic Society, pp. 17-28.
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-cls42.pdf; tags=semantics, syntax, nzp, case-agr
+
+\item Deal, Amy Rose. 2007/2021. The asymmetry of argument structure: a view from coercion. In Jan Anderssen, Keir Moulton, Florian Schwarz, and Cherlon Ussery (eds.), \href{https://scholarworks.umass.edu/ umop/vol33/iss1/}{UMOP 37: Semantics and Processing.} (University of Massachusetts Occasional Papers in Linguistics.) Amherst: GLSA.  [Accepted for publication in 2007, published in 2021]
+
+
+ % \ind
+   \item Deal, Amy Rose. 2007. Antipassive and indefinite objects in Nez Perce. In Amy Rose Deal (ed.), \textit{SULA 4: Proceedings of the Fourth Conference on the Semantics of Under-Represented Languages in the Americas}, Amherst: GLSA, pp. 35-47. 
+% web: link=https://linguistics.berkeley.edu/~ardeal/papers/Deal-sula4.pdf; tags=semantics, nzp, case-agr
+
+ % \ind
+   \item[] Deal, Amy Rose. 2006. Uncovering covert transitives. In Christopher Davis, Amy Rose Deal and Youri Zabbal (eds.), \textit{NELS 36: Proceedings of the 36th meeting of the North Eastern Linguistics Society}, volume 1, Amherst: GLSA, pp. 229-240. 
+
+ % \ind
+   \item[] Deal, Amy Rose. 2005. \textit{Pro}-drop and subject (non-)recoverability: the case of Nez Perce. \emph{Generative Grammar @ Geneva} 4, 93-111.
+
+\end{itemize}
+
+\bigskip
+
+\noindent\emph{Edited volumes\vspace{0.05in}}
+
+
+\begin{benumerate}{0}
+\item[]
+ Deal, Amy Rose, ed. 2007. \emph{SULA 4: Proceedings of the Fourth Conference on the Semantics of Under-Represented Languages in the Americas}. Amherst: GLSA. 
+
+\item[]
+ Christopher Davis, Amy Rose Deal and Youri Zabbal, eds. 2006. \emph{NELS 36: Proceedings of the thirty-sixth meeting of the North East Linguistic Society}, volumes 1 and 2. Amherst: GLSA. 
+\end{benumerate}
+
+
+
+\bigskip
+
+
+
+\marginhead{{\vskip 0.3em}Grants,\newline  honors }
+
+%\vspace{18pt}
+
+
+\setlength{\parskip}{2pt}
+ 
+ 
+ \ind 2023. France-Berkeley fund award. [with M. Abrus\'an] (Project title: \emph{Strategies for perspective shift in natural languages}) 
+ 
+\ind 2022. Early Career Award, Linguistic Society of America.
+
+\ind 2022.
+Dynamic Language Infrastructure - Doctoral Dissertation Research Improvement Grant, National Science Foundation. Student PI Madeline Bossi. (Project title:   \emph{Syntax and its interfaces in Kipsigis})
+ 
+\ind 2022.
+Dynamic Language Infrastructure - Doctoral Dissertation Research Improvement Grant, National Science Foundation. Student PI Emily Drummond. (Project title:   \emph{Ergativity in Nukuoro}) 
+
+\ind 2018-19. Peder Sather Grant, Peder Sather Center for Advanced Study. [co-PI with Pritty Patel-Grosz, Peter Jenks, and Patrick Grosz] 
+(Project title: \emph{Pronominal Elements in Understudied Languages of the World}; \$39,474)
+
+\ind
+2016-17. ACLS Fellowship (American Council of Learned Societies).  (Project title: \emph{Reporting belief in the Nez Perce language}; \$35,000; 6\% acceptance rate)
+
+\ind
+2016-17. Humanities Research Fellowship, UC Berkeley. (Project title: \emph{Reporting belief in the Nez Perce language})
+ 
+ 
+ 
+\ind
+2016. Regents' Junior Faculty Fellowship, UC Berkeley. (Project title: \emph{Toward a Cross-Linguistic Typology of Reported Speech and Thought}; \$5,000)
+
+\ind
+2015-16. Multi-Campus Faculty Working Group grant, UC Humanities Research Institute. [co-PI with Maziar Toosarvandani] (Project title: \emph{Texts in transition: languages and linguistics of the Native West}; \$14,931)
+
+\ind
+2015-16. Fellowship, SIAS summer institute, \emph{The Investigation of Linguistic Meaning: In the Armchair, in the Field, and in the Lab}, National Humanities Center  and Wissenschaftskolleg zu Berlin. (18\% acceptance rate)
+
+\ind
+2014-15. Hellman Fellowship, UC Santa Cruz. (Project title: \emph{Studies in linguistic diversity: pronouns and tense}; \$11,000)
+
+\ind
+2014. Faculty Research Grant, Committee on Research, UC Santa Cruz. (Project title: \emph{Agreement in Nez Perce}; \$1,920)
+
+\ind
+2013-14. Faculty Fellowship, Institute for Humanities Research, UC Santa Cruz. (Project title: \emph{Types of ergative case})
+
+\ind 2010. Junior Faculty Research Assistant Grant, Harvard University. (Project title: \emph{Grammar and prosody of Nez Perce quotation}) 
+
+\ind 2009.
+Dissertation Improvement Grant, National Science Foundation. (Project title:   \emph{Semantics of Nez Perce verbal inflection}; \$12,000) 
+
+\ind 2008. Phillips Fund for Native American Research grant, American Philosophical Society. (Project title: \emph{Semantics of verbal inflection in Nez Perce}; \$3,000)
+
+\ind 2005.	Graduate Research Fellowship, National Science Foundation.
+
+\ind 2005.	University Fellowship, University of Massachusetts Amherst.
+
+\ind 2005.	Presidents' Fellowship, Linguistic Society of America Summer Institute (Harvard/MIT).
+
+\ind  2005. J.V. Cunningham award for excellence in writing, Brandeis University.
+
+\ind 2005. Elected to Phi Beta Kappa.
+
+%\ind 2004.	Jerome A. Schiff undergraduate research fellowship, Brandeis University.
+
+%\ind 2001.	Justice Brandeis scholarship, Brandeis University %\\[.5em]
+
+\ind 2001.	National Merit Scholar.
+
+
+\bigskip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%: Presentations
+\marginhead{{\vskip 0.4em}Talks}
+\noindent\emph{By invitation \vspace{0.05in}}
+
+\ind 2027. TBA. Applicative alternations across languages, Leipzig, May.
+
+\ind 2027. TBA. Colloquium, University of Minnesota, April.
+
+
+\ind 2025-26. Case sensitivity reflects case structure: agreement, extraction, and clitics. 
+
+\indd $\rhd$ CRISSP Concord \& Agreement seminar series, KU Leuven, May 2026. [remote]
+
+\indd $\rhd$ Stanford Syntax and Morphology Circle, April 2026.
+
+\indd $\rhd$ University of Chicago Morphology \& Syntax Workshop, April 2026. 
+
+
+\indd $\rhd$ Syntax brown bag talk, NYU, October 2025. 
+
+\indd $\rhd$ Colloquium, MIT, March 2025.
+
+\indd $\rhd$ Guest lecture, UMass Amherst, March 2025.
+
+\indd $\rhd$ Syntax and semantics circle, UC Berkeley, May 2025.
+
+\ind 2026. On diagnosing clitic doubling semantically: Amharic objects revisited.  Syntax and semantics circle, UC Berkeley, March 2026. [AR Deal, M. Asperheim, C. Boles, \& A. Lee-Kleinberg] 
+
+\ind 2025. Shifty person and person features. Workshop on indexical binding and beyond, Geneva, June.
+
+
+\ind 2025. On ditransitive person restrictions in primary object languages. Colloquium, UC San Diego, April 2025.
+
+
+
+
+\ind 2024-25. Pseudo-\emph{de re}, generalized. 
+
+\indd $\rhd$ Ling-lunch, MIT, March 2025.
+
+\indd $\rhd$ Workshop on perspective shift, Paris, June 2024.
+
+
+\ind 2024. Mayan animacy hierarchy effects and the dynamics of Agree. [A.R. Deal and J. Royer.] Invited talk, Understanding Obviation workshop, McGill, October.
+
+\ind 2024. Case discrimination, Agree, and the theory of features. Syntax and semantics circle, UC Berkeley, September.
+
+
+
+\ind 2023-24. Dependent case by Agree: ergative in Shawi.   [E. Clem and A.R. Deal]
+
+\indd $\rhd$ Colloquium, UCLA, March 2024.
+
+\indd $\rhd$  Syntax and semantics circle, UC Berkeley, September 2023.
+
+\ind 2023-24. Probe-specific locality. 
+
+
+\indd $\rhd$ Invited speaker, workshop on Locality in Theory, Processing and Acquisition, University of Pennsylvania, March 2023.
+
+\indd $\rhd$ NYI Distinguished Linguist Lecture Series / Stony Brook University, April 2023. 
+
+\indd $\rhd$ Syntax and semantics circle, UC Berkeley, March 2024.
+
+\ind 2022-23. Uncentered attitude reports. 
+
+\indd $\rhd$ Colloquium, University of British Columbia, November 2023. 
+
+\indd $\rhd$ MIT ling-lunch, April 2022. 
+
+
+
+
+
+\ind 2022-23. On ditransitive person restrictions in primary object languages. 
+
+\indd $\rhd$ Linguistics colloquium, McGill University, February 2023. 
+
+\indd $\rhd$ Department speaker series, Georgetown University, October 2022.
+
+\indd $\rhd$ Colloquium, UC Berkeley, September 2022. 
+
+\indd $\rhd$ Colloquium, Michigan State University, September 2022. 
+
+\ind 2022. Animacy hierarchy restrictions and dynamic interaction. Syntax and semantics circle, UC Berkeley, October. [A.R. Deal and J. Royer]
+ 
+\ind 2019-22. Interaction, satisfaction, and the PCC. 
+
+\indd $\rhd$ University of Massachusetts, Amherst, March 2022.
+
+\indd $\rhd$ Colloquium, NYU, January 2020.
+
+\indd $\rhd$ Colloquium, University of Toronto, September 2019.
+
+%\ind 2022. TBA. Nanolab / Masaryk University. 
+
+
+\ind 2021. The logic of agreement: movement, morphology, and composite probes. Syntax and semantics circle, UC Berkeley, September.
+
+\ind 2021. Without uninterpretability. Invited talk, 23rd Seoul International Conference on Generative Grammar, Sogang University, August. [remote]
+
+\ind 2021. How Agreement works (with special reference to A' features). Move \& Agree Forum 2021, UBC/McGill, May. [remote]
+
+
+
+
+\ind 2020. Comments on diachronic formal semantics (as compared to formal semantic fieldwork). Formal Approaches to Grammaticalization, special session at the LSA annual meeting, New Orleans, January. 
+
+\ind 2019-20. Uncentered attitude reports. [pre-pandemic version]
+
+\indd $\rhd$ Semantics Group, NYU, January 2020. 
+
+\indd $\rhd$ Semantics Research Group, University of Toronto, September 2019.
+
+
+
+\ind 2019.  Pluralization and notional mass nouns: In search of semantic variation. Workshop on number and plurality: cross-linguistic variation in the nominal domain, Georg-August-Universit\"at G\"ottingen, December. 
+
+
+\ind 2019. Agree, agreement and the PCC. [2 lectures.] Universit\'e Paris Diderot, July.
+
+
+\ind 2019. Person features and shiftiness. The Alphabet of Universal Grammar, British Academy, London, July. 
+
+\ind 2019.  Dedicated \emph{de se} and complement type: Against Uniformity. Colloquium, Princeton University, April. 
+
+
+\ind 2019. Relative embeddings, factivity, and propositional complementation. Colloquium,  University of Maryland, February. 
+
+
+
+\ind 2019. Factivity and uncentered attitudes. Work in Progress talk series, Philosophy department, UC Berkeley, February. 
+
+
+%\ind 2019. TBA. What is Good and What is Possible: Searching for an Interdisciplinary Language, Radcliffe Institute Exploratory Seminar, January.
+
+\ind 2018. Compositional paths to \emph{de re}. 
+
+\indd $\rhd$ Keynote, Semantics and Linguistic Theory (SALT) 28, MIT, May.
+
+
+\indd $\rhd$ Syntax and Semantics Circle, Berkeley, April. 
+
+\ind 2018. Formal semantic typology.  Semantics 2018: Looking Ahead, University of Massachusetts Amherst, March. 
+
+
+
+
+\ind 2018. Indexiphors: remarks on embedded indexicals, shifty agreement, and logophoricity. 
+
+\indd $\rhd$ Colloquium, University of Connecticut, March.
+
+
+\indd $\rhd$ Colloquium, Institut f\"ur Linguistik, Goethe-Universit\"at  Frankfurt am Main, January.
+
+
+\ind 2018. Vague predicates, crisp judgments. [A.R. Deal and V. Hohaus] 
+
+\indd $\rhd$ Workshop on Form-Meaning Mismatches in Natural Language, G\"ottingen, August.
+
+\indd $\rhd$ Ebehard Karls Universit\"at T\"ubingen, January. 
+
+
+
+\ind 2017-18. Covert hyperraising to object.
+
+\indd $\rhd$ 
+Syntax and Morphology Circle, Stanford, April 2018.
+
+\indd $\rhd$ 
+ Morphology and Syntax Workshop, University of Chicago, April 2017.
+
+\ind 2017. Extraction asymmetries via case discrimination: evaluating the prospects. Workshop on Quirks of Subject Extraction, National University of Singapore, August.
+%% indexical shift talks
+
+
+\ind 2016-17. Dedicated \emph{de re} attitude reports. 
+
+\indd $\rhd$ 
+First UC Irvine Workshop in Logical Semantics, May 2017.
+
+\indd $\rhd$ MIT ling-lunch, December 2016.
+
+
+\ind 2016. Countability distinctions and semantic variation: toward universals of mass and count. Colloquium, Boston University, November. 
+
+
+\ind 2016-17. Shifty asymmetries: universals and variation in shifty indexicality. \nopagebreak
+
+
+\indd $\rhd$  Department colloquium, University of Michigan, November 2017. 
+
+\indd $\rhd$  Keynote, Sinn und Bedeutung 22, ZAS (Berlin) / University of Potsdam, September 2017. 
+
+\indd $\rhd$ 
+Department colloquium, Berkeley, August 2017.
+
+\indd $\rhd$ 
+Rutgers Semantics/Pragmatics Workshop, Rutgers University Center for Cognitive Science, April 2017.
+
+\indd $\rhd$ Keynote, WSCLA 22 (Workshop on the Structure and Constituency of Languages of the Americas), University of British Columbia, April 2017. 
+\rm 
+
+\indd $\rhd$
+ Department colloquium, MIT, April 2016. 
+
+\indd $\rhd$
+ Department colloquium, University of Massachusetts Amherst, March 2016.
+
+\indd $\rhd$
+Syntax and Semantics Circle, UC Berkeley, March 2016.
+
+\indd $\rhd$
+Perspectival Expressions and the \emph{De Se} Crosslinguistically, special session at the LSA annual meeting, Washington, DC, January 2016.
+
+%%% end of indexical shift talks
+
+
+
+
+
+
+
+\ind 2016. Counting Nez Perce cases (or adpositions?). Fieldwork Forum, UC Berkeley, April.
+
+
+
+\ind 2015-16. Interaction and satisfaction in $\phi$-agreement. %University of Leipzig, Germany, May.
+
+\indd $\rhd$ Invited lecture, MIT, April 2016.
+
+\indd $\rhd$ Syntax and semantics circle, UC Berkeley, January 2016.  
+
+\indd $\rhd$ Linguistics Colloquium, University of Geneva, September 2015.
+
+\indd $\rhd$ Agree(ment) reading group, UC Santa Cruz, May 2015. 
+
+\indd $\rhd$ IGRA graduate program colloquium, University of Leipzig, May 2015.
+
+
+
+
+
+
+\ind 2015. Nez Perce texts from the missionary period: implications for contemporary grammar. Group in American Indian Languages, UC Berkeley, November. 
+
+
+\ind
+2015. Possibilities in Nez Perce.  Linguistics @ Santa Cruz: Theory \& Practice, April. 
+
+\ind
+2015. Under- and over-realization of plural in Nez Perce: a DM analysis. Morphology Reading Group, UC Santa Cruz, March.
+
+\ind
+2015. Toward universals and variation in mass and count. Colloquium, Berkeley, February.
+
+
+
+\ind
+2014-16. Cyclicity and connectivity in Nez Perce relative clauses.  \nopagebreak
+
+\indd $\rhd$ Invited lecture, MIT, April 2016.
+
+\indd $\rhd$ Department colloquium, UCLA, January 2015. 
+
+\indd $\rhd$ Guest lecture, University of Massachusetts Amherst, March 2014. 
+
+\indd $\rhd$ Department colloquium, McGill, March 2014. 
+
+
+
+
+
+
+\ind
+2014. Timing and conditioning of allomorphy: a case study of Nez Perce plural. Allomorphy: its logic and limitations, Jerusalem, July. 
+
+\ind
+2014. Variation in semantics. Workshop on Metasemantics, Dept of Philosophy, UC Berkeley, March. 
+
+
+
+\ind
+2013. Some implications of Nez Perce relative clauses. S-Circle, UC Santa Cruz, November. 
+
+\ind
+2013. Mass nouns and apportionment in Nez Perce and beyond. S-Circle, UC Santa Cruz, May. 
+
+\ind
+2012. A-scrambling, agreement and activation in Nez Perce. 
+Stanford Syntax and Morphology Circle, November. 
+
+
+
+\ind
+2012.  Outwards-sensitive phonologically-conditioned allomorphy in Nez Perce. 
+Workshop on Locality and Directionality at the Morphosyntax-Phonology Interface, Stanford, October. [A.R. Deal and M. Wolf]
+
+
+
+\ind
+2011-12. Possessor raising. 
+
+\indd $\rhd$ Berkeley Syntax and Semantics Circle, April 2012. 
+
+
+\indd $\rhd$ UCLA colloquium, February 2012. 
+
+
+\indd
+$\rhd$ Series in Language Universals and Linguistic Fieldwork, Harvard, October 2011.
+
+
+
+
+\ind
+2012. Finding flavor and modal force in the field. 
+Methodologies in Semantic Fieldwork, special session at the LSA annual meeting, Portland, January. 
+
+\ind
+2012. External possession and affectedness: some Nez Perce evidence. 
+%
+Keynote lecture, Linguistic Evidence 2012, University of T\"ubingen, February.
+
+\ind
+2011. Nez Perce embedded indexicals. 
+MIT Ling Lunch, November. 
+
+\ind
+2011. Breaking down the ergative case. 
+Case by Case workshop, \'Ecole Normale Sup\'erieure, Paris, October. 
+
+\ind
+2011. Modals without scales. 
+Understudied Languages Group, Rutgers, April. 
+
+
+
+
+\ind
+2010-11. A-thematic possessor raising, object shift, and the syntax of valence. 
+
+\indd $\rhd$  Rutgers colloquium, April 2011.
+
+\indd $\rhd$  UC Santa Cruz colloquium, November 2010. 
+
+
+\ind
+2011. Case and caselessness in Nez Perce. 
+UC Santa Cruz colloquium, February. 
+
+\ind
+2011. A-thematic possessor raising. 
+Keynote lecture, WSCLA 16 (Workshop on the Structure and Constituency of Languages of the Americas), University of Massachusetts, February.
+
+
+
+\ind
+2010.  How it \emph{could} be in Nez Perce. 
+Harvard University Native American Program colloquium, October.
+
+
+
+\ind
+2009. The expression of futurity in Nez Perce. 
+%
+Keynote lecture, Semantics of Under-represented Languages in the Americas 5, MIT and Harvard, May.
+
+
+\ind
+2009. Modal aspectual meaning.
+ Departmental seminar, Stanford, February.
+ 
+
+
+ \ind
+2009. Ergative case and the transitive subject. 
+
+\indd $\rhd$  Harvard colloquium, February.% 19. 
+
+\indd $\rhd$  Stanford colloquium, February.% 10.
+
+
+\indd $\rhd$  UC San Diego colloquium, February.% 6. 
+
+
+
+\ind
+2008. On prospective aspect. 
+Angelika Kratzer Birthday Workshop, MIT, December. 
+
+
+
+
+\ind
+2007. Ergative case and the transitive subject: a view from Nez Perce. 
+
+\indd $\rhd$   Ergativity Research Seminar, MIT, October.% (10/31).
+
+
+\indd $\rhd$   Syntax Supper, CUNY Graduate Center, September.% (9/25); 
+
+
+
+
+
+
+
+
+
+
+
+\bigskip
+
+
+\noindent\emph{By reviewed abstract \vspace{0.05in}}
+
+\ind 2026. PCC without weakness: ditransitives in Atchan and beyond. WCCFL 44, Mexico City, May. [A.R. Deal and R. Jarvis]
+
+\ind 2026. Optional, obligatory, and forbidden modal subordination: Notes on the typology of futures. Semantics of Under-Represented Languages in the Americas 14 / TripleA 13, University of British Columbia, May. [S. Akolkar, M. Asperheim, F. Liu, H. Vangz, and A.R. Deal]
+
+\ind 2024. Person and aspect in Taushiro split ergativity. NELS 55, Yale, October. [A.R. Deal and Z. O'Hagan]
+
+\ind 2024. Syntactic ergativity without inversion in Kalaallisut. NELS 54, MIT, January. [A.R. Deal, L. Mikkelsen, and E. Thrane]
+
+\ind 2023. Mayan animacy hierarchy effects: A dynamic interaction approach. [A.R. Deal and J. Royer]
+
+\indd $\rhd$ WCCFL 41, UC Santa Cruz, May. 
+
+\indd $\rhd$ Workshop on Structure and Constituency in Languages of the Americas (WSCLA), McGill, April. 
+%\ind
+% 2022. The Nez Perce morphological desiderative. Semantics of Under-Represented Languages in the Americas 12, Ottawa, October.
+
+
+
+\ind 2021. Negative concord as downward Agree. NELS 52, Rutgers, October. [poster]
+
+\ind 2020. 3-on-3 restrictions and PCC typology. NELS 51, Universit\'e du Qu\'ebec \`a Montr\'eal, November. [flash talk]
+
+\ind 2019. Interaction, satisfaction, and the PCC. NELS 50, MIT, October. 
+
+\ind 2018. Third readings by semantic scope lowering: prolepsis in Tiwa.  Sinn und Bedeutung 23, Barcelona, September. [V. Dawson and A.R. Deal]
+
+\ind 2018. Vague predicates, crisp judgments. [A.R. Deal and V. Hohaus]
+
+\indd $\rhd$ Sinn und Bedeutung 23, Barcelona, September. 
+
+\indd $\rhd$ SULA 10, University of Toronto, May. 
+
+\ind 2017. \emph{Who has more?} The influence of linguistic form on quantity judgments. LSA annual meeting, Austin, January. [G. Scontras, K. Davidson, A.R. Deal and S. Murray]
+
+\ind %\new
+ 2016. Covert hyperraising to object. NELS 47, University of Massachusetts, Amherst, October. %(acceptance rate for talks: 12%
+
+  \ind
+   2016. Number marking and the definite interpretation of bare nouns in Teotitl\'an del Valle Zapotec.  [A.R. Deal and J. Nee]
+
+\indd $\rhd$    Sinn und Bedeutung 21, University of Edinburgh, September. 
+
+ 
+\indd $\rhd$  Definiteness across languages workshop, National Autonomous University of Mexico / El Colegio de M\'exico, Mexico City, June. 
+
+
+  \ind
+   2016. Syntactic ergativity as case discrimination. WCCFL 34, University of Utah, April. % (Acceptance rate approx. 30\%)
+
+
+  \ind
+    2015. Countability without the signature property: Nez Perce and Yudja. Sinn und Bedeutung 20, University of T\"ubingen, September. 
+
+  \ind
+    2015. Interaction and satisfaction in $\phi$-agreement. Generative Syntax in the Twenty-first Century: The Road Ahead, University of Athens, May. [poster]
+    
+  \ind
+    2015. TP is a phase in relative clauses. WCCFL 33, Simon Fraser University, Vancouver, March.
+
+\ind 2014. Properties of probes: evidence from Nez Perce complementizer agreement. NELS 45, MIT, October. 
+
+
+
+
+\ind 2014. Mass and count in Nez Perce. \nopagebreak
+
+\indd $\rhd$     Semantics of Under-Represented Languages in the Americas 8, University of British Columbia, May 2014. 
+
+\indd $\rhd$ Workshop on Semantic Variation, University of Chicago, October 2013. 
+
+
+%\ind 2013. Mass and count in Nez Perce. Workshop on Semantic Variation, University of Chicago, October. 
+
+
+
+\ind
+2013. Short and long object movement in Nez Perce. International Congress of Linguists 19, Geneva, July.
+
+
+
+
+\ind
+2013. Toward principles and parameters of mass and count. Towards a theory of Syntactic Variation, University of the Basque Country, Bilbao, June. 
+
+
+
+
+\ind
+2012. Nez Perce embedded indexicals. Semantics of Under-Represented Languages in the Americas 7, Cornell, May.  
+
+\ind
+2011. Modals without scales. Semantics of Under-Represented Languages in the Americas 6, University of Manchester, UK, May. 
+
+\ind
+2011. A-thematic possessor raising. WCCFL 29, University of Arizona, April. 
+
+\ind
+2009. Evidentiality and the interpretation of Fluid-S case marking. Semantics of Under-Represented Languages in the Americas 5, MIT and Harvard, May. [M.C. O'Connor and A.R. Deal] 
+
+\ind
+2009. Nez Perce verbs of speech and mental attitude. SSILA annual meeting, San Francisco, January. 
+
+
+\ind
+2009. Prospective aspect: its meaning and modality. LSA annual meeting, San Francisco, January.
+
+\ind
+2008. Events in space. SALT 18, University of Massachusetts Amherst, March. [poster and short presentation]
+
+\ind
+2008. Morphosemantics of Nez Perce modals. SSILA annual meeting, Chicago, January.
+
+\ind
+2008. Object agreement conditions ergative case. LSA annual meeting, Chicago, January.
+
+
+\ind
+2007. Property-type objects and modal embedding. Sinn und Bedeutung 12, Oslo, September.
+
+\ind
+2007. Antipassive and the interpretation of indefinites in Nez Perce. SULA 4, S\~ao Paulo, Brazil, May.
+
+\ind
+2007. On the origin and content of English \emph{there}. Penn Linguistics Colloquium 31, Philadelphia, February.
+
+\ind
+2006. The morphosyntax of (non-)case-marking: Case or Voice? Chicago Linguistic Society 42, Chicago, April.
+
+\ind
+2005. Transitivity and surface case. NELS 36, University of Massachusetts Amherst, October. [poster] 
+
+\ind
+2005. \emph{Pro}-drop and subject (non-)recoverability: the case of Nez Perce. LSA annual meeting, Oakland, January.
+
+\ind
+2005. A linked electronic dictionary and textbase for Northern Pomo. SSILA annual meeting, Oakland, January. [M.C. O'Connor and A.R. Deal]
+
+
+
+
+\ind
+2004. Case-marking and Grammatical Function recoverability in Nez Perce transitive clauses. SSILA annual meeting, Boston, January. [A.R. Deal and M.C. O'Connor]
+
+\ind
+2003. Differential possessor expression: is the possessum ever a factor?  Lexical Functional Grammar 8, Saratoga Springs, July. [M.C. O'Connor and A.R. Deal] 
+
+
+
+%\bigskip
+
+%\noindent\emph{Informal talks \vspace{0.05in}}
+
+
+
+
+\bigskip
+
+
+
+
+\marginhead{{\vskip 0.7em}Teaching }
+\medskip
+
+
+\noindent\emph{At UC Berkeley\vspace{0.05in}}
+
+\ind 
+Language and Linguistics (Ling. 5, undergraduate; {Spring 2021, Fall 2021, Fall 2022, Fall 2023})
+
+\ind
+Introduction to Syntax and Semantics (Ling. 120, undergraduate; Spring 2016)
+
+
+\ind
+Formal Semantics (Ling. 121, undergraduate; Fall 2015, Fall 2017, Fall 2018, Fall 2022, Fall 2024)
+
+\ind
+Advanced Morphology (Ling. 215, graduate; {Spring 2018})
+
+
+\ind 
+Advanced Syntax I (Ling. 220a, graduate; {Fall 2019})
+
+\ind 
+Advanced Syntax II (Ling. 220b, graduate; {Spring 2019, Spring 2025})
+
+\ind
+Advanced Formal Semantics (Ling. 221(a), graduate; Spring 2016, {Fall 2017, Fall 2018, Spring 2021, Spring 2023, Fall 2024, Spring 2026, Fall 2026})
+
+\ind
+Advanced Formal Semantics II (Ling. 221b, graduate; Fall 2023, Fall 2025)
+
+\ind
+Advanced Field Methods (Ling 240a/b, graduate; Fall 2025 and Spring 2026)
+
+\ind 
+Semantic variation (Ling. 290B, graduate seminar;  Fall 2015)
+
+\ind
+Formal pragmatics (Ling 290D, graduate seminar; {Fall 2019})
+
+\ind
+Embedding strategies (Ling 290A, graduate seminar; {Fall 2021})
+
+%\ind
+%Research Group in Formal Semantics (Ling. 298; {Spring 2018, Fall 2018})
+
+\medskip
+
+
+
+\noindent\emph{At UC Santa Cruz\vspace{0.05in}}
+
+%{\itshape At UC Santa Cruz}
+%\vspace{.5em}
+
+
+
+\ind
+Syntactic Structures (undergraduate; Spring 2015)
+
+\ind
+Syntax 1 (undergrad; Winter 2013; Fall 2013) %(graduate) 
+
+\ind
+Native Languages of North America (undergrad; Winter 2014) 
+
+\ind
+Syntax A (graduate; Fall 2014)
+
+\ind
+Syntax B (graduate; Winter 2012; Winter 2013) 
+
+\ind
+Field Methods: Teotitl\'an del Valle Zapotec (graduate; Spring 2014) 
+
+
+\ind
+Binding Theory (grad. proseminar; Fall 2012) 
+
+
+\ind
+Possession: Nominal and Clause (grad. seminar; Spring 2012) 
+
+\ind 
+Crosslinguistic Variation in Nominal Expressions (grad. seminar; Spring 2015)
+
+\medskip
+
+
+\noindent\emph{At Harvard\vspace{0.05in}}
+
+\ind Introduction to Linguistics (undergrad; Spring 2010; Spring 2011) 
+
+\ind
+ Semantic Theory I (graduate; Fall 2011) 
+
+\ind Intermediate Semantics (undergraduate/graduate; Spring 2011) 
+
+
+\ind
+Advanced Syntax (undergraduate/graduate; Spring 2010) 
+
+
+\ind
+Field Methods: Kaqchikel Mayan (undergraduate/graduate; fall 2010) 
+
+
+\ind
+The functional layers of nominals: structure and interpretation (grad. seminar; Fall 2011) 
+
+\ind
+ Variation and equivalence (graduate seminar; fall 2010) 
+
+\ind Verb class, verb meaning and the building blocks of grammar (grad. seminar; fall 2009) 
+
+
+
+
+\medskip
+
+\noindent\emph{Other teaching\vspace{0.05in}}
+ 
+\ind Agree(ment) via interaction and satisfaction. NYI Global Institute of Cultural, Cognitive, and Linguistic Studies, January 2024.  [Remote]
+ 
+\ind Agree(ment) via interaction and satisfaction. LSA Summer Institute, University of Massachusetts, Amherst, July 2023.
+
+
+\ind Topics in syntax. (Topic: Agree(ment); course 24.956) MIT, Spring 2022. With David Pesetsky.
+
+\ind Advanced semantics.  (Course 24.973.) MIT, Spring 2022. With Martin Hackl.
+
+\ind  Advanced Issues in Syntax: Agree(ment). Language, Logic and Cognition Center, Hebrew University of Jerusalem, May-June 2021. [Remote]
+
+\ind Semantics of propositional attitudes. Eastern Generative Grammar (EGG) summer school, Olomouc, Czech Republic, July/August 2017. 
+
+\ind Interaction and satisfaction: a theory of agreement. Eastern Generative Grammar (EGG) summer school, Olomouc, Czech Republic, July/August 2017. 
+ 
+
+\ind Semantic Variation in Nominal Expressions, LSA Summer Institute, University of Chicago, July 2015. 
+
+ 
+
+
+
+\bigskip
+
+
+
+\newpage
+
+\marginhead{{\vskip 0.6em}Advising }
+\medskip
+
+\noindent\emph{As dissertation committee chair\vspace{0.05in}}
+
+
+\ind Kang Franco Liu (in progress)
+
+
+\ind Shweta Akolkar (\emph{Ergative case and hidden argument structure: Studies in Indo-Aryan}; filed summer 2026) --- Postdoc, Princeton University
+
+
+\ind Rebecca Jarvis (\emph{Interactions between pronouns and clausal structure: perspectives from Atchan}; filed summer 2025) --- Postdoc, Universit\"at Potsdam, Germany
+
+\ind Emily Drummond (\emph{Clause structure and ergativity in Nukuoro}; filed fall 2023) ---  Assessment and Project Manager, Haverford College
+
+\ind Madeline Bossi (\emph{Epistemic modality across syntactic categories in Kipsigis}; filed summer 2023) ---  elementary school teacher
+
+\ind Tessa Scott (\emph{Pronouns and agreement in San Juan Atitán Mam}; UC Berkeley; filed spring 2023) [co-chair with Peter Jenks] ---  project coordinator, Faculty Equity and Welfare, UC Berkeley
+
+\ind Virginia Dawson (\emph{Existential quantification in Tiwa: disjunction and indefinites}; UC Berkeley; filed summer 2020) ---  Associate Professor, Western Washington University
+
+\ind Emily Clem (\emph{Agreement, case, and switch-reference in Amahuaca}; UC Berkeley; filed summer 2019) ---  Associate Professor, University of California, San Diego
+
+
+
+\medskip
+
+
+
+\noindent\emph{As dissertation committee member\vspace{0.05in}}
+
+
+
+\ind Akil Ismael 
+
+
+\ind Yurika Aonuki (MIT)
+
+\ind Daniel Villalon (Berkeley philosophy; filed summer 2026) 
+
+\ind Giovanni Roversi (MIT; filed summer 2025) --- MIT
+
+\ind Elek Lane (Berkeley philosophy; filed spring 2025)  --- University of Vienna
+
+
+\ind Mathias Boehm (Berkeley philosophy; filed summer 2024) --- Freie Universit\"at zu Berlin
+
+\ind Sven Neth  (Berkeley philosophy; filed fall 2023) --- University of Pittsburgh 
+
+\ind Amir Ahmad Anvari (Institut Jean-Nicod, 
+\'Ecole Normale Sup\'erieure, Paris; defended December 3, 2019) --- MIT
+
+
+\ind Bernat Bardagil-Mas (University of Groningen, Netherlands; defended September 20, 2018) --  Ghent University
+
+\ind Nicholas Baier (Berkeley; filed August 15, 2018) --- working in technology
+
+
+\ind Katie Sardinha (Berkeley; filed December 15, 2017) --- independent scholar %12/15/17)
+
+
+\ind Hazel Pearson (Harvard; defended June 13, 2012) --- Queen Mary University of London %6/13/12)
+
+\ind Li Julie Jiang (Harvard; defended May 7, 2012) --- University of Hawai'i Manoa %5/7/12)     
+
+
+
+\medskip
+
+
+
+\noindent\emph{Pre-dissertation general advising\vspace{0.05in}}
+
+\noindent
+Tshering Dorji; 
+ Tom\'as Fuchs-Lynch; 
+ Chase Boles; 
+ Margaret Asperheim; 
+ Akil Ismael (2024-2026); 
+ K. Franco Liu; 
+ Shweta Akolkar; 
+ Rebecca (Becky) Jarvis; 
+ Madeline Bossi; 
+ Emily Drummond; 
+ Tessa Scott; 
+ Julia Nee (2015-2017); 
+  Nicholas Kalivoda (with Junko It\^o, UCSC, 2013-2015); 
+ Erik Zyman (UCSC, 2013-2015) 
+
+
+\medskip
+
+
+
+\noindent\emph{Qualifying exam committees\vspace{0.05in}}
+
+
+\noindent
+Akil Ismael (chair; 5/27/26), 
+K. Franco Liu (6/10/25), 
+Shweta Akolkar (4/21/25), 
+ Aglaia von Gotz [philosophy] (4/19/24), 
+ Rebecca (Becky) Jarvis (5/19/23), 
+ Madeline Bossi (6/2/21),  
+ Emily Drummond (6/9/21), 
+  Daniel Villalon [philosophy] (6/7/19), 
+ Tessa Scott (6/30/20), 
+ Erik Hans Maier (4/25/19), 
+ Mathias Boehm [philosophy] (2/1/19), 
+ Sven Neth [philosophy] (5/31/18), 
+ Virginia Dawson (5/2/17), 
+ Emily Clem (4/13/17), Bern Samko (chair; 1/17/13)    
+
+\medskip
+
+
+
+\noindent\emph{Qualifying paper committees\vspace{0.05in}}
+
+
+\noindent
+Alice Lee-Kleinberg, 
+Hei Vangz, 
+Akil Ismael (approved 2/24/26), 
+K. Franco Liu (approved 6/6/2025), 
+Shweta Akolkar (approved 2/19/25), 
+ Wendy Liz Arbey L\'opez M\'arquez (approved 2/13/24), 
+ Rebecca (Becky) Jarvis (approved 2/7/23), 
+ Martha Schwarz  (approved 1/14/22), 
+ Wesley dos Santos (approved 8/21/21), 
+ Zachary Wellstood (approved 6/23/21), 
+ Emily Drummond (approved 2/9/21), 
+ Madeline Bossi (approved 11/24/20), 
+ Edwin Ko  (approved 10/1/20), 
+ Tessa Scott (approved 6/20/20), 
+ Karee Garvin (approved 5/29/19), 
+ Emily Clem (approved 3/24/17), 
+ Erik Hans Maier (approved 5/9/16), 
+ Nick Kalivoda (chair; defended 6/9/15), 
+%\ind Karen Duek (chair)
+ Karl DeVries  (defended 11/21/14), 
+ Erik Zyman (chair; defended 10/28/14), 
+ Anna Greenwood (defended 4/4/14), 
+ Bern Samko (defended 5/23/12),     
+ Lauren Eby Clemens (defended 5/17/12), 
+ Andreea Nicolae (%\emph{An alternative account of positive polarity}; 
+defended 12/6/11), 
+ C.-M. Louis Liu (defended 12/5/11), 
+ Greg Scontras (defended 6/7/11), 
+ Jacopo Romoli (defended 1/19/11) 
+
+
+
+
+
+%\noindent\emph{Independent studies\vspace{0.05in}}
+
+%\ind Erik Hans Maier (Spring 2019) 
+
+%\ind Nick Kalivoda (Fall 2014)
+
+%\ind Clara Sherley-Appel (Winter 2013) 
+
+%\ind Bern Samko (Fall 2012) 
+
+%\ind Mark Norris (Winter 2012) 
+ 
+\medskip
+
+
+%\noindent\emph{MA exam committees \vspace{0.05in}}
+ 
+% \noindent
+% Rebecca Jarvis (11/23/21), 
+% Madeline Bossi (5/15/19), 
+% Emily Drummond (5/16/19), 
+% Edwin Ko (4/26/18)
+ 
+  
+ \medskip
+ 
+ 
+\noindent\emph{Undergraduate thesis readerships and advising\vspace{0.05in}}
+
+
+
+\ind Tegan Lakshmanan (BA UC Berkeley, 2022) [co-advisor]
+ 
+\ind Yvette Yi-Chi Wu (BA UC Berkeley, 2019) [co-advisor]
+ 
+\ind Michael Titone (BA UC Santa Cruz, 2014)
+
+\ind Prathama Nabi (AB Harvard, 2011) [chair]
+
+
+
+\bigskip
+
+
+
+\marginhead{{\vskip 0em}Service to the \newline Department \&  University}
+%\medskip
+
+
+%\medskip
+\ind Undergraduate Advisor, Linguistics, UC Berkeley, 2022-2026.
+
+\ind Committee on the Library, UC Berkeley Academic Senate, 2018-2020, 2023-2025.
+
+\ind Equity Advisor, Linguistics, UC Berkeley, 2018-2019, 2021, 2022-2023.
+
+\ind Committee on Teaching, UC Berkeley Academic Senate, 2022-2023.
+
+\ind Graduate placement advisor, Linguistics, UC Berkeley, 2017-2021.
+
+
+\ind Colloquium committee, Linguistics, UC Berkeley, 2019-2021. 
+
+\ind Editor, \emph{Calques} blog and newsletter, Linguistics, UC Berkeley, 2018-2020. 
+
+
+
+
+
+\ind Graduate Studies Committee, Linguistics, UC Berkeley, 2018-2020.
+
+
+\ind Fellowships and Graduate Scholarships Committee, Graduate Division, UC Berkeley, 2017-2018.
+
+
+\ind Faculty mentor to Regents' and Chancellor's and Cal Opportunity Scholars, UC Berkeley, 2015-2019.
+
+\ind Graduate admissions committee, UC Berkeley, 2015-2016, 2017-2020.
+
+
+ 
+
+\ind 	Department personnel committee, UCSC, 2013-2014 and 2014-2015.
+
+
+\ind 	Organizer, S-Circle talk series in syntax and semantics, UCSC, 2014-2015.
+
+\ind Convener, Agree(ment) reading group, % [with Maziar Toosarvandani], 
+UCSC, 2014-2015.
+
+
+\ind 	Graduate admissions committee, UCSC, 2013-2014.
+
+
+\ind 	Syntax search committee, UCSC, 2012-2013.
+
+\ind	Coordinator of registration, SALT 23, UCSC, Spring 2013.
+
+\ind 	Committee on course evaluations, UCSC, Spring 2012.
+
+\ind	Committee on the major disqualification policy, UCSC, Spring 2012.
+
+\ind	Committee for abstract review, WCCFL 30, UCSC, Winter 2012. 
+
+%	Edit Delete  	Spring 2013 - 2014 	Member, undergraduate task force (committee on undergraduate curriculum revision).
+
+
+\ind Phonology search committee, Harvard, 2010-2011.
+
+
+
+\bigskip
+
+
+
+%\vspace{-12pt}
+
+%\medskip
+
+%\medskip
+
+%\medskip
+
+
+
+\noindent\emph{Editorships\vspace{0.05in}}
+\marginhead{{\vskip -2em}Service to the \newline Profession}
+
+\ind Founding co-editor, \emph{Semantics of Natural Languages}
+
+\ind Editor-in-Chief, \emph{Natural Language Semantics} (from vol 30, 2022 - June 2026)
+
+
+
+\ind Associate Editor, \emph{Natural Language and Linguistic Theory} (2018-2021)
+
+\ind Founding co-editor, \emph{Berkeley Papers in Formal Linguistics} (with Line Mikkelsen)
+
+
+\bigskip%%
+
+
+
+\noindent\emph{Editorial Boards\vspace{0.05in}}
+
+
+\ind
+%Editorial board member, 
+{Linguistic Inquiry} %(2012-Present)
+
+
+\ind {Semantics and Pragmatics} %(2016-Present)
+
+
+
+\ind Natural Language Semantics (2017-2021)
+
+\ind Linguistik Aktuell/Linguistics Today (book series)
+ 
+\ind Semantic Fieldwork Methods
+
+\ind  {Journal of South Asian Linguistics} %(2016-Present)%, \emph{Storyboards for Linguistic Fieldwork} (2015-Present)
+
+\bigskip%%
+
+
+
+
+\noindent\emph{Service to the Linguistic Society of America\vspace{0.05in}}
+
+
+\ind
+Program Committee, 2016-2019
+
+\ind 
+Committee on Linguistic Institutes and Fellowships, 2016-2018 (liaison from the Program Committee)
+
+%\ind
+%Mentor, Women in Linguistics Mentoring Alliance (WILMA)
+ 
+\bigskip%%
+
+
+
+
+
+\noindent\emph{Conference organization\vspace{0.05in}}
+ 
+ \ind Co-organizer, Berkeley Linguistics Society workshop on countability distinctions, UC Berkeley, February 2019. 
+ 
+ \ind Co-organizer of the syntax/semantics workshop, Generative Linguistics in the Old World (GLOW) 42, Oslo, Norway, May 2019. (With Patrick Grosz)
+ 
+ \ind Organizer, California Universities Semantics and Pragmatics (CUSP) 11, UC Berkeley, October 2018.
+ 
+  \ind Organizer, Workshop on pronouns and attitudes \emph{de se}, UC Berkeley, October 2018.
+ 
+ 
+ \ind Co-organizer, Semantics of Under-Represented Languages in the Americas (SULA) 9, UC Santa Cruz, May 2016.  (With Maziar Toosarvandani)
+
+
+\bigskip%%
+
+
+\noindent\emph{Journal reviewing\vspace{0.05in}}
+
+\noindent 	{Brill's Journal of Afroasiatic Languages and Linguistics}, 
+		{Glossa,} 
+{International Journal of American Linguistics}, 
+		{Journal of East Asian Linguistics, 
+		Journal of Language Modeling,
+		{Journal of Semantics},} 
+{Language}, 
+		{Linguistic Inquiry,} 
+{Linguistics in the Netherlands}, 
+	{Linguistic Typology,} 
+{Linguistic Variation}, 
+Morphology, 
+		{{Natural Language and Linguistic Theory}, 
+	{Natural Language Semantics}, 
+		Semantics \& Pragmatics, 
+		{Snippets}, 
+		{Syntax},  
+		Synthese,}
+{The Linguistic Review}
+
+
+%\ind {Brill's Journal of Afroasiatic Languages and Linguistics}
+
+%\ind Glossa 
+
+%\ind {International Journal of American Linguistics}
+
+%\ind {Journal of Semantics}
+
+%\ind {Language}
+
+%\ind {Lingua}
+
+%\ind {Linguistic Inquiry}
+
+%\ind {Linguistics in the Netherlands}
+
+%\ind {Linguistic Typology}
+
+
+%\ind {Linguistic Variation}
+
+%\ind Morphology
+
+%\ind {Natural Language and Linguistic Theory}
+
+% \ind {Natural Language Semantics}
+
+%\ind {Snippets}
+
+% \ind {Syntax} 
+ 
+ %\ind Synthese
+ 
+% \ind {The Linguistic Review}
+ 
+
+
+
+\bigskip%%
+
+
+
+\noindent\emph{Grant reviewing\vspace{0.05in}}
+
+
+\noindent 
+%Reviewer (grants), 
+ American Philosophical Society, National Science Foundation (Linguistics program and Documenting Endangered Languages program),  Netherlands Organisation for Scientific Research (NWO),  Social Science and Humanities Research Council of Canada (SSHRC),  Swiss National Science Foundation (SNSF), Deutsche Forschungsgemeinschaft (DFG) / German Research Foundation
+
+
+\bigskip%%
+
+
+
+%\noindent\emph{Book chapter reviewing\vspace{0.05in}}
+
+ 
+% \ind The Leader of the Pack: a festscrift for Peggy Speas (GLSA)
+ 
+%\ind The Companion to Syntax (Wiley)
+ 
+%\ind  The Morphosyntax-Phonology Connection (Oxford University Press)
+  
+%\ind Methodologies in Semantic Fieldwork (Oxford University Press)
+
+
+
+%\bigskip
+
+
+
+
+
+\noindent\emph{Conference reviewing\vspace{0.05in}}
+ 
+ 
+ \ind
+Regularly: NELS, WCCFL, SALT, Sinn und Bedeutung, GLOW
+ 
+ \ind
+ On occasion: AFLA, CLS, ConSOLE, GLOW in Asia, LAGB, Linguistic Evidence, LSA, SULA, TripleA, and various other workshops and conferences
+ 
+ 
+% \ind AFLA--Austronesian Formal Linguistics Association--18 (Harvard)
+ 
+% \ind Brussels Conference on Generative Linguistics 5
+ 
+% \ind  CLS--Chicago Linguistics Society--50
+
+%\ind {ConSOLE}--Conference of the Student Organization of Linguistics in Europe--19 (Groningen)
+
+ 
+%\ind GLOW--Generative Linguistics in the Old World--34 (Vienna), 35 (Potsdam), 36 (Lund), 37 (Brussels), 39 (G\"ottingen), 40 (Leiden), 41 (Budapest)
+
+%\ind  {GLOW in Asia} 8 (Beijing Language and Culture University), 11 (National University of Singapore)
+
+%\ind LAGB--Linguistics Association of Great Britain--2013 (SOAS, London), 2016 (York), 2018 (Sheffield)
+
+%\ind  Linguistic Evidence 2012, 2014, 2016, 2018 (T\"ubingen)
+
+%\ind NELS--North East Linguistic Society--42 (Toronto), 43 (CUNY), 45 (MIT), 46 (Concordia), 47 (UMass), 48 (Iceland), 49 (Cornell) 
+
+%\ind  Pronouns in Embedded Contexts at the Syntax-Semantics Interface (T\"ubingen)
+%
+%\ind SALT--Semantics and Linguistic Theory--20 (UBC), 21 (Rutgers), 22 (Chicago), 24 (NYU), 25 (Stanford), 28 (MIT)
+
+%\ind Sinn und Bedeutung 18 (Basque Country), 20 (T\"ubingen), 21 (Edinburgh), 22 (ZAS/Potsdam), 23 (Barcelona)
+
+%\ind SULA--Semantics of Under-Represented Languages in the Americas--7 (Cornell), 10 (Toronto)
+
+%\ind TripleA--Semantics of African, Asian and Austronesian Languages--1 (T\"ubingen), 2 (Potsdam), 5 (Konstanz)
+
+%\ind WCCFL--West Coast Conference on Formal Linguistics--30 (UC Santa Cruz), 32 (USC), 33 (Simon Fraser), 36 (UCLA)
+
+%\medskip
+
+
+
+\bigskip
+
+\noindent\emph{Book manuscript and proposal reviewing\vspace{0.05in}}
+ 
+\ind Cambridge University Press, {MIT Press,} Wiley-Blackwell
+
+\end{document}
+
+
+
+
+
+
+
+\marginhead{{\vskip 1em}Service to the \newline Profession}
+\medskip
+
+\medskip
+
+\ind
+Editorial board member, \emph{Linguistic Inquiry} 
+
+\ind 
+Reviewer (grants), National Science Foundation, Social Science and Humanities Research Council of Canada (SSHRC)
+
+\ind
+Reviewer (journals and book chapters),  \emph{International Journal of American Linguistics}, 
+\emph{Language}, \emph{Lingua}, \emph{Linguistic Inquiry}, \emph{Linguistic Variation}, \emph{Natural Language and Linguistic Theory}, \emph{Natural Language Semantics}, \emph{Syntax}, \emph{The Linguistic Review}; Companion to Syntax, The Morphosyntax-Phonology Connection, Methodologies in Semantic Fieldwork
+
+\ind 
+Reviewer (conferences), GLOW, NELS, SALT, Sinn und Bedeutung, WCCFL, Austronesian Formal Linguistics Association, Brussels Conference on Generative Linguistics, {ConSOLE},  {GLOW in Asia},  Linguistics Association of Great Britain,  Linguistic Evidence,  Semantics of Under-Represented Languages in the Americas, CLS, Semantics of African, Asian and Austronesian Languages (AAA)
+
+\ind 
+Reviewer (book manuscripts and proposals), Cambridge University Press, MIT Press, Wiley-Blackwell.
+
+
+\ind 
+Hi hi

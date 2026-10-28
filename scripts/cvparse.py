@@ -1,0 +1,382 @@
+"""Read papers and talks out of the CV's LaTeX source (cv/cv-full.tex).
+
+The CV stays an ordinary LaTeX file. Two optional comment lines, which never
+show in the PDF, add website-only details right after an entry:
+
+    % web: link=https://ling.auf.net/lingbuzz/007429; tags=syntax, case-agr
+    % web: handout=https://.../handout.pdf          (for talks)
+    % web: hide                                      (keep an entry off the website)
+"""
+
+import html
+import re
+
+MONTHS = ["january", "february", "march", "april", "may", "june", "july",
+          "august", "september", "october", "november", "december"]
+
+PUB_SECTIONS = {
+    "monograph": "Monograph",
+    "journal articles": "Journal article",
+    "manuscripts": "Manuscript",
+    "other publications": "Chapter or proceedings paper",
+}
+
+
+# ---------------------------------------------------------------------------
+# LaTeX -> HTML for the small subset used in the CV
+# ---------------------------------------------------------------------------
+
+ACCENTS = {"'": "\u0301", "`": "\u0300", '"': "\u0308", "^": "\u0302",
+           "~": "\u0303", "=": "\u0304", ".": "\u0307", "c": "\u0327",
+           "v": "\u030c", "u": "\u0306", "H": "\u030b"}
+SYMBOLS = {r"\o": "ø", r"\O": "Ø", r"\ss": "ß", r"\ae": "æ", r"\AE": "Æ",
+           r"\aa": "å", r"\AA": "Å", r"\l": "ł", r"\L": "Ł", r"\i": "ı",
+           r"\&": "&amp;", r"\%": "%", r"\_": "_", r"\#": "#", r"\$": "$",
+           r"\phi": "φ", r"\varphi": "φ", r"\rhd": "", r"\sim": "~",
+           r"\ldots": "…", r"\dots": "…"}
+
+
+def _group(s, i):
+    """s[i] == '{' -> (content, index after the matching '}')."""
+    depth = 0
+    for j in range(i, len(s)):
+        if s[j] == "{" and (j == 0 or s[j - 1] != "\\"):
+            depth += 1
+        elif s[j] == "}" and s[j - 1] != "\\":
+            depth -= 1
+            if depth == 0:
+                return s[i + 1:j], j + 1
+    return s[i + 1:], len(s)
+
+
+def strip_comments(line):
+    """Remove an unescaped % comment from one line."""
+    m = re.search(r"(?<!\\)%", line)
+    return line[:m.start()] if m else line
+
+
+def tex_to_html(s, links=None):
+    """Convert a CV snippet to HTML. URLs from \\href are appended to `links`."""
+    out = []
+    i = 0
+    while i < len(s):
+        c = s[i]
+        if c == "\\":
+            m = re.match(r"\\([A-Za-z]+|.)", s[i:])
+            name = m.group(1)
+            i += len(m.group(0))
+            if name.isalpha():      # TeX swallows spaces after a control word
+                while i < len(s) and s[i] == " " and name not in ("emph", "textit", "textsl", "textbf"):
+                    i += 1
+            if name in ("emph", "textit", "textsl"):
+                while i < len(s) and s[i] == " ":
+                    i += 1
+                if i < len(s) and s[i] == "{":
+                    inner, i = _group(s, i)
+                    out.append("<i>" + tex_to_html(inner, links) + "</i>")
+                continue
+            if name in ("textbf",):
+                inner, i = _group(s, i)
+                out.append("<b>" + tex_to_html(inner, links) + "</b>")
+                continue
+            if name in ("textsc", "textrm", "mbox", "text"):
+                inner, i = _group(s, i)
+                out.append(tex_to_html(inner, links))
+                continue
+            if name == "href":
+                url, i = _group(s, i)
+                label, i = _group(s, i)
+                url = re.sub(r"\s+", "", url)
+                if links is not None:
+                    links.append(url)
+                out.append(tex_to_html(label, links))
+                continue
+            if name == "url":
+                url, i = _group(s, i)
+                out.append(html.escape(url))
+                continue
+            if name in ACCENTS and len(name) == 1 or name in ("c", "v", "u", "H"):
+                if i < len(s) and s[i] == "{":
+                    inner, i = _group(s, i)
+                else:
+                    while i < len(s) and s[i] == " " and name.isalpha():
+                        i += 1
+                    inner, i = s[i:i + 1], i + 1
+                base = SYMBOLS.get(inner, inner).replace("\\i", "ı")
+                if base == "ı":
+                    base = "i"
+                out.append(base + ACCENTS[name])
+                continue
+            key = "\\" + name
+            if key in SYMBOLS:
+                out.append(SYMBOLS[key])
+                if name.isalpha() and i < len(s) and s[i] == "{" and s[i + 1:i + 2] == "}":
+                    i += 2
+                continue
+            if name in ("\\", "newline", "par", "medskip", "bigskip", "smallskip"):
+                out.append(" ")
+                continue
+            # \new, \vspace{..}, \hspace{..} and anything unknown: drop it
+            if name in ("vspace", "hspace") and i < len(s) and s[i] == "{":
+                _, i = _group(s, i)
+            continue
+        if c in "{}$":
+            i += 1
+            continue
+        if s.startswith("---", i):
+            out.append("—"); i += 3; continue
+        if s.startswith("--", i):
+            out.append("–"); i += 2; continue
+        if s.startswith("``", i):
+            out.append("“"); i += 2; continue
+        if s.startswith("''", i):
+            out.append("”"); i += 2; continue
+        if c == "~":
+            out.append(" "); i += 1; continue
+        out.append(html.escape(c))
+        i += 1
+    text = "".join(out)
+    import unicodedata
+    text = unicodedata.normalize("NFC", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def plain(h):
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", h))).strip()
+
+
+def parse_web(line):
+    """'% web: link=...; tags=a, b' -> dict"""
+    body = line.split("web:", 1)[1].strip()
+    info = {}
+    for part in body.split(";"):
+        part = part.strip()
+        if not part:
+            continue
+        if "=" in part:
+            k, v = part.split("=", 1)
+            info[k.strip().lower()] = v.strip()
+        else:
+            info[part.lower()] = True
+    if "tags" in info:
+        info["tags"] = [t.strip() for t in info["tags"].replace(",", " ").split() if t.strip()]
+    return info
+
+
+def _block(src, start_pat, end_pat):
+    m = re.search(start_pat, src)
+    e = re.search(end_pat, src[m.end():])
+    return src[m.end(): m.end() + e.start()]
+
+
+# ---------------------------------------------------------------------------
+# Publications
+# ---------------------------------------------------------------------------
+
+YEAR_RE = re.compile(r"^(.*?)\.\s*((?:\d{4}/)?\d{4}[a-z]?|To appear|In press|In prep\.?|Forthcoming)\.\s*(.*)$",
+                     re.S | re.I)
+
+
+def _split_title(rest):
+    """LaTeX after 'Year. ' -> (title_tex, remainder_tex)."""
+    rest = rest.strip()
+    # A title that is one braced or \emph{...} group ending in a period
+    m = re.match(r"(\\emph|\\textit)?\s*\{", rest)
+    if m:
+        inner, end = _group(rest, m.end() - 1)
+        inner_s = inner.rstrip()
+        after = rest[end:].lstrip()
+        ends_title = inner_s.endswith((".", "!")) or (
+            inner_s.endswith("?") and (after == "" or after.startswith(("\\", "In "))))
+        if ends_title:
+            title = "\\emph{" + inner + "}" if m.group(1) else inner
+            return title, rest[end:]
+    # Otherwise: up to the first '. ' / '? ' outside braces
+    depth = 0
+    for j, c in enumerate(rest):
+        if c == "{" and (j == 0 or rest[j - 1] != "\\"):
+            depth += 1
+        elif c == "}" and rest[j - 1] != "\\":
+            depth -= 1
+        elif depth == 0 and c in ".?!" and (j + 1 == len(rest) or rest[j + 1] in " \n"):
+            if c == "." and re.search(r"\b(?:[A-Z]|ed|eds|vol|no|pp|St)$", rest[:j]):
+                continue
+            if c == "?" and not re.match(r"\s*(\\|In |$)", rest[j + 1:]):
+                continue    # "Do all languages ...? Evidence from ..." keeps going
+            return rest[:j + (1 if c in "?!" else 0)], rest[j + 1:]
+    return rest, ""
+
+
+def _year_value(y):
+    m = re.findall(r"\d{4}", y)
+    return int(m[-1]) if m else 9999   # "To appear" sorts as newest
+
+
+def parse_publications(src):
+    block = _block(src, r"\\marginhead\{[^\n]*Publications\}", r"\\marginhead\{")
+    pubs = []
+    section = None
+    current = None
+    buf = []
+
+    def finish():
+        nonlocal current, buf
+        if current is not None:
+            current["tex"] = " ".join(buf).strip()
+            pubs.append(current)
+        current, buf = None, []
+
+    for raw in block.splitlines():
+        stripped = raw.strip()
+        if stripped.startswith("%"):
+            if re.match(r"%\s*web:", stripped) and current is not None:
+                current["web"].update(parse_web(stripped))
+            continue
+        line = strip_comments(raw)
+        hm = re.search(r"\\noindent\\emph\{\s*([^\\}]+?)\s*(?:\\vspace|\})", line)
+        if hm:
+            finish()
+            name = hm.group(1).strip().lower()
+            section = PUB_SECTIONS.get(name)
+            continue
+        if re.search(r"\\end\{(itemize|enumerate|benumerate)\}", line):
+            finish()
+            continue
+        im = re.search(r"\\item(\[\])?", line)
+        if im:
+            finish()
+            if section:
+                current = {"section": section, "web": {}}
+                buf = [line[im.end():]]
+            continue
+        if current is not None:
+            buf.append(line)
+    finish()
+
+    out = []
+    for p in pubs:
+        tex = re.sub(r"\\new\b", "", p["tex"]).strip()
+        m = YEAR_RE.match(tex)
+        if not m:
+            continue
+        authors_tex, year, rest = m.groups()
+        title_tex, remainder = _split_title(rest)
+
+        title_links, rest_links = [], []
+        title = tex_to_html(title_tex, title_links).rstrip(".").strip()
+        title = re.sub(r"\.(</i>)$", r"\1", title)
+        if title.startswith("<i>") and title.endswith("</i>") and p["section"] != "Monograph":
+            pass
+        rest_html = tex_to_html(remainder, rest_links)
+        doi = next((u for u in rest_links if "doi.org" in u), None)
+        if doi:
+            # drop the printed DOI URL from the citation text; the site shows a DOI button
+            rest_html = re.sub(r"\s*(?:https?://)?(?:dx\.)?doi\.org/\S+?\.?(?=\s|$)", "", rest_html).strip()
+            doi = doi.rstrip(".")
+        rest_html = re.sub(r"\s+([.,])", r"\1", rest_html).strip()
+        web = p["web"]
+        doi = web.get("doi") or doi
+        link = web.get("link") or (title_links[0] if title_links else None) or doi
+        out.append({
+            "kind": p["section"],
+            "authors": tex_to_html(authors_tex),
+            "year": year,
+            "year_value": _year_value(year),
+            "title": title,
+            "rest": rest_html,
+            "doi": doi,
+            "link": link,
+            "tags": web.get("tags", []),
+            "hide": bool(web.get("hide")),
+        })
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Talks
+# ---------------------------------------------------------------------------
+
+def _dates_in(text, default_year):
+    """All (year, month) found in a venue string."""
+    found = []
+    for m in re.finditer(r"\b(" + "|".join(MONTHS) + r")\b\.?(?:\s+(\d{4}))?", text, re.I):
+        month = MONTHS.index(m.group(1).lower()) + 1
+        year = int(m.group(2)) if m.group(2) else default_year
+        found.append((year, month))
+    return found
+
+
+def parse_talks(src):
+    block = _block(src, r"\\marginhead\{[^\n]*Talks\}", r"\\marginhead\{")
+    talks = []
+    kind = "Invited"
+    current = None
+    for raw in block.splitlines():
+        stripped = raw.strip()
+        if stripped.startswith("%"):
+            if re.match(r"%\s*web:", stripped) and current is not None:
+                current["web"].update(parse_web(stripped))
+            continue
+        line = strip_comments(raw).strip()
+        if not line:
+            continue
+        hm = re.search(r"\\noindent\\emph\{\s*([^\\}]+?)\s*(?:\\vspace|\})", line)
+        if hm:
+            kind = "Invited" if "invitation" in hm.group(1).lower() else "Reviewed abstract"
+            continue
+        if line.startswith("\\indd"):
+            if current is not None:
+                venue = tex_to_html(line[len("\\indd"):])
+                current["venues"].append(venue)
+            continue
+        if line.startswith("\\ind"):
+            m = re.match(r"\\ind\s+((\d{4})(?:\s*[-–]+\s*(\d{2,4}))?)\.\s*(.*)$", line)
+            if not m:
+                current = None
+                continue
+            y1 = int(m.group(2))
+            y2 = m.group(3)
+            y_end = y1 if not y2 else int(y2) if len(y2) == 4 else int(str(y1)[:2] + y2)
+            body = m.group(4)
+            title_tex, rest = _split_title(body)
+            current = {"years": m.group(1), "year": y_end, "kind": kind, "web": {},
+                       "title": tex_to_html(title_tex).rstrip("."),
+                       "venues": [tex_to_html(rest)] if rest.strip() else []}
+            talks.append(current)
+            continue
+        if current is not None and current["venues"] == [] and not line.startswith("\\"):
+            current["venues"].append(tex_to_html(line))
+
+    for t in talks:
+        dates = []
+        for v in t["venues"]:
+            d = _dates_in(plain(v), t["year"])
+            dates.extend(d if d else [])
+        if not dates:
+            dates = [(t["year"], 0)]
+        t["latest"] = max(dates)
+        t["coauthors"] = ""
+        clean = []
+        for v in t["venues"]:
+            for bm in list(re.finditer(r"\[([^\]]*)\]", v))[::-1]:
+                inside = bm.group(1).strip().rstrip(".")
+                if re.fullmatch(r"remote|virtual|online", inside, re.I):
+                    repl = f" ({inside})"
+                else:
+                    t["coauthors"] = inside
+                    repl = ""
+                v = v[:bm.start()].rstrip(" .") + repl + v[bm.end():]
+            clean.append(re.sub(r"\s+([.,])", r"\1", v).strip().rstrip("."))
+        t["venues"] = [v for v in clean if v]
+        names = [n.strip() for n in re.split(r",|&amp;|\band\b", t["coauthors"]) if n.strip()]
+        t["with"] = [n for n in names if not re.search(r"\bDeal\b", n)]
+        t["tba"] = t["title"].strip().upper() == "TBA"
+        t["handout"] = t["web"].get("handout")
+        t["hide"] = bool(t["web"].get("hide"))
+    return talks
+
+
+def load(path):
+    with open(path, encoding="utf-8") as f:
+        src = f.read()
+    return parse_publications(src), parse_talks(src)

@@ -1,0 +1,70 @@
+# Keeps the website in step with the CV.
+#
+# When cv/cv-full.tex changes: builds the CV PDF (ARDeal.pdf) and regenerates
+# the Research page, the Talks page and "What's new" on the home page.
+# Also runs once a day (to pick up new blog posts) and on demand from the
+# Actions tab ("Run workflow").
+name: Update site from CV
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 14 * * *"   # daily, about 7am Pacific
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-site
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Did the CV change?
+        id: cv
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ ! -f ARDeal.pdf ] || \
+             { [ "${{ github.event_name }}" = "push" ] && \
+               git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" 2>/dev/null | grep -q '^cv/'; }; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build the CV PDF
+        if: steps.cv.outputs.changed == 'true'
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: cv-full.tex
+          working_directory: cv
+
+      - name: Use it as the site's CV
+        if: steps.cv.outputs.changed == 'true'
+        run: cp cv/cv-full.pdf ARDeal.pdf
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate Research, Talks and What's new
+        run: python3 scripts/build_site.py
+
+      - name: Save any changes
+        run: |
+          git add ARDeal.pdf index.html research.html talks.html
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update site from CV"
+          git push
