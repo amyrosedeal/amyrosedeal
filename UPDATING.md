@@ -134,10 +134,66 @@ A talk given in several places:
 
 ## The home page's "What's new"
 
-Updates itself: the 3 newest papers, the 2 most recent talks, and your latest
-blog post. For other news (a new journal, an award), add a line to
-`whats-new.txt` on github.com (click the file, then the pencil icon); the
-format is explained at the top of that file.
+"What's new" is a single list, newest first. It always contains:
+
+- the **3 newest papers** from your CV,
+- the **2 most recent talks** you have already given (from your CV),
+- your **latest blog post**,
+- any items you add to `whats-new.txt` (from the last year or so).
+
+You never edit the home page itself.
+
+### Getting a new talk into "What's new", step by step
+
+1. **Add the talk to your CV** under "By invitation" or "By reviewed abstract",
+   with its month, the way you always do:
+
+   ```latex
+   \ind 2026. Title of the talk. Colloquium, University of Somewhere, November.
+   ```
+
+   If it's a talk you've given before, add the new venue under the existing
+   title instead (a `\indd $\rhd$ ...` line). The website treats that the same way.
+
+2. **Upload the CV** to the repository's `cv` folder on github.com
+   (**Add file → Upload files**, then **Commit changes**). See "The routine" above.
+
+3. **Wait for the talk's month.** A talk appears in "What's new" from the first
+   day of the month it's dated (November 2026 → from November 1). Until then it
+   is listed under "Upcoming" on the Talks page only. You don't need to do
+   anything when the month arrives: GitHub rebuilds the site every morning
+   (about 7am Pacific), so the talk shows up on its own that day.
+
+4. **Check.** On the home page the talk appears as **Talk · Nov 2026**, with its
+   title and venue (and co-authors, if any). It links to the Talks page, or to
+   the handout if the CV has a `% web: handout=` line for it.
+
+Things that keep a talk out of "What's new":
+
+- **Its title is still `TBA`.** Replace `TBA` with the real title in the CV.
+- **Two more recent talks** are already showing. Only the 2 latest appear; when
+  several talks share a month, the one higher in the CV wins.
+- **No month in the venue** (e.g. just "2026"). Add the month.
+- **A `% web: hide` line** under it.
+
+### Announcing a talk before it happens
+
+Upcoming talks don't appear in "What's new" by themselves. To announce one
+early (a keynote, say), add a line to `whats-new.txt`: on github.com, click the
+file, then the pencil icon, add the line, and click **Commit changes**.
+
+```
+2026-11 | Talk | Title of the talk | Keynote, Conference Name, Paris | https://amyrosedeal.github.io/amyrosedeal/talks.html
+```
+
+The five parts are date | label | title | detail | link. Once the talk has
+happened it also appears automatically from the CV, so delete this line then to
+avoid listing it twice.
+
+### Other news
+
+For anything else (a new journal, an award, a new role), add a line to
+`whats-new.txt` the same way. Items drop off by themselves after about a year.
 
 ## Papers that aren't in the CV
 

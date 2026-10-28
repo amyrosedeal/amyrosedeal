@@ -365,14 +365,23 @@ def feed_papers(pubs):
 
 def feed_talks(talks):
     now = (TODAY.year, TODAY.month)
-    past = [t for t in talks if not t["hide"] and not t["tba"] and t["latest"] <= now]
-    past.sort(key=lambda t: t["latest"], reverse=True)
+    # each talk counts from its most recent venue that has already happened
+    # (this month or earlier); talks still titled TBA are left out
+    past = []
+    for t in talks:
+        if t["hide"] or t["tba"]:
+            continue
+        dated = [(max(cvparse._dates_in(cvparse.plain(v), t["year"]) or [(t["year"], 0)]), v)
+                 for v in t["venues"]] or [(t["latest"], "")]
+        done = [(d, v) for d, v in dated if d <= now]
+        if done:
+            past.append((max(done, key=lambda x: x[0]), t))
+    past.sort(key=lambda x: x[0][0], reverse=True)
     out = []
-    for t in past[:FEED_TALKS]:
-        y, m = t["latest"]
+    for ((y, m), venue), t in past[:FEED_TALKS]:
         date = dt.date(y, m or 7, 15)
         label = f"Talk · {MONTH_ABBR[m]} {y}" if m else f"Talk · {y}"
-        venue = cvparse.plain(t["venues"][0]) if t["venues"] else ""
+        venue = cvparse.plain(venue)
         venue = re.sub(r",?\s*(" + "|".join(cvparse.MONTHS) + r")\b\.?(\s+\d{4})?", "", venue, flags=re.I).strip(" ,")
         if t["with"]:
             venue = f"With {join_names(t['with'])} · {venue}"
