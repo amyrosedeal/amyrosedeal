@@ -72,23 +72,125 @@ def mid_year(year):
 
 # ---- Research page --------------------------------------------------------
 
+TOPICS = [  # (tag in the CV, label in the dropdown, group)
+    ("syntax", "Syntax", "Area"), ("semantics", "Semantics", "Area"),
+    ("morphology", "Morphology", "Area"), ("typ", "Typology", "Area"),
+    ("nzp", "Nez Perce", "Area"),
+    ("case-agr", "Case & agreement", "Topic"), ("extposs", "Possession", "Topic"),
+    ("locality", "Locality", "Topic"), ("mass", "Number & countability", "Topic"),
+    ("perspective", "Attitudes & perspective", "Topic"), ("modality", "Modality", "Topic"),
+]
+TOPIC_LABEL = {t: label for t, label, _ in TOPICS}
+KIND_LABEL = {"Monograph": "Book", "Journal article": "Journal article",
+              "Manuscript": "Manuscript", "Chapter or proceedings paper": "Chapter / proceedings"}
+
+
+def author_list(authors_html):
+    """'Clem, Emily and Amy Rose Deal' -> 'Emily Clem and Amy Rose Deal' ('' if solo)."""
+    a = cvparse.plain(authors_html)
+    m = re.match(r"([^,]+),\s*([^,]+?)(?:,|\band\b|$)(.*)", a)
+    if not m:
+        return ""
+    names = [f"{m.group(2).strip()} {m.group(1).strip()}"]
+    names += [n.strip() for n in re.split(r",|\band\b|&", m.group(3)) if n.strip()]
+    if names == ["Amy Rose Deal"]:
+        return ""
+    return join_names(names)
+
+
+def link_label(url):
+    u = url.lower()
+    if "doi.org" in u:
+        return "DOI"
+    if "lingbuzz" in u:
+        return "lingbuzz"
+    if u.endswith(".pdf"):
+        return "PDF"
+    if "escholarship" in u:
+        return "eScholarship"
+    return "Article"
+
+
+def pub_entry(p, heading="h3"):
+    title = p["title"]
+    title_html = f'<a href="{esc(p["link"])}">{title}</a>' if p["link"] else title
+    kind = KIND_LABEL.get(p["kind"], p["kind"])
+    if p["year_value"] == 9999:
+        kind += " · forthcoming"
+    authors = author_list(p["authors"])
+    venue = p["rest"].strip().rstrip(".")
+    links = []
+    if p["link"]:
+        links.append(p["link"])
+    if p["doi"] and p["doi"] not in links:
+        links.append(p["doi"])
+    chips = "".join(f'<a class="chip" href="{esc(u)}">{link_label(u)}</a>' for u in links)
+    topics = " · ".join(TOPIC_LABEL[t] for t in p["tags"] if t in TOPIC_LABEL)
+    lines = [f'<article class="pub" data-tags="{esc(" ".join(p["tags"]))}">',
+             f'  <p class="pub-kind">{kind}</p>',
+             f'  <{heading} class="pub-title">{title_html}</{heading}>']
+    if authors:
+        lines.append(f'  <p class="pub-authors">{authors}</p>')
+    if venue:
+        lines.append(f'  <p class="pub-venue">{venue}</p>')
+    if chips or topics:
+        lines.append(f'  <p class="pub-links">{chips}'
+                     + (f'<span class="pub-topics">{esc(topics)}</span>' if topics else "") + "</p>")
+    lines.append("</article>")
+    return "\n".join("            " + l for l in lines)
+
+
 def research_html(pubs):
-    rows = []
-    for p in sorted((p for p in pubs if not p["hide"]), key=lambda p: -p["year_value"]):
-        title = p["title"]
-        title = title + ("" if title.endswith(("?", "!", "?</i>")) else ".")
-        cite = f'{p["authors"]}. {p["year"]}. <b>{title}</b> {p["rest"]}'.strip()
-        if p["link"]:
-            cite = f'<a href="{esc(p["link"])}">{cite}</a>'
-        doi = f' <a class="citation-doi" href="{esc(p["doi"])}">DOI</a>' if p["doi"] and p["doi"] != p["link"] else ""
-        classes = " ".join(["paper", "citation-item"] + p["tags"])
-        rows.append(
-            f'                    <div class="{classes}">\n'
-            f'                        <div class="citation-block">\n'
-            f'                            <span class="citation-title">{cite}{doi}</span>\n'
-            f'                        </div>\n'
-            f'                    </div>\n')
-    return "\n".join(rows)
+    shown = [p for p in pubs if not p["hide"]]
+    out = []
+
+    selected = [p for p in shown if p["selected"]]
+    if selected:
+        def place(p):
+            try:
+                return int(p["selected"])
+            except (TypeError, ValueError):
+                return 999
+        selected.sort(key=place)
+        out.append('        <section class="selected-work" aria-labelledby="selected-heading">')
+        out.append('            <h2 id="selected-heading">Selected work</h2>')
+        out.append('            <div class="selected-grid">')
+        out += [pub_entry(p) for p in selected]
+        out.append("            </div>")
+        out.append("        </section>")
+
+    options = ['                <option value="">All topics</option>']
+    for group in ("Area", "Topic"):
+        options.append(f'                <optgroup label="{group}">')
+        for tag, label, g in TOPICS:
+            if g == group:
+                options.append(f'                    <option value="{tag}">{esc(label)}</option>')
+        options.append("                </optgroup>")
+    out.append('        <div class="filter-bar">')
+    out.append('            <label for="topic">Filter by topic</label>')
+    out.append('            <select id="topic">')
+    out += options
+    out.append("            </select>")
+    out.append('            <span class="filter-count" id="filter-count" aria-live="polite"></span>')
+    out.append("        </div>")
+
+    pipeline = [p for p in shown if p["kind"] == "Manuscript" and not cvparse.plain(p["rest"]).lower().startswith("manuscript")]
+    rest = [p for p in shown if p not in pipeline]
+    groups = []
+    if pipeline:
+        groups.append(("In the pipeline", "pipeline", pipeline))
+    by_year = {}
+    for p in sorted(rest, key=lambda p: -p["year_value"]):
+        key = "Forthcoming" if p["year_value"] == 9999 else str(p["year_value"])
+        by_year.setdefault(key, []).append(p)
+    groups += [(k, k.lower(), v) for k, v in by_year.items()]
+
+    for label, gid, items in groups:
+        out.append(f'        <section class="pub-year" id="y-{gid.replace(" ", "-")}">')
+        out.append(f"            <h2>{label}</h2>")
+        out += [pub_entry(p) for p in items]
+        out.append("        </section>")
+    return "\n".join(out)
 
 
 # ---- Talks page -----------------------------------------------------------

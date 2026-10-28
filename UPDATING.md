@@ -33,6 +33,8 @@ Comments never appear in the PDF.
 - `doi=` a DOI link, if the CV entry doesn't print one.
 - For talks: `% web: handout=https://...` adds a handout link.
 - `% web: hide` keeps an entry off the website.
+- `% web: selected` puts a paper in "Selected work" at the top of the Research
+  page. Use `selected=1`, `selected=2`, … to set their order.
 
 Which CV sections are used:
 - **Research page:** Monograph, Journal articles, Manuscripts, Other publications.

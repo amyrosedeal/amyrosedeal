@@ -311,6 +311,46 @@ h2 {
 .intro-pair > .callout h2 { margin-top: 0; font-size: 22px; }
 .intro-pair > .callout p:last-child { margin-bottom: 0; }
 
+
+/* Research */
+.selected-work { margin: 0 0 48px; }
+.selected-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0 40px; }
+.filter-bar {
+    position: sticky; top: 0; z-index: 2;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+    margin: 0 0 8px; padding: 14px 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+}
+.filter-bar label { font-size: 14px; color: var(--muted); }
+.filter-bar select {
+    min-height: 44px; padding: 0 40px 0 14px;
+    font: inherit; font-size: 15px; color: #222;
+    border: 1px solid #d6d1c6; border-radius: 22px;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;
+    -webkit-appearance: none; appearance: none;
+}
+.filter-count { font-size: 14px; color: var(--muted); }
+.pub-year { padding-top: 32px; }
+.pub-year h2 { font-size: 30px; margin-bottom: 4px; }
+.pub { padding: 18px 0; border-bottom: 1px solid var(--rule); max-width: 50em; }
+.selected-grid .pub { max-width: none; }
+.pub p { margin: 0; }
+.pub-kind { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); }
+.pub-title { margin: 4px 0 4px; font-family: var(--serif); font-weight: 500; font-size: 22px; line-height: 1.3; color: #1f1f1f; }
+.pub-title a { color: inherit; }
+.pub-title a:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+.pub-authors { font-size: 15px; color: #333; }
+.pub-venue { font-size: 15px; line-height: 1.55; color: var(--muted); }
+.pub-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 8px; margin-top: 10px !important; }
+.chip {
+    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
+    border: 1px solid #d6d1c6; border-radius: 15px; background: #fff;
+    font-size: 13px; font-weight: 500; color: #333;
+}
+.chip:hover { border-color: var(--accent); color: #000; }
+.pub-topics { margin-left: 6px; font-size: 13px; color: #8a8a8a; }
+
 /* ---- Phones ---------------------------------------------------------- */
 @media (max-width: 640px) {
     .site-header { padding: 14px 16px; }
@@ -346,6 +386,9 @@ h2 {
     .page-head { padding: 36px 0 24px; }
     .people { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
     .person .name { font-size: 18px; }
+    .pub-title { font-size: 20px; }
+    .pub-topics { flex-basis: 100%; margin-left: 0; }
+    .filter-bar select { flex: 1 1 auto; }
     .intro-pair > .callout { padding: 20px; }
     .person .role { font-size: 13px; }
 }

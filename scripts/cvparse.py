@@ -6,6 +6,7 @@ show in the PDF, add website-only details right after an entry:
     % web: link=https://ling.auf.net/lingbuzz/007429; tags=syntax, case-agr
     % web: handout=https://.../handout.pdf          (for talks)
     % web: hide                                      (keep an entry off the website)
+    % web: selected   or   % web: selected=1           (show under Selected work)
 """
 
 import html
@@ -288,6 +289,7 @@ def parse_publications(src):
             "link": link,
             "tags": web.get("tags", []),
             "hide": bool(web.get("hide")),
+            "selected": web.get("selected"),     # True, or a number giving its place
         })
     return out
 
