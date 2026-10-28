@@ -73,6 +73,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 .site-header .cv-button:hover,
 .site-header .cv-button:focus-visible { background: #000; color: #fff; }
 .cv-pdf { margin-left: 4px; font-weight: 400; opacity: .8; }
+.cv-icon { display: none; }
 
 /* Page */
 .page {
@@ -199,7 +200,7 @@ h2 {
 }
 .site-footer p { margin: 0; }
 
-/* Phones: name, tagline and title first, then the menu as a list */
+/* Phones: name, tagline and title first, then the menu */
 @media (max-width: 640px) {
     body { display: flex; flex-direction: column; }
     .site-header, .page { display: contents; }
@@ -209,26 +210,36 @@ h2 {
     .intro h1 { margin-bottom: 14px; }
     .statement { margin-bottom: 12px; }
 
-    .site-header nav { order: 2; padding: 0 16px 28px; }
-    .site-header ul {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0 20px;
-        font-size: 16px;
+    /* menu: wrapped, underlined text links between two thin rules */
+    .site-header nav {
+        order: 2;
+        margin: 0 16px 28px;
+        padding: 6px 0;
         border-top: 1px solid var(--rule);
-    }
-    .site-header li a {
-        display: flex;
-        min-height: 50px;
         border-bottom: 1px solid var(--rule);
     }
-    .site-header li:last-child { grid-column: 1 / -1; margin-top: 16px; }
-    .site-header li:last-child a {
-        justify-content: center;
-        min-height: 48px;
-        border-bottom: 0;
-        border-radius: 24px;
+    .site-header ul { gap: 0 22px; font-size: 16px; }
+    .site-header li a {
+        display: inline-block;
+        min-height: 0;
+        line-height: 44px;
+        text-decoration: underline;
+        text-decoration-color: #cfc8b8;
+        text-underline-offset: 5px;
     }
+    .site-header .cv-button,
+    .site-header .cv-button:hover,
+    .site-header .cv-button:focus-visible {
+        padding: 0;
+        border-radius: 0;
+        background: none;
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration-color: var(--accent);
+    }
+    .cv-pdf { font-weight: 600; opacity: 1; }
+    .cv-pdf { margin-left: 0; }
+    .cv-icon { display: inline; vertical-align: -2px; margin-left: 6px; }
 
     .banner { order: 3; width: auto; margin: 0 16px; }
     .columns { order: 4; padding: 36px 16px 48px; }
