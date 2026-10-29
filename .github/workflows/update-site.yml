@@ -28,6 +28,7 @@ jobs:
         with:
           ref: main          # always build from the latest version, not the commit that started this run
           fetch-depth: 0
+          filter: blob:none  # full history (to see when the CV last changed) without old file contents
 
       - name: Did the CV change?
         # Rebuild the PDF if anything in cv/ changed since the PDF was last built
