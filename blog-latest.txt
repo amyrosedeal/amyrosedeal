@@ -1,2 +1,2 @@
 # Latest blog post(s), kept by scripts/build_site.py. No need to edit.
-2026-10-01 | When does a paper become a journal article? | https://profling.beehiiv.com/p/when-does-a-paper-become-a-journal-article
+2026-10-27 | When does a paper become a journal article? | https://profling.beehiiv.com/p/when-does-a-paper-become-a-journal-article
