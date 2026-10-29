@@ -42,6 +42,7 @@ INDEX = ROOT / "index.html"
 RESEARCH = ROOT / "research.html"
 TALKS = ROOT / "talks.html"
 TEACHING = ROOT / "teaching.html"
+TEACHING_YEARS = 10           # Teaching page: this many most recent academic years (None = all)
 HOME_PLACE = "UC Berkeley"    # Teaching page: courses here don't name the institution
 NEWS = ROOT / "whats-new.txt"
 ACCEPTED = ROOT / "accepted-dates.txt"           # when each "To appear" paper was first seen (kept by this script)
@@ -511,7 +512,10 @@ def teaching_html(courses):
             years.setdefault(ay, []).append((max(o["order"] for o in offs), -i, c, offs))
     if not years:
         return ""
+    current_ay = TODAY.year if TODAY.month >= 8 else TODAY.year - 1
     order = sorted(years, reverse=True)
+    if TEACHING_YEARS:
+        order = [ay for ay in order if ay > current_ay - TEACHING_YEARS]
     pad = " " * 8
     out = [pad + '<nav class="year-nav" aria-label="Academic years">',
            pad + "    <span>Jump to</span>"]

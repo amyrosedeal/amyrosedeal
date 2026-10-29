@@ -320,7 +320,8 @@ once, with every term you taught it:
   `\ind Title. Venue, Month Year.` (add `(remote)` after the year if it was online).
 
 The website groups everything by academic year (Fall 2026 and Spring 2027 both
-go under 2026–2027), newest first. Courses at UC Berkeley show the course number
+go under 2026–2027), newest first, for the last ten academic years
+(the setting `TEACHING_YEARS` in `scripts/build_site.py`). Older courses stay in the CV. Courses at UC Berkeley show the course number
 and level; courses elsewhere also name the institution (taken from the
 "At ..." heading above them). `% web: hide` under a course leaves it off the
 website. If a line can't be read, the Actions log says which one.
