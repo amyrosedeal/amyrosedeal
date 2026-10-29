@@ -305,44 +305,107 @@ For anything else (a new journal, an award, a new role), add a line to
 ## Adding a course
 
 The Teaching page comes from the CV's Teaching section. Each course is listed
-once, with every term you taught it:
+**once**, with every term you've taught it, and an optional description line
+underneath that appears only on the website:
 
 ```latex
-\ind Formal Semantics (Ling.~121, undergraduate; Fall 2015, Fall 2017, Spring 2027)
+\ind Formal Semantics (Ling.~121, undergraduate; Fall 2022, Fall 2024, Spring 2027)
+% web: about=Introduction to formal semantics for undergraduates.
 ```
 
-- **Teaching a course again:** add the term to the end of its line.
-- **A new course:** add a new `\ind` line under the right institution.
-- **Co-taught:** put the co-teacher after that term:
-  `Winter 2013 with Jorge Hankamer, Fall 2013 with Jim McCloskey`.
-- Terms are Fall, Winter, Spring or Summer plus the year, separated by commas.
-- **Description for the website:** a `% web: about=` line directly under the
-  course. It never prints in the PDF, and it's shown every time the course is
-  listed, including terms you add later:
+The `% web:` line is a LaTeX comment: it never prints in the PDF.
 
-  ```latex
-  \ind Advanced Syntax II (Ling.~220b, graduate; Spring 2019, Spring 2025, Spring 2027)
-  % web: about=The second course in the graduate introduction to syntax series.
-  ```
+### Step by step: a course you've taught before
 
-- **A description for one term only** (a different theme that year, say):
-  a line starting with the term, which replaces `about=` for that term:
+1. Open `cv-full.tex` and find the course's `\ind` line in the Teaching section.
+2. Add the new term at the end of the list of terms, after a comma:
 
-  ```latex
-  % web: Spring 2025=The second course in the graduate introduction to syntax series. (Theme: long-distance dependencies)
-  ```
+   ```latex
+   \ind Formal Semantics (Ling.~121, undergraduate; Fall 2022, Fall 2024, Spring 2027, Fall 2027)
+   ```
 
-  Each description stays on one line; semicolons are fine. A course with no
-  description line shows just its title, number, level and term.
-- **Summer schools and short courses** are written differently:
-  `\ind Title. Venue, Month Year.` (add `(remote)` after the year if it was online).
+3. Leave the `% web: about=` line as it is. The website reuses that
+   description for the new term automatically.
+4. Upload the CV (see "The routine" at the top). Within a few minutes the
+   course appears under its academic year on the Teaching page.
 
-The website groups everything by academic year (Fall 2026 and Spring 2027 both
-go under 2026–2027), newest first, for the last ten academic years
-(the setting `TEACHING_YEARS` in `scripts/build_site.py`). Older courses stay in the CV. Courses at UC Berkeley show the course number
-and level; courses elsewhere also name the institution (taken from the
-"At ..." heading above them). `% web: hide` under a course leaves it off the
-website. If a line can't be read, the Actions log says which one.
+### Step by step: a brand-new course
+
+1. Open `cv-full.tex` and find the right institution heading in the Teaching
+   section (for a Berkeley course, the "At UC Berkeley" list).
+2. Add a new line for the course, in this exact shape:
+
+   ```latex
+   \ind Title of the Course (Ling.~123, graduate; Spring 2028)
+   ```
+
+   - Inside the brackets: course number, then a comma, then the level
+     (`undergraduate`, `graduate`, `graduate seminar`, ...), then a
+     **semicolon**, then the term.
+   - A term is Fall, Winter, Spring or Summer plus the year. Separate several
+     terms with commas.
+   - Co-taught? Put the co-teacher after that term:
+     `Spring 2028 with Jane Roe`.
+3. Directly under it, add the description for the website (optional, but
+   without it the course shows only title, number, level and term):
+
+   ```latex
+   % web: about=One or two sentences describing the course.
+   ```
+
+   Keep the description on one line. Semicolons, commas and question marks
+   are all fine inside it.
+4. Upload the CV.
+
+### Step by step: a one-off description for a single term
+
+Use this when one offering is different from the usual course: a special
+theme, a second stream, a different focus. The usual `about=` description
+stays for every other term; the one-off text replaces it for that term only.
+
+1. Find the course in `cv-full.tex`. Make sure the special term is in its list
+   of terms (add it if this is a new offering, as above).
+2. Under the course's `% web: about=` line, add a line that starts with that
+   term (the same words as in the list of terms) instead of `about`:
+
+   ```latex
+   \ind Advanced Syntax II (Ling.~220b, graduate; Spring 2019, Spring 2025, Spring 2027)
+   % web: about=The second course in the graduate introduction to syntax series.
+   % web: Spring 2025=The second course in the graduate introduction to syntax series. (Theme: long-distance dependencies)
+   ```
+
+   Here Spring 2025 shows the theme; Spring 2019 and Spring 2027 show the usual
+   description.
+3. Write the one-off line as the **full** description you want shown that
+   term, not just the extra bit: it replaces `about=` rather than adding to it.
+   (That's why the example repeats "The second course in ...".)
+4. Add one such line for each special term. Their order doesn't matter.
+5. Upload the CV.
+
+### Summer schools and short courses
+
+These go under "Summer schools and short courses" at the end of the Teaching
+section, in a different shape: title, period, venue, month and year.
+
+```latex
+\ind Title of the Course. LSA Summer Institute, University of Somewhere, July 2027.
+```
+
+Add `(remote)` after the year if it was online. They appear on the website
+under their academic year, labelled "Short course". A description line
+(`% web: about=...`) works for these too.
+
+### Good to know
+
+- The website groups courses by academic year (Fall 2026 and Spring 2027 both
+  go under 2026–2027), newest first, and shows the last ten academic years
+  (the setting `TEACHING_YEARS` in `scripts/build_site.py`). Older courses
+  stay in the CV PDF.
+- Courses at UC Berkeley show course number and level; courses elsewhere also
+  name the institution, taken from the "At ..." heading above them.
+- `% web: hide` under a course leaves it off the website (it stays in the PDF).
+- If the website can't read a line (a missing semicolon, say), it is left off
+  and the Actions log names the line.
 
 ---
 
