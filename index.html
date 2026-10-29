@@ -11,6 +11,9 @@
     <meta property="og:url" content="https://amyrosedeal.github.io/amyrosedeal/">
     <meta property="og:image" content="https://amyrosedeal.github.io/amyrosedeal/img/banner-redwood.jpg">
 
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Poppins:wght@400;500;600&display=swap">
@@ -39,12 +42,16 @@
             <p class="affiliation">Professor of Linguistics, UC Berkeley</p>
         </section>
 
-        <img class="banner" src="img/banner-redwood.jpg" alt="" width="1500" height="468">
+        <picture>
+            <source type="image/avif" srcset="img/banner-redwood-800.avif 800w, img/banner-redwood-1100.avif 1100w, img/banner-redwood-1500.avif 1500w"
+                    sizes="(max-width: 640px) 513px, (max-width: 1200px) calc(100vw - 80px), 1120px">
+            <img class="banner" src="img/banner-redwood.jpg" alt="" width="1500" height="468" fetchpriority="high">
+        </picture>
 
         <div class="columns">
             <section class="whats-new" aria-labelledby="whats-new-heading">
                 <h2 id="whats-new-heading">What's new</h2>
-                <!-- whats-new:start (this list is rebuilt automatically by scripts/build_feed.py; edit whats-new.txt instead) -->
+                <!-- whats-new:start (this list is rebuilt automatically by scripts/build_site.py from the CV, the blog and whats-new.txt; edit those instead) -->
                 <ul class="feed">
                     <li><a href="https://profling.beehiiv.com/p/when-does-a-paper-become-a-journal-article"><span class="kind">Blog · Oct 2026</span><span class="item"><span class="title">When does a paper become a journal article?</span><span class="meta">professing linguistics</span></span></a></li>
                     <li><a href="https://ling.auf.net/lingbuzz/007429"><span class="kind">Paper · 2026</span><span class="item"><span class="title">Dependent case by Agree: ergative in Shawi</span><span class="meta">With Emily Clem · Linguistic Inquiry</span></span></a></li>

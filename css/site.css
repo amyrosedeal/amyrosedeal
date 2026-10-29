@@ -106,6 +106,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
     color: var(--muted);
 }
 
+picture { display: contents; }   /* the banner's <picture> wrapper: lay out the image itself */
+
 .banner {
     display: block;
     width: 100%;
@@ -453,7 +455,14 @@ details.talk-year .talk:last-child { border-bottom: 0; }
     .selected-work { padding: 20px 18px 12px; margin-left: -4px; margin-right: -4px; }
     .selected-grid .pub + .pub { border-top: 1px solid #e3dac4; }
     .pub-topics { flex-basis: 100%; margin-left: 0; }
-    .filter-bar select { flex: 1 1 auto; }
+    .filter-bar { flex-wrap: nowrap; gap: 8px 12px; }
+    .filter-bar label { flex: none; }
+    .filter-bar select { flex: 1 1 auto; min-width: 0; }
+    /* paper count: hidden on phones so the bar stays on one line (still read out by screen readers) */
+    .filter-count {
+        position: absolute; width: 1px; height: 1px; overflow: hidden;
+        clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+    }
     .intro-pair > .callout { padding: 20px; }
     .person .role { font-size: 13px; }
     .talk-title { font-size: 19px; }

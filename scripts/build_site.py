@@ -46,6 +46,7 @@ TEACHING_YEARS = 10           # Teaching page: this many most recent academic ye
 HOME_PLACE = "UC Berkeley"    # Teaching page: courses here don't name the institution
 NEWS = ROOT / "whats-new.txt"
 ACCEPTED = ROOT / "accepted-dates.txt"           # when each "To appear" paper was first seen (kept by this script)
+BLOG_CACHE = ROOT / "blog-latest.txt"            # latest blog post(s), reused if the blog feed can't be reached (kept by this script)
 
 TODAY = dt.date.today()
 MONTH_ABBR = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
@@ -445,9 +446,16 @@ def feed_talks(talks):
 
 
 def feed_blog():
-    req = urllib.request.Request(BLOG_RSS, headers={"User-Agent": "site-builder"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        root = ET.fromstring(resp.read())
+    """Newest blog posts from the RSS feed. Remembers them in blog-latest.txt;
+    if the feed can't be reached, uses the remembered ones instead."""
+    try:
+        req = urllib.request.Request(BLOG_RSS, headers={"User-Agent": "site-builder"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            root = ET.fromstring(resp.read())
+    except Exception as exc:
+        print(f"Could not read the blog feed ({exc}); using the last known blog post.",
+              file=sys.stderr)
+        return read_blog_cache()
     found = []
     for it in root.iter("item"):
         pub = (it.findtext("pubDate") or "").strip()
@@ -458,7 +466,29 @@ def feed_blog():
         found.append(item(date, f"Blog · {date:%b %Y}", (it.findtext("title") or "").strip(),
                           BLOG_NAME, (it.findtext("link") or "").strip()))
     found.sort(key=lambda x: x["date"], reverse=True)
-    return found[:FEED_BLOG]
+    found = found[:FEED_BLOG]
+    if not found:
+        return read_blog_cache()
+    lines = [f"{x['date'].isoformat()} | {x['title'].replace('|', '/')} | {x['link']}" for x in found]
+    BLOG_CACHE.write_text("# Latest blog post(s), kept by scripts/build_site.py. No need to edit.\n"
+                          + "\n".join(lines) + "\n", encoding="utf-8")
+    return found
+
+
+def read_blog_cache():
+    found = []
+    if not BLOG_CACHE.exists():
+        return found
+    for line in BLOG_CACHE.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        try:
+            when, title, link = [p.strip() for p in line.split("|")]
+            date = dt.date.fromisoformat(when)
+        except ValueError:
+            continue
+        found.append(item(date, f"Blog · {date:%b %Y}", title, BLOG_NAME, link))
+    return found
 
 
 def feed_news():
@@ -474,12 +504,17 @@ def feed_news():
             print(f"whats-new.txt: skipping line (needs 5 parts): {line}", file=sys.stderr)
             continue
         when, label, title, detail, link = parts
-        nums = [int(n) for n in when.split("-")]
-        if len(nums) == 1:
-            date, shown = mid_year(nums[0]), str(nums[0])
-        else:
-            date = dt.date(nums[0], nums[1], nums[2] if len(nums) > 2 else 15)
-            shown = f"{date:%b %Y}"
+        try:
+            nums = [int(n) for n in when.split("-")]
+            if len(nums) == 1:
+                date, shown = mid_year(nums[0]), str(nums[0])
+            else:
+                date = dt.date(nums[0], nums[1], nums[2] if len(nums) > 2 else 15)
+                shown = f"{date:%b %Y}"
+        except (ValueError, IndexError):
+            print(f"whats-new.txt: skipping line (the date should look like 2026-11 or 2026-11-05): {line}",
+                  file=sys.stderr)
+            continue
         if (TODAY - date).days <= NEWS_MAX_AGE_DAYS:
             found.append(item(date, f"{label} · {shown}", title, detail, link))
     return found
@@ -565,19 +600,15 @@ def main():
     print(f"CV: {len(courses)} courses")
     changed |= replace_between(TEACHING, "teaching", teaching_html(courses), " " * 8)
 
-    items = feed_papers(pubs) + feed_talks(talks) + feed_news()
-    try:
-        items += feed_blog()
-        update_feed = True
-    except Exception as exc:   # blog unreachable: keep the home page as it is
-        print(f"Could not read the blog feed ({exc}); leaving What's new unchanged.",
-              file=sys.stderr)
-        update_feed = False
-    if update_feed:
+    blog = feed_blog()
+    items = feed_papers(pubs) + feed_talks(talks) + feed_news() + blog
+    if blog:
         items.sort(key=lambda x: x["date"], reverse=True)
         changed |= replace_between(INDEX, "whats-new", feed_html(items), " " * 16)
         for x in items:
             print(f"  {x['date']}  {x['label']:<18} {x['title']}")
+    else:   # no blog post known at all (feed down on the very first run): keep the home page as it is
+        print("No blog post available; leaving What's new unchanged.", file=sys.stderr)
 
     print("Pages updated." if changed else "Pages already up to date.")
     return 0

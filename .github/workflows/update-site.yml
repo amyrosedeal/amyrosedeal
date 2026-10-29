@@ -26,14 +26,17 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: main          # always build from the latest version, not the commit that started this run
           fetch-depth: 0
 
       - name: Did the CV change?
+        # Rebuild the PDF if anything in cv/ changed since the PDF was last built
+        # (so an upload is never missed, even if two arrive close together).
         id: cv
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ ! -f ARDeal.pdf ] || \
-             { [ "${{ github.event_name }}" = "push" ] && \
-               git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" 2>/dev/null | grep -q '^cv/'; }; then
+          last_pdf=$(git log -1 --format=%H -- ARDeal.pdf)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ -z "$last_pdf" ] || \
+             [ -n "$(git log --format=%H "$last_pdf"..HEAD -- cv/)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -59,7 +62,7 @@ jobs:
 
       - name: Save any changes
         run: |
-          git add ARDeal.pdf index.html research.html talks.html teaching.html accepted-dates.txt
+          git add ARDeal.pdf index.html research.html talks.html teaching.html accepted-dates.txt blog-latest.txt
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0
@@ -67,4 +70,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
           git commit -m "Update site from CV"
-          git push
+          # If something new reached main while this ran (a second CV upload a
+          # few minutes later, say), don't push: that upload starts its own run,
+          # which rebuilds everything, including any CV change made before it.
+          git fetch origin main
+          if [ "$(git rev-parse origin/main)" != "$(git rev-parse HEAD~1)" ]; then
+            echo "Something newer is on main; its own run will update the site."
+            exit 0
+          fi
+          git push origin HEAD:main
