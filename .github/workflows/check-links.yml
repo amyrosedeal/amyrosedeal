@@ -1,0 +1,100 @@
+# Checks every link on the website and in the CV PDF, once a month.
+#
+# Broken links are listed in one GitHub issue titled "Broken links"
+# (GitHub emails you when it opens or gets a new report). When everything
+# works again, the issue is closed automatically. Run it by hand from the
+# Actions tab ("Check links" → "Run workflow").
+#
+# Many publishers (Springer, Wiley, JSTOR, ...) refuse automated visits with
+# "403 Forbidden" even though the page is fine; those are treated as working.
+name: Check links
+
+on:
+  schedule:
+    - cron: "23 15 1 * *"   # the 1st of each month, about 8am Pacific
+  workflow_dispatch:
+  push:
+    branches: [round2]       # preview branch only: report without touching issues
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: List the links in the CV PDF
+        run: |
+          pip install --quiet pypdf
+          python3 - <<'EOF'
+          from pypdf import PdfReader
+          links = []
+          for page in PdfReader("ARDeal.pdf").pages:
+              for a in page.get("/Annots") or []:
+                  uri = (a.get_object().get("/A") or {}).get("/URI")
+                  if uri and uri not in links:
+                      links.append(uri)
+          with open("CV-PDF.md", "w") as f:
+              f.write("\n".join(f"<{u}>" for u in links) + "\n")
+          print(f"{len(links)} links in the CV PDF")
+          EOF
+
+      - name: Check the links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          fail: false
+          output: report.md
+          format: markdown
+          args: >-
+            --no-progress
+            --root-dir ${{ github.workspace }}
+            --max-concurrency 6
+            --timeout 30
+            --max-retries 3
+            --retry-wait-time 5
+            --accept 100..=103,200..=299,403,429
+            --exclude '^https://fonts\.(googleapis|gstatic)\.com/?$'
+            --exclude '^mailto:'
+            --exclude-path 404.html
+            '*.html' cv/index.html CV-PDF.md
+
+      - name: Write the report
+        run: |
+          {
+            echo "The monthly link check found links that don't work."
+            echo
+            echo "Each heading below names where the link is: a page of the website (research.html is the Research page, and so on) or **CV-PDF.md**, which means the CV PDF, so fix it in \`cv-full.tex\`. Links on the Research, Talks and Teaching pages come from the CV too."
+            echo
+            echo "A site that was only down for a while may work again next month; this issue is closed automatically once every link works."
+            echo
+            echo "---"
+            echo
+            cat report.md
+          } > issue.md
+          cat issue.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Update the "Broken links" issue
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BROKEN: ${{ steps.lychee.outputs.exit_code != '0' }}
+        run: |
+          gh label create "broken links" --color B60205 --description "Found by the monthly link check" 2>/dev/null || true
+          open=$(gh issue list --label "broken links" --state open --json number --jq '.[0].number')
+          if [ "$BROKEN" = "true" ]; then
+            if [ -n "$open" ]; then
+              gh issue comment "$open" --body-file issue.md
+            else
+              gh issue create --title "Broken links" --label "broken links" --body-file issue.md
+            fi
+          elif [ -n "$open" ]; then
+            gh issue close "$open" --comment "All links work now."
+          fi
