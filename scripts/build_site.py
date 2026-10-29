@@ -539,10 +539,14 @@ def teaching_html(courses):
                     terms.append(o["term"] + (f" (with {esc(o['with'])})" if o["with"] else ""))
                 bits.append(" and ".join(terms))
                 meta = " · ".join(b for b in bits if b)
+            about = next((c["about"][o["term"]] for o in reversed(offs) if o["term"] in c["about"]),
+                         c["about"].get("about", ""))
             out += [f"{pad}            <li>",
                     f'{pad}                <span class="course-title">{c["title"]}</span>',
-                    f'{pad}                <span class="course-meta">{meta}</span>',
-                    f"{pad}            </li>"]
+                    f'{pad}                <span class="course-meta">{meta}</span>']
+            if about:
+                out.append(f"{pad}                <p>{about}</p>")
+            out.append(f"{pad}            </li>")
         out += [f"{pad}        </ul>", f"{pad}    </section>"]
     out.append(pad + "</div>")
     return "\n".join(out)

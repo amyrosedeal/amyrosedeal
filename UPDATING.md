@@ -316,6 +316,24 @@ once, with every term you taught it:
 - **Co-taught:** put the co-teacher after that term:
   `Winter 2013 with Jorge Hankamer, Fall 2013 with Jim McCloskey`.
 - Terms are Fall, Winter, Spring or Summer plus the year, separated by commas.
+- **Description for the website:** a `% web: about=` line directly under the
+  course. It never prints in the PDF, and it's shown every time the course is
+  listed, including terms you add later:
+
+  ```latex
+  \ind Advanced Syntax II (Ling.~220b, graduate; Spring 2019, Spring 2025, Spring 2027)
+  % web: about=The second course in the graduate introduction to syntax series.
+  ```
+
+- **A description for one term only** (a different theme that year, say):
+  a line starting with the term, which replaces `about=` for that term:
+
+  ```latex
+  % web: Spring 2025=The second course in the graduate introduction to syntax series. (Theme: long-distance dependencies)
+  ```
+
+  Each description stays on one line; semicolons are fine. A course with no
+  description line shows just its title, number, level and term.
 - **Summer schools and short courses** are written differently:
   `\ind Title. Venue, Month Year.` (add `(remote)` after the year if it was online).
 

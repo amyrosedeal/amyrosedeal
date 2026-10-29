@@ -454,6 +454,9 @@ def parse_teaching(src):
 
     Course:       \\ind Title (Ling.~121, undergraduate; Fall 2015, Spring 2016 with Jane Roe)
     Short course: \\ind Title. Venue, Month Year (remote).
+    Description lines under either (website only):
+        % web: about=Text shown every time the course is listed.
+        % web: Spring 2025=Text shown for that term instead.
     Returns one dict per course or short course, each with a list of offerings.
     """
     block = _block(src, r"\\marginhead\{[^\n]*Teaching\s*\}", r"\\marginhead\{|\\newpage")
@@ -464,7 +467,14 @@ def parse_teaching(src):
         stripped = raw.strip()
         if stripped.startswith("%"):
             if re.match(r"%\s*web:", stripped) and courses:
-                courses[-1]["web"].update(parse_web(stripped))
+                body = stripped.split("web:", 1)[1].strip()
+                dm = re.match(r"(?i)(about|(?:fall|autumn|winter|spring|summer)\s+\d{4})\s*=\s*(.+)$", body)
+                if dm:   # description: the whole rest of the line (may contain semicolons)
+                    key = dm.group(1).lower()
+                    key = "about" if key == "about" else " ".join(key.split()).capitalize()
+                    courses[-1]["about"][key] = tex_to_html(dm.group(2).strip())
+                else:
+                    courses[-1]["web"].update(parse_web(stripped))
             continue
         line = strip_comments(raw).strip()
         if not line:
@@ -502,7 +512,7 @@ def parse_teaching(src):
                                   "ay": academic_year(season, year),
                                   "order": (year, season if season else 4),
                                   "with": m.group(3) or ""})
-            courses.append({"kind": "course", "place": place, "web": {},
+            courses.append({"kind": "course", "place": place, "web": {}, "about": {},
                             "title": tex_to_html(title_tex), "number": tex_to_html(number),
                             "level": tex_to_html(level), "offerings": offerings})
         else:
@@ -513,7 +523,7 @@ def parse_teaching(src):
                 print(f"Teaching: no month and year found in: {line}")
                 continue
             month, year = MONTHS.index(dm.group(1).lower()) + 1, int(dm.group(2))
-            courses.append({"kind": "short", "place": "", "web": {},
+            courses.append({"kind": "short", "place": "", "web": {}, "about": {},
                             "title": tex_to_html(title_tex).rstrip("."),
                             "number": "", "level": "", "detail": html.escape(text),
                             "offerings": [{"term": "", "with": "",
