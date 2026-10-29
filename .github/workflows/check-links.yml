@@ -13,8 +13,6 @@ on:
   schedule:
     - cron: "23 15 1 * *"   # the 1st of each month, about 8am Pacific
   workflow_dispatch:
-  push:
-    branches: [round2]       # preview branch only: report without touching issues
 
 permissions:
   contents: read
@@ -80,17 +78,6 @@ jobs:
             cat report.md
           } > issue.md
           cat issue.md >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Show the report as a run note (preview branch only)
-        if: github.ref != 'refs/heads/main'
-        run: |
-          python3 - <<'PY'
-          s = open("report.md").read()
-          enc = lambda t: t.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
-          chunks = [s[i:i+3500] for i in range(0, len(s), 3500)][:9]
-          for n, c in enumerate(chunks, 1):
-              print(f"::notice title=Link report {n}/{len(chunks)}::{enc(c)}")
-          PY
 
       - name: Update the "Broken links" issue
         if: github.ref == 'refs/heads/main'
