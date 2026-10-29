@@ -413,3 +413,22 @@ under their academic year, labelled "Short course". A description line
 
 `cv/website-only.tex` holds papers shown on the Research page but not in the
 CV (currently two older manuscripts). Same format as the CV; never compiled.
+
+---
+
+## Broken-link emails
+
+On the 1st of each month GitHub checks every link on the website and in the
+CV PDF. If any are broken, it opens an issue called **Broken links** in this
+repository (GitHub emails you), listing each one and where it is:
+
+- **research.html**, **talks.html**, **teaching.html**: fix the link in
+  `cv-full.tex` (usually the `link=` on the paper's `% web:` line, or a link
+  in the citation itself), then upload the CV as usual.
+- **CV-PDF.md**: the link is in the CV PDF; fix or remove it in `cv-full.tex`.
+- **about.html**, **students.html**, **index.html**: these pages aren't built
+  from the CV; edit the page on github.com (pencil icon) or ask for help.
+
+If a site was only down for a while, the next month's check finds it working.
+The issue closes by itself once every link works. To check right away, open
+the **Actions** tab, choose **Check links**, then **Run workflow**.
