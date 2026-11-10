@@ -1,2 +1,2 @@
 # Latest blog post(s), kept by scripts/build_site.py. No need to edit.
-2026-11-03 | How not to title your paper | https://profling.beehiiv.com/p/how-not-to-title-your-paper
+2026-11-10 | "As a reviewer points out..." | https://profling.beehiiv.com/p/as-a-reviewer-points-out
