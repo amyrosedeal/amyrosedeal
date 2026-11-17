@@ -1,2 +1,2 @@
 # Latest blog post(s), kept by scripts/build_site.py. No need to edit.
-2026-11-10 | "As a reviewer points out..." | https://profling.beehiiv.com/p/as-a-reviewer-points-out
+2026-11-17 | Job market update, fall 2026 | https://profling.beehiiv.com/p/job-market-update-fall-2026
