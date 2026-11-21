@@ -119,12 +119,10 @@ def link_label(url):
 
 
 def pub_entry(p, heading="h3", compact=False):
-    """compact: manuscripts in the pipeline show only label, title, authors and link."""
+    """compact: manuscripts in the pipeline show only title, authors and link.
+    Links (DOI, lingbuzz, PDF...) are plain text links at the end of the venue line."""
     title = p["title"]
     title_html = f'<a href="{esc(p["link"])}">{title}</a>' if p["link"] else title
-    kind = KIND_LABEL.get(p["kind"], p["kind"])
-    if p["year_value"] == 9999:
-        kind += " · forthcoming"
     authors = author_list(p["authors"])
     venue = p["rest"].strip().rstrip(".")
     links = []
@@ -132,22 +130,21 @@ def pub_entry(p, heading="h3", compact=False):
         links.append(p["link"])
     if p["doi"] and p["doi"] not in links:
         links.append(p["doi"])
-    chips = "".join(f'<a class="chip" href="{esc(u)}">{link_label(u)}</a>' for u in links)
-    topics = ""   # topic tags drive the filter but aren't shown on the cards
+    link_html = " · ".join(f'<a href="{esc(u)}">{link_label(u)}</a>' for u in links)
     if compact:
-        venue, topics = "", ""
+        venue = ""
     lines = [f'<article class="pub" data-tags="{esc(" ".join(p["tags"]))}">',
-             f'  <p class="pub-kind">{kind}</p>']
-    lines.append(f'  <{heading} class="pub-title">{title_html}</{heading}>')
-    if authors:
-        lines.append(f'  <p class="pub-authors">{authors}</p>')
+             f'  <{heading} class="pub-title">{title_html}</{heading}>']
+    # the links go on the last line of text: venue if there is one, else authors
     if venue:
-        lines.append(f'  <p class="pub-venue">{venue}</p>')
-    if chips or topics:
-        lines.append(f'  <p class="pub-links">{chips}'
-                     + (f'<span class="pub-topics">{esc(topics)}</span>' if topics else "") + "</p>")
+        lines.append(f'  <p class="pub-authors">{authors}</p>' if authors else None)
+        lines.append(f'  <p class="pub-venue">{venue}' + (f" · {link_html}" if link_html else "") + "</p>")
+    elif authors:
+        lines.append(f'  <p class="pub-authors">{authors}' + (f" · {link_html}" if link_html else "") + "</p>")
+    elif link_html:
+        lines.append(f'  <p class="pub-venue">{link_html}</p>')
     lines.append("</article>")
-    return "\n".join("            " + l for l in lines)
+    return "\n".join("            " + l for l in lines if l)
 
 
 def research_html(pubs):
@@ -266,7 +263,7 @@ def talk_html(t, pad):
             lines.append(f'{pad}    <li><span class="talk-date">{when}</span><span class="talk-place">{place}</span></li>')
         lines.append(f'{pad}  </ul>')
     if t["handout"]:
-        lines.append(f'{pad}  <p class="pub-links"><a class="chip" href="{esc(t["handout"])}">Handout</a></p>')
+        lines.append(f'{pad}  <p class="talk-handout"><a href="{esc(t["handout"])}">Handout</a></p>')
     lines.append(f'{pad}</article>')
     return "\n".join(lines)
 
