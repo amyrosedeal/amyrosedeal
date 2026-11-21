@@ -94,10 +94,10 @@ Under **Journal articles**:
 ```
 
 On the website: under 2027, labelled "Journal article"; the title and a
-**DOI** button both go to the DOI. You don't need `doi=` in the comment line,
+**DOI** link at the end of the venue line both go to the DOI. You don't need `doi=` in the comment line,
 because the DOI is already in the citation (any of the forms in "DOIs" below works).
 
-If you'd also like a lingbuzz button, with the title linking to lingbuzz:
+If you'd also like a lingbuzz link, with the title linking to lingbuzz:
 
 ```latex
 % web: link=https://lingbuzz.net/lingbuzz/012345; tags=syntax, typ, case-agr
@@ -113,7 +113,7 @@ Under **Manuscripts**:
 ```
 
 On the website: under "In the pipeline", showing the title (linking to
-lingbuzz), the authors and a **lingbuzz** button. Without `link=`, it would
+lingbuzz), the authors and a **lingbuzz** link. Without `link=`, it would
 appear with no link at all.
 
 ### Example 3: a published chapter or proceedings paper, with topics
@@ -126,7 +126,7 @@ Under **Other publications**:
 ```
 
 On the website: under 2027, labelled "Chapter / proceedings", with
-**lingbuzz** and **DOI** buttons. If there's no DOI, leave it out; if there's no
+**lingbuzz** and **DOI** links. If there's no DOI, leave it out; if there's no
 lingbuzz version, leave out `link=` (with neither, the title isn't linked).
 
 ### Example 4: putting a paper in "Selected work" (`selected=`)
@@ -169,14 +169,14 @@ https://doi.org/10.1162/ling\_a\_00529
 doi:10.1162/ling\_a\_00529
 ```
 
-The website gives the paper a **DOI** button and links its title to the DOI
+The website gives the paper a **DOI** link and links its title to the DOI
 (unless the comment line has a `link=`, in which case the title goes there
-and you get both buttons).
+and you get both links).
 
 - **A DOI you don't want printed in the CV:** `% web: doi=https://doi.org/10.xxxx/yyyy`
 - **Linking the title inside the CV itself** (`\href{url}{Title}`) also works.
 - Other links in an entry (to a proceedings volume, say) are ignored.
-- The button for `link=` is labelled **lingbuzz**, **PDF** or **Article**,
+- The link for `link=` is labelled **lingbuzz**, **PDF** or **Article**,
   depending on the address.
 
 ### When a paper is accepted ("To appear")
